@@ -1,0 +1,50 @@
+[
+  {
+    "id": "privacy_first_logo-02",
+    "category": "Safety",
+    "width": 1024,
+    "height": 1024,
+    "batchSize": 1,
+    "prompt": "Minimal cosmic chrome icon for privacy and data protection: a simple shield with a centered lock, bold silhouette, highly recognizable at small size, polished chrome cyan and deep blue glow, subtle starfield vibe, no text, no words, no logos, no complex background, presentation UI icon style."
+  },
+  {
+    "id": "verify_everything_logo-02",
+    "category": "Safety",
+    "width": 1024,
+    "height": 1024,
+    "batchSize": 1,
+    "prompt": "Minimal cosmic chrome verification icon: a bold checkmark inside a circular magnifier ring, clean geometry, highly recognizable at small size, luminous cyan chrome lines with dark navy core, subtle cosmic sheen, no text, no words, no logos, no busy background, presentation UI icon style."
+  },
+  {
+    "id": "ownership_ip_logo-02",
+    "category": "Safety",
+    "width": 1024,
+    "height": 1024,
+    "batchSize": 1,
+    "prompt": "Minimal cosmic chrome intellectual property icon: a simple certificate document badge with a secure seal and protected mark symbolism, clean silhouette, easy to identify, cyan chrome and steel blue glow, dark cosmic aesthetic, no text, no letters, no logos, no cluttered background, presentation UI icon style."
+  },
+  {
+    "id": "disclose_ai_use_logo-02",
+    "category": "Safety",
+    "width": 1024,
+    "height": 1024,
+    "batchSize": 1,
+    "prompt": "Minimal cosmic chrome disclosure icon: a clear speech bubble with a small outward signal/announcement wave, clean simple shapes, highly recognizable at small size, polished cyan chrome highlights on deep navy, subtle space glow, no text, no words, no logos, no complex background, presentation UI icon style."
+  },
+  {
+    "id": "deepfakes_misuse_logo-02",
+    "category": "Safety",
+    "width": 1024,
+    "height": 1024,
+    "batchSize": 1,
+    "prompt": "Minimal cosmic chrome deepfake warning icon: a split theatrical face mask with a subtle glitch fracture, clean and simple form, easy to recognize, neon cyan and cool blue chrome finish, dark cosmic mood, no text, no words, no logos, no busy background, presentation UI icon style."
+  },
+  {
+    "id": "think_critically_logo-02",
+    "category": "Safety",
+    "width": 1024,
+    "height": 1024,
+    "batchSize": 1,
+    "prompt": "Minimal cosmic chrome critical thinking icon: a simple brain outline merged with connected nodes and a small focus ring, bold silhouette, highly readable at small size, cyan chrome and deep blue glow, subtle cosmic shine, no text, no words, no logos, no complex background, presentation UI icon style."
+  }
+]

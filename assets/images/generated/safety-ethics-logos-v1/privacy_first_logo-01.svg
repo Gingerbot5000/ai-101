@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-label="Privacy First icon">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#07122a"/>
+      <stop offset="55%" stop-color="#0d2252"/>
+      <stop offset="100%" stop-color="#060d24"/>
+    </linearGradient>
+    <radialGradient id="halo" cx="72%" cy="26%" r="44%">
+      <stop offset="0%" stop-color="#56d4ff" stop-opacity="0.62"/>
+      <stop offset="100%" stop-color="#56d4ff" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="58"/>
+    </filter>
+  </defs>
+  <rect width="1024" height="1024" rx="220" fill="#050915"/>
+  <circle cx="760" cy="278" r="250" fill="url(#halo)" filter="url(#glow)"/>
+  <rect x="96" y="96" width="832" height="832" rx="188" fill="url(#bg)" stroke="#335fa6" stroke-width="8"/>
+  <path d="M512 250 334 328v167c0 140 86 236 178 282 92-46 178-142 178-282V328L512 250z" fill="none" stroke="#88d8ff"
+    stroke-width="32" stroke-linejoin="round"/>
+  <rect x="430" y="484" width="164" height="138" rx="28" fill="#081430" stroke="#9ee3ff" stroke-width="18"/>
+  <path d="M468 484v-41c0-24 20-44 44-44s44 20 44 44v41" fill="none" stroke="#9ee3ff" stroke-width="18"
+    stroke-linecap="round"/>
+  <circle cx="512" cy="552" r="16" fill="#8fffd7"/>
+  <circle cx="286" cy="314" r="5" fill="#81b9ff" opacity="0.6"/>
+  <circle cx="748" cy="722" r="4" fill="#9ad8ff" opacity="0.5"/>
+  <circle cx="210" cy="682" r="3" fill="#6ea1f5" opacity="0.5"/>
+</svg>

@@ -1,0 +1,21 @@
+# Brainstorm session files
+.superpowers/
+
+# Backup/archive copies
+*.zip
+index.before-fun-rebuild.html
+index.encoding-backup.html
+index.from-live-original.html
+
+# OS files
+Thumbs.db
+.DS_Store
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Editor
+*.swp
+*.swo
+*~

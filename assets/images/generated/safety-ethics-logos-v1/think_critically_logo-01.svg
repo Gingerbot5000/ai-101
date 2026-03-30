@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-label="Think Critically icon">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#061126"/>
+      <stop offset="55%" stop-color="#0f2353"/>
+      <stop offset="100%" stop-color="#060d24"/>
+    </linearGradient>
+    <radialGradient id="halo" cx="78%" cy="30%" r="44%">
+      <stop offset="0%" stop-color="#7df2c4" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#7df2c4" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="58"/>
+    </filter>
+  </defs>
+  <rect width="1024" height="1024" rx="220" fill="#050915"/>
+  <circle cx="756" cy="308" r="248" fill="url(#halo)" filter="url(#glow)"/>
+  <rect x="96" y="96" width="832" height="832" rx="188" fill="url(#bg)" stroke="#335fa6" stroke-width="8"/>
+  <g fill="#0f2759" stroke="#90d5ff" stroke-width="14">
+    <circle cx="420" cy="448" r="78"/>
+    <circle cx="510" cy="420" r="84"/>
+    <circle cx="602" cy="454" r="76"/>
+    <circle cx="436" cy="560" r="88"/>
+    <circle cx="542" cy="586" r="94"/>
+    <circle cx="626" cy="558" r="74"/>
+  </g>
+  <g fill="none" stroke="#95ffc5" stroke-width="10" stroke-linecap="round">
+    <path d="M396 560h104"/>
+    <path d="M500 560h122"/>
+    <path d="M456 502v116"/>
+    <path d="M562 486v130"/>
+    <path d="M364 620 458 678 650 646"/>
+  </g>
+  <g fill="#95ffc5">
+    <circle cx="396" cy="560" r="12"/>
+    <circle cx="500" cy="560" r="12"/>
+    <circle cx="622" cy="560" r="12"/>
+    <circle cx="456" cy="502" r="12"/>
+    <circle cx="562" cy="486" r="12"/>
+    <circle cx="456" cy="678" r="12"/>
+    <circle cx="650" cy="646" r="12"/>
+  </g>
+  <circle cx="232" cy="710" r="4" fill="#8bb7ff" opacity="0.52"/>
+  <circle cx="804" cy="694" r="5" fill="#98ddff" opacity="0.5"/>
+</svg>

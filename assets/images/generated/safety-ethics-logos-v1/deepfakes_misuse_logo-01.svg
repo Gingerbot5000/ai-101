@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-label="Deepfakes and misuse icon">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#061126"/>
+      <stop offset="55%" stop-color="#0e2455"/>
+      <stop offset="100%" stop-color="#060d24"/>
+    </linearGradient>
+    <radialGradient id="halo" cx="28%" cy="76%" r="46%">
+      <stop offset="0%" stop-color="#8b7cff" stop-opacity="0.52"/>
+      <stop offset="100%" stop-color="#8b7cff" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="60"/>
+    </filter>
+  </defs>
+  <rect width="1024" height="1024" rx="220" fill="#050915"/>
+  <circle cx="288" cy="754" r="260" fill="url(#halo)" filter="url(#glow)"/>
+  <rect x="96" y="96" width="832" height="832" rx="188" fill="url(#bg)" stroke="#335fa6" stroke-width="8"/>
+  <path d="M292 362h238v252c0 96-74 174-166 174S292 710 292 614z" fill="#0d2048" stroke="#8ed4ff"
+    stroke-width="16"/>
+  <circle cx="372" cy="500" r="16" fill="#9edfff"/>
+  <circle cx="450" cy="500" r="16" fill="#9edfff"/>
+  <path d="M352 594c28 30 90 30 118 0" fill="none" stroke="#9edfff" stroke-width="12" stroke-linecap="round"/>
+  <path d="M496 334h238v252c0 96-74 174-166 174s-72-86-72-182z" fill="#111f5b" stroke="#a99cff"
+    stroke-width="16"/>
+  <circle cx="574" cy="474" r="16" fill="#cfcbff"/>
+  <circle cx="650" cy="474" r="16" fill="#cfcbff"/>
+  <path d="M552 568c26 26 84 26 110 0" fill="none" stroke="#cfcbff" stroke-width="12" stroke-linecap="round"/>
+  <path d="M512 360v360" stroke="#6fc4ff" stroke-width="12" stroke-dasharray="12 18" opacity="0.75"/>
+  <circle cx="756" cy="280" r="4" fill="#9bd7ff" opacity="0.5"/>
+  <circle cx="210" cy="662" r="4" fill="#8fb9ff" opacity="0.54"/>
+</svg>

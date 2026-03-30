@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-label="Verify Everything icon">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#061126"/>
+      <stop offset="55%" stop-color="#0c214e"/>
+      <stop offset="100%" stop-color="#060d24"/>
+    </linearGradient>
+    <radialGradient id="halo" cx="26%" cy="25%" r="48%">
+      <stop offset="0%" stop-color="#74f4c7" stop-opacity="0.56"/>
+      <stop offset="100%" stop-color="#74f4c7" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="56"/>
+    </filter>
+  </defs>
+  <rect width="1024" height="1024" rx="220" fill="#050915"/>
+  <circle cx="300" cy="272" r="260" fill="url(#halo)" filter="url(#glow)"/>
+  <rect x="96" y="96" width="832" height="832" rx="188" fill="url(#bg)" stroke="#335fa6" stroke-width="8"/>
+  <circle cx="512" cy="512" r="262" fill="#08183a" stroke="#87d0ff" stroke-width="24"/>
+  <circle cx="512" cy="512" r="192" fill="none" stroke="#2a4f90" stroke-width="16"/>
+  <path d="M384 524 476 616 650 440" fill="none" stroke="#8dffbf" stroke-width="58" stroke-linecap="round"
+    stroke-linejoin="round"/>
+  <rect x="294" y="726" width="88" height="14" rx="7" fill="#4c78be" opacity="0.55"/>
+  <rect x="642" y="310" width="88" height="14" rx="7" fill="#4c78be" opacity="0.5"/>
+  <circle cx="214" cy="676" r="4" fill="#86b8ff" opacity="0.55"/>
+  <circle cx="796" cy="644" r="5" fill="#8fd2ff" opacity="0.55"/>
+</svg>

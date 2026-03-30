@@ -1,0 +1,83 @@
+﻿[
+    {
+        "id":  "hospitality_logo",
+        "category":  "Hospitality",
+        "status":  "completed",
+        "job_id":  "22e9abc2-d9be-466c-aebb-6fbb90afbe48",
+        "files":  [
+                      "E:\\Downloads-Organized\\Personal\\Adam Gurski Professional AI profile\\04_projects\\ai-101\\assets\\images\\generated\\practical-use-cases-logos-v1\\hospitality_logo-01.png"
+                  ]
+    },
+    {
+        "id":  "real_estate_logo",
+        "category":  "Real Estate",
+        "status":  "completed",
+        "job_id":  "5b1a49bd-655a-4038-b9cf-ba3ee7ab0bb3",
+        "files":  [
+                      "E:\\Downloads-Organized\\Personal\\Adam Gurski Professional AI profile\\04_projects\\ai-101\\assets\\images\\generated\\practical-use-cases-logos-v1\\real_estate_logo-01.png"
+                  ]
+    },
+    {
+        "id":  "trades_logo",
+        "category":  "Trades",
+        "status":  "completed",
+        "job_id":  "719dfcb0-7f43-416c-bcfc-27f830dba323",
+        "files":  [
+                      "E:\\Downloads-Organized\\Personal\\Adam Gurski Professional AI profile\\04_projects\\ai-101\\assets\\images\\generated\\practical-use-cases-logos-v1\\trades_logo-01.png"
+                  ]
+    },
+    {
+        "id":  "libraries_logo",
+        "category":  "Libraries",
+        "status":  "completed",
+        "job_id":  "b1c14f6e-b09c-44d5-b28c-e2aca18805f0",
+        "files":  [
+                      "E:\\Downloads-Organized\\Personal\\Adam Gurski Professional AI profile\\04_projects\\ai-101\\assets\\images\\generated\\practical-use-cases-logos-v1\\libraries_logo-01.png"
+                  ]
+    },
+    {
+        "id":  "retail_logo",
+        "category":  "Retail",
+        "status":  "completed",
+        "job_id":  "2b8c6c71-ceac-416d-a8cc-b0962fca226d",
+        "files":  [
+                      "E:\\Downloads-Organized\\Personal\\Adam Gurski Professional AI profile\\04_projects\\ai-101\\assets\\images\\generated\\practical-use-cases-logos-v1\\retail_logo-01.png"
+                  ]
+    },
+    {
+        "id":  "job_seekers_logo",
+        "category":  "Job Seekers",
+        "status":  "completed",
+        "job_id":  "d08bdc82-bb13-4b8f-b7c7-c35ea217cf9d",
+        "files":  [
+                      "E:\\Downloads-Organized\\Personal\\Adam Gurski Professional AI profile\\04_projects\\ai-101\\assets\\images\\generated\\practical-use-cases-logos-v1\\job_seekers_logo-01.png"
+                  ]
+    },
+    {
+        "id":  "education_logo",
+        "category":  "Education",
+        "status":  "completed",
+        "job_id":  "972c7c7a-e69f-4160-a19f-cd2474979479",
+        "files":  [
+                      "E:\\Downloads-Organized\\Personal\\Adam Gurski Professional AI profile\\04_projects\\ai-101\\assets\\images\\generated\\practical-use-cases-logos-v1\\education_logo-01.png"
+                  ]
+    },
+    {
+        "id":  "healthcare_logo",
+        "category":  "Healthcare",
+        "status":  "completed",
+        "job_id":  "153051cd-9a9c-4f9b-865b-93e12e636425",
+        "files":  [
+                      "E:\\Downloads-Organized\\Personal\\Adam Gurski Professional AI profile\\04_projects\\ai-101\\assets\\images\\generated\\practical-use-cases-logos-v1\\healthcare_logo-01.png"
+                  ]
+    },
+    {
+        "id":  "legal_logo",
+        "category":  "Legal",
+        "status":  "completed",
+        "job_id":  "6c9a1fe3-6863-471a-8d60-5286059d542c",
+        "files":  [
+                      "E:\\Downloads-Organized\\Personal\\Adam Gurski Professional AI profile\\04_projects\\ai-101\\assets\\images\\generated\\practical-use-cases-logos-v1\\legal_logo-01.png"
+                  ]
+    }
+]

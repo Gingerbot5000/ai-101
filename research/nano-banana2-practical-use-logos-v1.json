@@ -1,0 +1,83 @@
+[
+  {
+    "id": "hospitality_logo",
+    "category": "Hospitality",
+    "width": 1024,
+    "height": 1024,
+    "batchSize": 1,
+    "prompt": "Minimal logo-style icon of a concierge bell under a hotel doorway arch, centered composition, simple geometric silhouette, highly recognizable at small size, single subject, iridescent liquid chrome material, cosmic deep-field ambiance, cyan violet amber reflections, dark navy background, subtle star particles, premium 3D emblem render, no text, no letters, no watermark",
+    "negative_prompt": "people, faces, full scene, complex background, clutter, tiny details, low contrast, blurry, flat colors, text, letters, words, watermark, logo mockup sheet"
+  },
+  {
+    "id": "real_estate_logo",
+    "category": "Real Estate",
+    "width": 1024,
+    "height": 1024,
+    "batchSize": 1,
+    "prompt": "Minimal logo-style icon of a house with a keyhole, centered composition, simple bold silhouette, highly recognizable at small size, single subject, iridescent liquid chrome material, cosmic deep-field ambiance, cyan violet amber reflections, dark navy background, subtle star particles, premium 3D emblem render, no text, no letters, no watermark",
+    "negative_prompt": "people, faces, full scene, cluttered rooms, complex architecture, tiny details, low contrast, blurry, flat colors, text, letters, words, watermark, logo mockup sheet"
+  },
+  {
+    "id": "trades_logo",
+    "category": "Trades",
+    "width": 1024,
+    "height": 1024,
+    "batchSize": 1,
+    "prompt": "Minimal logo-style icon of a wrench and screwdriver crossed, centered composition, simple bold silhouette, highly recognizable at small size, single subject, iridescent liquid chrome material, cosmic deep-field ambiance, cyan violet amber reflections, dark navy background, subtle star particles, premium 3D emblem render, no text, no letters, no watermark",
+    "negative_prompt": "people, faces, full workshop scene, clutter, tiny details, low contrast, blurry, flat colors, text, letters, words, watermark, logo mockup sheet"
+  },
+  {
+    "id": "libraries_logo",
+    "category": "Libraries",
+    "width": 1024,
+    "height": 1024,
+    "batchSize": 1,
+    "prompt": "Minimal logo-style icon of stacked books with a bookmark, centered composition, simple bold silhouette, highly recognizable at small size, single subject, iridescent liquid chrome material, cosmic deep-field ambiance, cyan violet amber reflections, dark navy background, subtle star particles, premium 3D emblem render, no text, no letters, no watermark",
+    "negative_prompt": "people, faces, full library interior, clutter, tiny details, low contrast, blurry, flat colors, text, letters, words, watermark, logo mockup sheet"
+  },
+  {
+    "id": "retail_logo",
+    "category": "Retail",
+    "width": 1024,
+    "height": 1024,
+    "batchSize": 1,
+    "prompt": "Minimal logo-style icon of a shopping bag with a price tag, centered composition, simple bold silhouette, highly recognizable at small size, single subject, iridescent liquid chrome material, cosmic deep-field ambiance, cyan violet amber reflections, dark navy background, subtle star particles, premium 3D emblem render, no text, no letters, no watermark",
+    "negative_prompt": "people, faces, full store scene, clutter, tiny details, low contrast, blurry, flat colors, text, letters, words, watermark, logo mockup sheet"
+  },
+  {
+    "id": "job_seekers_logo",
+    "category": "Job Seekers",
+    "width": 1024,
+    "height": 1024,
+    "batchSize": 1,
+    "prompt": "Minimal logo-style icon of a briefcase with a checkmark resume sheet, centered composition, simple bold silhouette, highly recognizable at small size, single subject, iridescent liquid chrome material, cosmic deep-field ambiance, cyan violet amber reflections, dark navy background, subtle star particles, premium 3D emblem render, no text, no letters, no watermark",
+    "negative_prompt": "people, faces, office scene, clutter, tiny details, low contrast, blurry, flat colors, text, letters, words, watermark, logo mockup sheet"
+  },
+  {
+    "id": "education_logo",
+    "category": "Education",
+    "width": 1024,
+    "height": 1024,
+    "batchSize": 1,
+    "prompt": "Minimal logo-style icon of a graduation cap above an open book, centered composition, simple bold silhouette, highly recognizable at small size, single subject, iridescent liquid chrome material, cosmic deep-field ambiance, cyan violet amber reflections, dark navy background, subtle star particles, premium 3D emblem render, no text, no letters, no watermark",
+    "negative_prompt": "people, faces, classroom scene, clutter, tiny details, low contrast, blurry, flat colors, text, letters, words, watermark, logo mockup sheet"
+  },
+  {
+    "id": "healthcare_logo",
+    "category": "Healthcare",
+    "width": 1024,
+    "height": 1024,
+    "batchSize": 1,
+    "prompt": "Minimal logo-style icon of a medical cross wrapped by a stethoscope, centered composition, simple bold silhouette, highly recognizable at small size, single subject, iridescent liquid chrome material, cosmic deep-field ambiance, cyan violet amber reflections, dark navy background, subtle star particles, premium 3D emblem render, no text, no letters, no watermark",
+    "negative_prompt": "people, faces, hospital scene, clutter, tiny details, low contrast, blurry, flat colors, text, letters, words, watermark, logo mockup sheet"
+  },
+  {
+    "id": "legal_logo",
+    "category": "Legal",
+    "width": 1024,
+    "height": 1024,
+    "batchSize": 1,
+    "prompt": "Minimal logo-style icon of balanced scales of justice with a document, centered composition, simple bold silhouette, highly recognizable at small size, single subject, iridescent liquid chrome material, cosmic deep-field ambiance, cyan violet amber reflections, dark navy background, subtle star particles, premium 3D emblem render, no text, no letters, no watermark",
+    "negative_prompt": "people, faces, courtroom scene, clutter, tiny details, low contrast, blurry, flat colors, text, letters, words, watermark, logo mockup sheet"
+  }
+]

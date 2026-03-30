@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-label="Ownership and IP icon">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#071228"/>
+      <stop offset="55%" stop-color="#12295c"/>
+      <stop offset="100%" stop-color="#060d24"/>
+    </linearGradient>
+    <radialGradient id="halo" cx="75%" cy="78%" r="44%">
+      <stop offset="0%" stop-color="#ffb36a" stop-opacity="0.46"/>
+      <stop offset="100%" stop-color="#ffb36a" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="56"/>
+    </filter>
+  </defs>
+  <rect width="1024" height="1024" rx="220" fill="#050915"/>
+  <circle cx="738" cy="768" r="248" fill="url(#halo)" filter="url(#glow)"/>
+  <rect x="96" y="96" width="832" height="832" rx="188" fill="url(#bg)" stroke="#335fa6" stroke-width="8"/>
+  <circle cx="512" cy="512" r="262" fill="#081a3f" stroke="#90ccff" stroke-width="24"/>
+  <path d="M620 412c-32-29-74-44-118-44-98 0-178 80-178 179s80 179 178 179c44 0 86-15 118-44" fill="none"
+    stroke="#90d7ff" stroke-width="34" stroke-linecap="round"/>
+  <text x="514" y="560" text-anchor="middle" fill="#f4f8ff" font-size="154" font-weight="700"
+    font-family="Inter, Arial, sans-serif">IP</text>
+  <circle cx="274" cy="296" r="4" fill="#86b8ff" opacity="0.56"/>
+  <circle cx="754" cy="296" r="5" fill="#ffd2a5" opacity="0.56"/>
+  <circle cx="812" cy="678" r="4" fill="#91cfff" opacity="0.48"/>
+</svg>

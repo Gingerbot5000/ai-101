@@ -1,0 +1,56 @@
+﻿[
+    {
+        "id":  "privacy_first_logo-02",
+        "category":  "Safety",
+        "status":  "completed",
+        "job_id":  "0baeab8e-625e-4cbb-98cd-430b8b71d87e",
+        "files":  [
+                      "04_projects\\ai-101\\assets\\images\\generated\\safety-ethics-logos-v2\\privacy_first_logo-02-01.png"
+                  ]
+    },
+    {
+        "id":  "verify_everything_logo-02",
+        "category":  "Safety",
+        "status":  "completed",
+        "job_id":  "71b11487-069a-4474-bdb7-5d7f95eeb145",
+        "files":  [
+                      "04_projects\\ai-101\\assets\\images\\generated\\safety-ethics-logos-v2\\verify_everything_logo-02-01.png"
+                  ]
+    },
+    {
+        "id":  "ownership_ip_logo-02",
+        "category":  "Safety",
+        "status":  "completed",
+        "job_id":  "79ece848-1161-47b7-a950-87e48920cd14",
+        "files":  [
+                      "04_projects\\ai-101\\assets\\images\\generated\\safety-ethics-logos-v2\\ownership_ip_logo-02-01.png"
+                  ]
+    },
+    {
+        "id":  "disclose_ai_use_logo-02",
+        "category":  "Safety",
+        "status":  "completed",
+        "job_id":  "92ef1b5d-c42e-411e-9c18-afb5aca6998a",
+        "files":  [
+                      "04_projects\\ai-101\\assets\\images\\generated\\safety-ethics-logos-v2\\disclose_ai_use_logo-02-01.png"
+                  ]
+    },
+    {
+        "id":  "deepfakes_misuse_logo-02",
+        "category":  "Safety",
+        "status":  "completed",
+        "job_id":  "a5c04442-20f0-48c2-a741-4a8d1456bdea",
+        "files":  [
+                      "04_projects\\ai-101\\assets\\images\\generated\\safety-ethics-logos-v2\\deepfakes_misuse_logo-02-01.png"
+                  ]
+    },
+    {
+        "id":  "think_critically_logo-02",
+        "category":  "Safety",
+        "status":  "completed",
+        "job_id":  "20aac527-22a9-4fc3-8b7a-55faca8ac6d6",
+        "files":  [
+                      "04_projects\\ai-101\\assets\\images\\generated\\safety-ethics-logos-v2\\think_critically_logo-02-01.png"
+                  ]
+    }
+]

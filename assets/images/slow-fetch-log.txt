@@ -1,0 +1,7 @@
+OK small-business.jpg bytes=829213
+OK data-analytics.jpg bytes=308185
+OK creative-studio.jpg bytes=737020
+OK automation-workflow.png bytes=468511
+OK job-interview.jpg bytes=390704
+OK marketing-campaign.jpg bytes=864149
+OK color-burst-laptop.jpg bytes=239941

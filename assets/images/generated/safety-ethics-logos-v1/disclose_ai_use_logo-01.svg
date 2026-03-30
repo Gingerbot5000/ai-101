@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-label="Disclose AI Use icon">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#071127"/>
+      <stop offset="55%" stop-color="#0f2453"/>
+      <stop offset="100%" stop-color="#060d24"/>
+    </linearGradient>
+    <radialGradient id="halo" cx="78%" cy="25%" r="44%">
+      <stop offset="0%" stop-color="#ff8ea2" stop-opacity="0.48"/>
+      <stop offset="100%" stop-color="#ff8ea2" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="58"/>
+    </filter>
+  </defs>
+  <rect width="1024" height="1024" rx="220" fill="#050915"/>
+  <circle cx="760" cy="270" r="248" fill="url(#halo)" filter="url(#glow)"/>
+  <rect x="96" y="96" width="832" height="832" rx="188" fill="url(#bg)" stroke="#335fa6" stroke-width="8"/>
+  <rect x="286" y="492" width="110" height="138" rx="22" fill="#071635" stroke="#95d6ff" stroke-width="14"/>
+  <path d="M396 476 694 386v350L396 646z" fill="#0d2d67" stroke="#9adeff" stroke-width="18" stroke-linejoin="round"/>
+  <path d="M694 468c62 26 62 124 0 150" fill="none" stroke="#9adeff" stroke-width="20" stroke-linecap="round"/>
+  <path d="M750 428c88 52 88 202 0 254" fill="none" stroke="#7fc5ff" stroke-width="14" stroke-linecap="round"
+    opacity="0.9"/>
+  <path d="M244 544h42M244 578h30" stroke="#8cc8ff" stroke-width="12" stroke-linecap="round"/>
+  <circle cx="254" cy="512" r="10" fill="#ff5d78"/>
+  <circle cx="214" cy="700" r="4" fill="#86b8ff" opacity="0.5"/>
+  <circle cx="788" cy="682" r="5" fill="#a0daff" opacity="0.56"/>
+</svg>

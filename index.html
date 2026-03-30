@@ -1,0 +1,4031 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The AI Breakdown — Real Tools for Real Life</title>
+    <meta name="description" content="Demystifying AI for our community — A presentation by Adam Gurski">
+    <link rel="icon"
+        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23060a12'/%3E%3Cpath d='M15 18h15c10 0 16 5 16 14s-6 14-16 14H15V18zm11 8v12h4c5 0 8-2 8-6s-3-6-8-6h-4z' fill='%23f5f7fb'/%3E%3Cpath d='M48 18h6L38 46h-6l16-28z' fill='%238bd6ff'/%3E%3C/svg%3E">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --accent: #8bd6ff;
+            --accent-strong: #53b3f8;
+            --accent-warm: #d7a65a;
+            --surface: rgba(11, 18, 30, 0.84);
+            --surface-strong: rgba(12, 20, 33, 0.95);
+            --surface-muted: rgba(18, 29, 45, 0.72);
+            --surface-border: rgba(148, 163, 184, 0.18);
+            --surface-border-strong: rgba(148, 163, 184, 0.34);
+            --text: #f5f7fb;
+            --text-dim: #aab7cb;
+            --text-muted: #78869a;
+            --text-bright: #ffffff;
+            --danger: #ef4444;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --bg-top: #15314d;
+            --bg-mid: #0b1423;
+            --bg-base: #060a12;
+            --viewport-height: 100vh;
+            --safe-bottom: env(safe-area-inset-bottom, 0px);
+            --nav-height: 72px;
+        }
+
+        @supports (height: 100dvh) {
+            :root {
+                --viewport-height: 100dvh;
+            }
+        }
+
+        body {
+            font-family: 'Instrument Sans', sans-serif;
+            background:
+                radial-gradient(circle at 16% 14%, rgba(70, 131, 184, 0.18) 0%, transparent 32%),
+                radial-gradient(circle at 82% 18%, rgba(139, 214, 255, 0.12) 0%, transparent 24%),
+                radial-gradient(circle at 50% 100%, rgba(215, 166, 90, 0.12) 0%, transparent 34%),
+                linear-gradient(180deg, var(--bg-mid) 0%, var(--bg-base) 72%);
+            color: var(--text);
+            overflow: hidden;
+            overflow-x: hidden;
+            min-height: 100vh;
+            height: var(--viewport-height);
+            width: 100%;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        /* ===== ANIMATED BACKGROUND ===== */
+        .bg-gradient {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            transition: background 0.8s ease;
+        }
+
+        .bg-gradient::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse at 16% 10%, rgba(139, 214, 255, 0.12) 0%, transparent 46%),
+                radial-gradient(ellipse at 80% 20%, rgba(58, 107, 163, 0.18) 0%, transparent 42%),
+                radial-gradient(ellipse at 52% 86%, rgba(215, 166, 90, 0.12) 0%, transparent 44%),
+                linear-gradient(180deg, rgba(7, 13, 22, 0.12) 0%, rgba(7, 13, 22, 0) 100%);
+            animation: bgPulse 10s ease-in-out infinite alternate;
+        }
+
+        @keyframes bgPulse {
+            0% {
+                opacity: 0.6;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        /* Fine grid overlay */
+        .bg-gradient::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 72px 72px;
+            opacity: 0.35;
+            pointer-events: none;
+        }
+
+        /* ===== SLIDE CONTAINER ===== */
+        .deck {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            min-height: 100vh;
+            height: var(--viewport-height);
+            overflow: hidden;
+        }
+
+        .slide {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 38px 56px calc(var(--nav-height) + 24px);
+            opacity: 0;
+            transform: translateX(60px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            pointer-events: none;
+            overflow-y: auto;
+            touch-action: pan-y;
+            scroll-padding-bottom: calc(var(--nav-height) + 24px);
+        }
+
+        .slide.active {
+            opacity: 1;
+            transform: translateX(0);
+            pointer-events: auto;
+        }
+
+        .slide.exit-left {
+            opacity: 0;
+            transform: translateX(-60px);
+        }
+
+        .slide.exit-right {
+            opacity: 0;
+            transform: translateX(60px);
+        }
+
+        .slide-inner {
+            max-width: 1520px;
+            width: 100%;
+            min-width: 0;
+        }
+
+        /* ===== PRESENTATION SURFACES ===== */
+        .glass {
+            background: linear-gradient(180deg, var(--surface-strong) 0%, rgba(9, 15, 25, 0.92) 100%);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--surface-border);
+            border-radius: 18px;
+            padding: 30px;
+            box-shadow: 0 22px 60px rgba(1, 5, 11, 0.28);
+            transition: border-color 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .glass:hover {
+            box-shadow: 0 26px 64px rgba(1, 5, 11, 0.34);
+            border-color: var(--surface-border-strong);
+        }
+
+        /* ===== TYPOGRAPHY ===== */
+        .slide-number {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            color: var(--accent);
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(34px, 5vw, 64px);
+            font-weight: 700;
+            line-height: 0.98;
+            letter-spacing: -0.05em;
+        }
+
+        h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(28px, 3.5vw, 44px);
+            font-weight: 700;
+            line-height: 1.08;
+            letter-spacing: -0.045em;
+        }
+
+        h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(18px, 2vw, 26px);
+            font-weight: 600;
+            line-height: 1.3;
+            letter-spacing: -0.03em;
+        }
+
+        .subtitle {
+            font-size: clamp(18px, 2.2vw, 28px);
+            color: var(--text-dim);
+            font-weight: 400;
+            line-height: 1.45;
+            max-width: 32ch;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, var(--text-bright) 0%, var(--accent) 56%, #b8ebff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* ===== BADGES ===== */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: 100px;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 1.1px;
+            text-transform: uppercase;
+            font-family: 'JetBrains Mono', monospace;
+            line-height: 1;
+            white-space: nowrap;
+            border: 1px solid transparent;
+        }
+
+        .badge-blue {
+            background: rgba(83, 179, 248, 0.10);
+            color: #9fdbff;
+            border-color: rgba(83, 179, 248, 0.20);
+        }
+
+        .badge-purple {
+            background: rgba(120, 134, 154, 0.12);
+            color: #d6def0;
+            border-color: rgba(120, 134, 154, 0.24);
+        }
+
+        .badge-green {
+            background: rgba(16, 185, 129, 0.12);
+            color: #9ce1c0;
+            border-color: rgba(16, 185, 129, 0.20);
+        }
+
+        .badge-orange {
+            background: rgba(215, 166, 90, 0.12);
+            color: #f0c48d;
+            border-color: rgba(215, 166, 90, 0.22);
+        }
+
+        .badge-red {
+            background: rgba(239, 68, 68, 0.15);
+            color: #f87171;
+            border: 1px solid rgba(239, 68, 68, 0.25);
+        }
+
+        .badge-cyan {
+            background: rgba(6, 182, 212, 0.15);
+            color: #22d3ee;
+            border: 1px solid rgba(6, 182, 212, 0.25);
+        }
+
+        /* ===== GRID LAYOUTS ===== */
+        .card-grid {
+            display: grid;
+            gap: 22px;
+        }
+
+        .card-grid-2 {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .card-grid-3 {
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        }
+
+        /* ===== TOOL CARDS ===== */
+        .tool-card .tool-icon {
+            width: 58px;
+            height: 58px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            margin-bottom: 18px;
+            background: rgba(139, 214, 255, 0.06) !important;
+            color: var(--accent) !important;
+            border: 1px solid rgba(139, 214, 255, 0.10);
+            overflow: hidden;
+        }
+
+        .brand-logo {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .tool-logo {
+            width: 30px;
+            height: 30px;
+        }
+
+        .link-logo {
+            width: 34px;
+            height: 34px;
+        }
+
+        .tool-card h3 {
+            margin-bottom: 8px;
+        }
+
+        .tool-card .tool-label {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+            font-family: 'JetBrains Mono', monospace;
+            letter-spacing: 0.7px;
+            text-transform: uppercase;
+        }
+
+        .tool-card p {
+            font-size: 18px;
+            color: var(--text-dim);
+            line-height: 1.58;
+        }
+
+        .tool-card .badge {
+            margin-bottom: 14px !important;
+        }
+
+        /* ===== USE CASE CARDS ===== */
+        .use-card {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            padding: 18px 20px;
+        }
+
+        .use-card .use-icon {
+            flex-shrink: 0;
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(139, 214, 255, 0.10);
+            background: rgba(255, 255, 255, 0.03);
+            box-shadow: none;
+        }
+
+        .use-card .use-icon-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+        }
+
+        .use-card h3 {
+            font-size: 18px;
+            margin-bottom: 4px;
+        }
+
+        .use-card p {
+            font-size: 16px;
+            color: var(--text-dim);
+            line-height: 1.5;
+        }
+
+        /* ===== PROMPT FORMULA ===== */
+        .formula-block {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 16px 18px;
+            border-radius: 16px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 16px;
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .formula-block .formula-icon {
+            width: 34px;
+            height: 34px;
+            border-radius: 999px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1.2px;
+            color: var(--text-bright);
+            background: rgba(139, 214, 255, 0.10);
+            border: 1px solid rgba(139, 214, 255, 0.14);
+            flex-shrink: 0;
+            line-height: 1;
+        }
+
+        .formula-block .formula-label {
+            font-weight: 700;
+            font-size: 14px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            min-width: 70px;
+        }
+
+        .formula-block .formula-text {
+            color: var(--text-dim);
+            font-size: 16px;
+            font-family: 'Instrument Sans', sans-serif;
+            flex: 1;
+            line-height: 1.45;
+        }
+
+        .prompt-formula-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        /* ===== SAFETY ITEMS ===== */
+        .safety-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 16px;
+        }
+
+        .safety-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            padding: 20px;
+            min-height: 185px;
+        }
+
+        .safety-item .safety-icon {
+            flex-shrink: 0;
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(139, 214, 255, 0.10);
+            background: rgba(255, 255, 255, 0.03);
+            box-shadow: none;
+        }
+
+        .safety-icon-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+        }
+
+        .safety-item h3 {
+            margin-bottom: 6px;
+            font-size: 18px;
+        }
+
+        .safety-item p {
+            font-size: 16px;
+            color: var(--text-dim);
+            line-height: 1.5;
+        }
+
+        @media (max-width: 1280px) {
+            .safety-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .safety-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ===== PROMPT EXAMPLE ===== */
+        .prompt-example {
+            background: linear-gradient(180deg, rgba(8, 14, 24, 0.96) 0%, rgba(7, 11, 18, 0.98) 100%);
+            border: 1px solid rgba(139, 214, 255, 0.14);
+            border-radius: 18px;
+            padding: 16px;
+            margin-top: 12px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            line-height: 1.5;
+            color: var(--text-dim);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.02);
+        }
+
+        .prompt-example .prompt-label {
+            color: #60a5fa;
+            font-weight: 700;
+        }
+
+        .prompt-example .prompt-role {
+            color: #9fc7ff;
+        }
+
+        .prompt-example .prompt-task {
+            color: #34d399;
+        }
+
+        .prompt-example .prompt-context {
+            color: #fbbf24;
+        }
+
+        .prompt-example .prompt-format {
+            color: #ff9b80;
+        }
+
+        .prompt-meta-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 8px;
+        }
+
+        .prompt-heading {
+            font-size: 13px;
+            color: var(--accent);
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .prompt-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: flex-end;
+        }
+
+        .prompt-chip {
+            padding: 4px 10px;
+            border-radius: 100px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(255, 255, 255, 0.03);
+            color: var(--text);
+            font-size: 11px;
+            line-height: 1;
+            letter-spacing: 0.4px;
+            text-transform: uppercase;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .prompt-chip-counter {
+            color: var(--accent-warm);
+            border-color: rgba(215, 166, 90, 0.26);
+        }
+
+        .platform-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .platform-logo {
+            width: 12px;
+            height: 12px;
+            object-fit: contain;
+            display: block;
+        }
+
+        .prompt-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 10px;
+            font-size: 11px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .prompt-legend span {
+            opacity: 0.95;
+        }
+
+        .prompt-text {
+            min-height: 56px;
+            max-height: 120px;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            color: var(--text);
+        }
+
+        .prompt-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .prompt-control-btn {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--surface-border);
+            color: var(--text);
+            padding: 7px 12px;
+            min-height: 34px;
+            border-radius: 10px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.4px;
+            cursor: pointer;
+            transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+        }
+
+        .prompt-control-btn:hover {
+            background: rgba(139, 214, 255, 0.08);
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .prompt-control-btn:disabled {
+            opacity: 0.35;
+            cursor: not-allowed;
+        }
+
+        .prompt-control-btn:disabled:hover {
+            background: var(--surface);
+            border-color: var(--surface-border);
+            color: var(--text);
+        }
+
+        .prompt-copy-status {
+            min-height: 16px;
+            margin-top: 8px;
+            font-size: 11px;
+            color: var(--text-dim);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .prompt-data-tools {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .prompt-link-btn {
+            display: inline-flex;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        .prompt-data-hint {
+            margin-top: 6px;
+            padding: 6px 8px;
+            border-radius: 8px;
+            border: 1px solid rgba(139, 214, 255, 0.14);
+            background: rgba(255, 255, 255, 0.03);
+            color: var(--text-dim);
+            font-size: 10px;
+            line-height: 1.3;
+        }
+
+        .prompt-run-guide {
+            margin-top: 6px;
+            padding: 6px 8px;
+            border-radius: 8px;
+            border: 1px solid rgba(16, 185, 129, 0.16);
+            background: rgba(16, 185, 129, 0.08);
+            color: var(--text);
+            font-size: 10px;
+            line-height: 1.3;
+            white-space: normal;
+        }
+
+        .prompt-asset-gallery {
+            margin-top: 6px;
+            border-radius: 10px;
+            border: 1px solid rgba(108, 198, 255, 0.25);
+            background: rgba(9, 18, 41, 0.55);
+            padding: 6px;
+        }
+
+        .prompt-asset-header {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 0.5px;
+            color: var(--accent);
+            margin-bottom: 4px;
+            text-transform: uppercase;
+        }
+
+        .prompt-asset-list {
+            display: flex;
+            gap: 6px;
+            overflow-x: auto;
+            padding-bottom: 2px;
+            touch-action: pan-x;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .prompt-asset-card {
+            width: 196px;
+            flex: 0 0 auto;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            border-radius: 10px;
+            background: rgba(5, 13, 29, 0.72);
+            overflow: hidden;
+        }
+
+        .prompt-asset-preview {
+            width: 100%;
+            height: clamp(66px, 9vh, 92px);
+            object-fit: contain;
+            object-position: center;
+            image-orientation: from-image;
+            display: block;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.55);
+        }
+
+        .prompt-asset-body {
+            padding: 6px;
+        }
+
+        .prompt-asset-name {
+            font-size: 10px;
+            line-height: 1.3;
+            color: var(--text-dim);
+            font-family: 'JetBrains Mono', monospace;
+            margin-bottom: 4px;
+            word-break: break-all;
+        }
+
+        .prompt-asset-actions {
+            display: flex;
+            gap: 4px;
+            flex-wrap: wrap;
+        }
+
+        .prompt-asset-actions .prompt-control-btn,
+        .prompt-asset-actions .prompt-link-btn {
+            padding: 5px 8px;
+            min-height: 24px;
+            font-size: 10px;
+        }
+
+        .slide[data-slide="8"] {
+            padding: 20px 40px 62px;
+        }
+
+        .slide[data-slide="8"] .slide-number {
+            margin-bottom: 6px;
+        }
+
+        .slide[data-slide="8"] h2 {
+            margin-bottom: 4px !important;
+            font-size: clamp(24px, 3vw, 36px);
+        }
+
+        .slide[data-slide="8"] .subtitle {
+            margin-bottom: 12px !important;
+            font-size: clamp(13px, 1.3vw, 18px);
+            line-height: 1.3;
+        }
+
+        .slide[data-slide="8"] .prompt-formula-grid {
+            gap: 6px;
+            margin-bottom: 8px;
+        }
+
+        .slide[data-slide="8"] .formula-block {
+            gap: 8px;
+            padding: 10px 12px;
+        }
+
+        .slide[data-slide="8"] .formula-block .formula-icon {
+            width: 30px;
+            height: 30px;
+            font-size: 10px;
+        }
+
+        .slide[data-slide="8"] .formula-block .formula-label {
+            min-width: 52px;
+            font-size: 11px;
+        }
+
+        .slide[data-slide="8"] .formula-block .formula-text {
+            font-size: 12px;
+            line-height: 1.35;
+        }
+
+        .slide[data-slide="8"] .prompt-example {
+            margin-top: 8px;
+            padding: 12px;
+        }
+
+        .slide[data-slide="8"] .prompt-meta-row {
+            margin-bottom: 6px;
+        }
+
+        .slide[data-slide="8"] .prompt-text {
+            min-height: 40px;
+            max-height: 104px;
+        }
+
+        .slide[data-slide="8"] .prompt-copy-status {
+            margin-top: 6px;
+            min-height: 14px;
+        }
+
+        .slide[data-slide="8"] .prompt-asset-card {
+            width: 180px;
+        }
+
+        .slide[data-slide="8"] .prompt-asset-preview {
+            height: clamp(58px, 8vh, 78px);
+        }
+
+        .prompt-example,
+        .prompt-text,
+        .prompt-copy-status,
+        .prompt-data-hint,
+        .prompt-run-guide,
+        .prompt-asset-name {
+            user-select: text;
+            -webkit-user-select: text;
+        }
+
+        /* ===== NAVIGATION ===== */
+        .nav-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+            padding: 12px 24px calc(12px + var(--safe-bottom));
+            background: rgba(6, 10, 18, 0.88);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .nav-group {
+            display: flex;
+            align-items: center;
+            min-width: 0;
+            flex: 1;
+        }
+
+        .nav-left {
+            justify-content: flex-start;
+            gap: 8px;
+        }
+
+        .nav-btn {
+            background: var(--surface);
+            border: 1px solid var(--surface-border);
+            color: var(--text);
+            padding: 8px 20px;
+            min-height: 36px;
+            border-radius: 8px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            touch-action: manipulation;
+        }
+
+        .nav-back-btn {
+            text-decoration: none;
+        }
+
+        .nav-btn:hover {
+            background: rgba(59, 130, 246, 0.1);
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.3;
+            cursor: default;
+        }
+
+        .nav-btn:disabled:hover {
+            background: var(--surface);
+            border-color: var(--surface-border);
+            color: var(--text);
+        }
+
+        .nav-center {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .nav-right {
+            justify-content: flex-end;
+        }
+
+        .nav-indicator {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: var(--text-dim);
+            white-space: nowrap;
+        }
+
+        /* ===== PROGRESS BAR ===== */
+        .progress-track {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), var(--accent-warm));
+            transition: width 0.4s ease;
+            border-radius: 0 2px 2px 0;
+            box-shadow: 0 0 10px rgba(139, 214, 255, 0.35);
+        }
+
+        /* ===== DOT INDICATORS ===== */
+        .dots {
+            display: flex;
+            gap: 6px;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.15);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .dot.active {
+            background: var(--accent);
+            box-shadow: 0 0 8px rgba(139, 214, 255, 0.35);
+            transform: scale(1.15);
+        }
+
+        .dot:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* ===== LINK CARDS ===== */
+        .link-card {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 20px 24px;
+            text-decoration: none;
+            color: var(--text);
+        }
+
+        .link-card:hover {
+            border-color: var(--accent);
+        }
+
+        .link-card .link-icon {
+            font-size: 32px;
+            flex-shrink: 0;
+            width: 48px;
+            height: 48px;
+            display: grid;
+            place-items: center;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(139, 214, 255, 0.10);
+        }
+
+        .link-card .link-label {
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .link-card .link-url {
+            font-size: 13px;
+            color: var(--text-dim);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .slide.active .anim {
+            animation: fadeInUp 0.5s ease forwards;
+            opacity: 0;
+        }
+
+        .slide.active .anim-1 {
+            animation-delay: 0.1s;
+        }
+
+        .slide.active .anim-2 {
+            animation-delay: 0.2s;
+        }
+
+        .slide.active .anim-3 {
+            animation-delay: 0.3s;
+        }
+
+        .slide.active .anim-4 {
+            animation-delay: 0.4s;
+        }
+
+        .slide.active .anim-5 {
+            animation-delay: 0.5s;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .bg-gradient::before {
+                animation: none;
+            }
+
+            .slide,
+            .slide.active .anim,
+            .progress-fill,
+            .dot {
+                transition: none !important;
+                animation: none !important;
+            }
+
+            .slide.active .anim {
+                opacity: 1 !important;
+                transform: none !important;
+            }
+        }
+
+        /* ===== MOBILE ===== */
+        @media (max-width: 768px) {
+            .slide {
+                align-items: flex-start;
+                padding: 14px 10px calc(var(--nav-height) + 56px);
+            }
+
+            .slide[data-slide="8"] {
+                padding: 14px 10px calc(var(--nav-height) + 56px);
+            }
+
+            .slide-inner::after {
+                content: '';
+                display: block;
+                height: 24px;
+            }
+
+            .card-grid-2,
+            .card-grid-3,
+            .safety-grid,
+            .cta-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .glass {
+                padding: 18px;
+                backdrop-filter: blur(10px);
+                -webkit-backdrop-filter: blur(10px);
+            }
+
+            .slide-number {
+                font-size: 11px;
+                letter-spacing: 2px;
+                margin-bottom: 6px;
+            }
+
+            h2 {
+                font-size: clamp(28px, 8vw, 36px);
+            }
+
+            .subtitle {
+                font-size: clamp(16px, 5vw, 20px);
+                line-height: 1.4;
+            }
+
+            .title-hero-grid {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            .title-content {
+                text-align: center;
+            }
+
+            .chamber-poster-image {
+                height: auto;
+                max-height: 340px;
+            }
+
+            .cosmic-qr-hero {
+                max-height: 180px;
+                width: min(100%, 260px);
+            }
+
+            .overview-art img {
+                height: 190px;
+                object-position: center 46%;
+            }
+
+            .art-strip {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+
+            .prompt-meta-row {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .prompt-chips {
+                justify-content: flex-start;
+            }
+
+            .prompt-controls {
+                flex-direction: column;
+            }
+
+            .prompt-control-btn {
+                width: 100%;
+                text-align: center;
+            }
+
+            .formula-block {
+                gap: 8px;
+                padding: 10px 12px;
+            }
+
+            .formula-block .formula-icon {
+                width: 28px;
+                height: 28px;
+                font-size: 10px;
+            }
+
+            .formula-block .formula-label {
+                min-width: 64px;
+            }
+
+            .prompt-formula-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .landscape-visual {
+                gap: 14px;
+            }
+
+            .landscape-col {
+                min-width: 0;
+                max-width: none;
+                width: 100%;
+            }
+
+            .landscape-item {
+                padding: 12px 14px;
+                font-size: 14px;
+            }
+
+            .use-card {
+                padding: 12px;
+                gap: 10px;
+            }
+
+            .link-card {
+                padding: 12px 13px;
+                gap: 10px;
+            }
+
+            .link-card .link-label {
+                font-size: 14px;
+            }
+
+            .link-card .link-url {
+                font-size: 12px;
+            }
+
+            .cta-footer {
+                max-width: 100%;
+            }
+
+            .nav-bar {
+                flex-wrap: nowrap;
+                row-gap: 0;
+                column-gap: 6px;
+                padding: 6px 8px calc(6px + var(--safe-bottom));
+                backdrop-filter: blur(8px);
+                -webkit-backdrop-filter: blur(8px);
+            }
+
+            .nav-left {
+                order: 0;
+                flex: 0 0 auto;
+                gap: 4px;
+            }
+
+            .nav-right {
+                order: 2;
+                flex: 0 0 auto;
+            }
+
+            .nav-center {
+                order: 1;
+                flex: 1 1 auto;
+                min-width: 0;
+                gap: 4px;
+            }
+
+            .nav-btn {
+                min-height: 34px;
+                padding: 6px 8px;
+                font-size: 11px;
+                letter-spacing: 0.2px;
+            }
+
+            .dots {
+                display: none !important;
+            }
+
+            .nav-indicator {
+                font-size: 10px;
+            }
+
+            .nav-back-btn,
+            #prevBtn,
+            #nextBtn {
+                min-width: 58px;
+            }
+
+            .slide[data-slide="0"] .title-content .anim-5 {
+                display: none;
+            }
+
+            .slide[data-slide="0"] .title-badge {
+                margin-top: 12px;
+                padding: 6px 12px;
+                font-size: 11px;
+            }
+
+            .slide[data-slide="0"] .title-slide h1 {
+                font-size: clamp(36px, 10vw, 48px);
+                margin-bottom: 10px;
+            }
+
+            .slide[data-slide="0"] .subtitle {
+                margin-bottom: 12px !important;
+            }
+
+            .story-grid,
+            .evidence-grid,
+            .proof-banner,
+            .use-case-groups,
+            .spectrum-bar,
+            .story-proof-strip {
+                grid-template-columns: 1fr;
+            }
+
+            .prompt-framework-strip {
+                grid-template-columns: 1fr;
+            }
+
+            .prompt-framework-strip,
+            .slide[data-slide="8"] .prompt-formula-grid {
+                gap: 4px;
+            }
+
+            .slide[data-slide="8"] .formula-block .formula-text {
+                display: -webkit-box;
+                -webkit-line-clamp: 3;
+                line-clamp: 3;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+            }
+
+            .secondary-contact-panel {
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .nav-btn {
+                min-height: 32px;
+                padding: 5px 7px;
+                font-size: 10px;
+            }
+
+            .slide[data-slide="0"] .title-slide h1 {
+                font-size: clamp(32px, 11vw, 42px);
+            }
+        }
+
+        /* ===== TITLE SLIDE SPECIAL ===== */
+        .title-slide {
+            text-align: center;
+        }
+
+        .title-slide h1 {
+            font-size: clamp(40px, 6vw, 80px);
+            margin-bottom: 18px;
+        }
+
+        .title-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 24px;
+            padding: 8px 16px;
+            border-radius: 100px;
+            font-size: 12px;
+            background: rgba(139, 214, 255, 0.08);
+            border: 1px solid rgba(139, 214, 255, 0.16);
+            color: var(--accent);
+            font-family: 'JetBrains Mono', monospace;
+            letter-spacing: 0.8px;
+        }
+
+        .title-hero-grid {
+            display: grid;
+            grid-template-columns: minmax(420px, 1.15fr) minmax(300px, 0.85fr);
+            gap: 26px;
+            align-items: center;
+            text-align: left;
+        }
+
+        .title-content {
+            text-align: left;
+        }
+
+        .title-art-stack {
+            display: grid;
+            gap: 14px;
+            justify-items: center;
+        }
+
+        .chamber-poster-card {
+            padding: 10px;
+            border-radius: 6px;
+            width: fit-content;
+            max-width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+        }
+
+        .chamber-poster-image {
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+            object-position: center;
+            border-radius: 18px;
+            border: 1px solid rgba(180, 205, 255, 0.2);
+            display: block;
+            background: rgba(5, 9, 20, 0.65);
+        }
+
+        .cosmic-qr-hero {
+            width: min(100%, 620px);
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            object-position: center;
+            max-height: none;
+        }
+
+        .poster-caption {
+            margin-top: 8px;
+            font-size: 12px;
+            color: var(--text-dim);
+            font-family: 'JetBrains Mono', monospace;
+            letter-spacing: 0.35px;
+        }
+
+        .art-strip {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 10px;
+        }
+
+        .art-figure {
+            margin: 0;
+            display: grid;
+            gap: 6px;
+        }
+
+        .art-panel {
+            width: 100%;
+            height: 92px;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 1px solid rgba(180, 205, 255, 0.16);
+            display: block;
+        }
+
+        .art-caption {
+            font-size: 10px;
+            color: var(--text-dim);
+            font-family: 'JetBrains Mono', monospace;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        /* ===== ABOUT CARD ===== */
+        .about-grid {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .about-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .about-avatar {
+            width: 140px;
+            height: 140px;
+            border-radius: 18px;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.3), rgba(139, 92, 246, 0.3));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 56px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .about-avatar-photo-wrap {
+            overflow: hidden;
+            position: relative;
+            background: linear-gradient(160deg, rgba(108, 198, 255, 0.24), rgba(141, 118, 255, 0.26));
+            border-color: rgba(180, 205, 255, 0.25);
+        }
+
+        .about-avatar-photo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+        }
+
+        .about-avatar-fallback {
+            position: absolute;
+            inset: 0;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 56px;
+            color: #eef3ff;
+        }
+
+        .about-roles {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .overview-art {
+            margin-bottom: 18px;
+            padding: 10px;
+        }
+
+        .overview-art img {
+            width: 100%;
+            height: clamp(210px, 30vh, 290px);
+            object-fit: cover;
+            object-position: center 43%;
+            border-radius: 10px;
+            display: block;
+            border: 1px solid rgba(180, 205, 255, 0.16);
+        }
+
+        .overview-art p {
+            margin-top: 8px;
+            font-size: 12px;
+            color: var(--text-dim);
+            font-family: 'JetBrains Mono', monospace;
+            letter-spacing: 0.35px;
+            text-transform: uppercase;
+        }
+
+        @media (max-width: 600px) {
+            .about-grid {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .about-content {
+                align-items: center;
+            }
+
+            .about-roles {
+                justify-content: center;
+            }
+
+            .title-hero-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .title-content {
+                text-align: center;
+            }
+        }
+
+        .quote-block {
+            margin-top: 0;
+            padding: 28px 30px;
+            border: 1px solid rgba(139, 214, 255, 0.14);
+            background: linear-gradient(135deg, rgba(139, 214, 255, 0.06), rgba(255, 255, 255, 0.02));
+            border-radius: 18px;
+            color: rgba(245, 247, 251, 0.94);
+            font-size: 22px;
+            line-height: 1.55;
+            text-align: left;
+            letter-spacing: 0.2px;
+            position: relative;
+            font-style: italic;
+        }
+
+        .quote-mark-open,
+        .quote-mark-close {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 54px;
+            font-style: normal;
+            line-height: 1;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent), #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            user-select: none;
+        }
+
+        .quote-mark-open {
+            display: block;
+            margin-bottom: -8px;
+        }
+
+        .quote-mark-close {
+            display: block;
+            text-align: right;
+            margin-top: -4px;
+        }
+
+        .quote-attribution {
+            margin-top: 10px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            letter-spacing: 0.45px;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            font-style: normal;
+        }
+
+        /* ===== STORY SLIDE - STYLIZED LAYOUT ===== */
+        .story-layout {
+            display: grid;
+            grid-template-columns: minmax(300px, 1fr) minmax(340px, 1fr);
+            grid-template-rows: auto auto;
+            gap: 18px;
+        }
+
+        .story-left {
+            display: grid;
+            gap: 16px;
+            grid-row: 1 / 3;
+        }
+
+        .story-right {
+            display: grid;
+            gap: 12px;
+            align-content: start;
+        }
+
+        /* Glowing Photo */
+        .story-photo-ring {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .photo-glow-wrap {
+            position: relative;
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .photo-glow-wrap::before {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 50%;
+            background: conic-gradient(from 0deg, #8bd6ff, #a78bfa, #f472b6, #fbbf24, #34d399, #8bd6ff);
+            animation: glowSpin 6s linear infinite;
+        }
+
+        .photo-glow-wrap::after {
+            content: '';
+            position: absolute;
+            inset: -12px;
+            border-radius: 50%;
+            background: conic-gradient(from 0deg, rgba(139,214,255,0.3), rgba(167,139,250,0.2), rgba(244,114,182,0.2), rgba(251,191,36,0.15), rgba(52,211,153,0.2), rgba(139,214,255,0.3));
+            filter: blur(16px);
+            animation: glowSpin 6s linear infinite;
+            z-index: -1;
+        }
+
+        @keyframes glowSpin {
+            to { transform: rotate(360deg); }
+        }
+
+        .photo-glow-wrap img {
+            width: 148px;
+            height: 148px;
+            border-radius: 50%;
+            object-fit: cover;
+            object-position: center 20%;
+            position: relative;
+            z-index: 1;
+            border: 3px solid var(--bg-base);
+        }
+
+        .photo-caption-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--accent);
+            text-align: center;
+        }
+
+        /* Proof Cards - Colorful */
+        .story-proof-strip {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 10px;
+        }
+
+        .story-proof-card {
+            padding: 14px 14px 16px;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.03);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid transparent;
+        }
+
+        .story-proof-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 16px;
+            padding: 1px;
+            background: linear-gradient(160deg, var(--card-accent, rgba(139,214,255,0.4)), transparent 60%);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+        }
+
+        .story-proof-card[data-color="cyan"] { --card-accent: rgba(34, 211, 238, 0.5); }
+        .story-proof-card[data-color="violet"] { --card-accent: rgba(167, 139, 250, 0.5); }
+        .story-proof-card[data-color="amber"] { --card-accent: rgba(251, 191, 36, 0.5); }
+
+        .proof-card-icon {
+            font-size: 28px;
+            margin-bottom: 8px;
+            display: block;
+            filter: drop-shadow(0 0 8px rgba(139, 214, 255, 0.3));
+        }
+
+        .story-proof-card strong {
+            display: block;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 19px;
+            line-height: 1.15;
+            margin-bottom: 6px;
+            color: var(--text-bright);
+            font-weight: 700;
+        }
+
+        .story-proof-card span {
+            color: var(--text-dim);
+            font-size: 14px;
+            line-height: 1.35;
+        }
+
+        /* Insight Cards - Individual colored */
+        .story-insight-card {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            padding: 16px 18px;
+            border-radius: 16px;
+            border: 1px solid transparent;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(var(--bg-base), var(--bg-base)) padding-box,
+                        var(--insight-gradient) border-box;
+        }
+
+        .story-insight-card[data-theme="people"] {
+            --insight-gradient: linear-gradient(135deg, rgba(167,139,250,0.4), rgba(139,214,255,0.15));
+            background-color: rgba(167, 139, 250, 0.06);
+        }
+
+        .story-insight-card[data-theme="partner"] {
+            --insight-gradient: linear-gradient(135deg, rgba(34,211,238,0.4), rgba(96,165,250,0.15));
+            background-color: rgba(34, 211, 238, 0.06);
+        }
+
+        .story-insight-card[data-theme="practical"] {
+            --insight-gradient: linear-gradient(135deg, rgba(251,191,36,0.4), rgba(249,115,22,0.15));
+            background-color: rgba(251, 191, 36, 0.06);
+        }
+
+        .insight-icon {
+            font-size: 32px;
+            flex-shrink: 0;
+            filter: drop-shadow(0 0 6px rgba(255,255,255,0.15));
+        }
+
+        .insight-body h3 {
+            font-size: 17px;
+            margin-bottom: 5px;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+        }
+
+        .insight-body p {
+            font-size: 15px;
+            color: var(--text-dim);
+            line-height: 1.45;
+        }
+
+        /* Quote section */
+        .story-quote-section {
+            grid-column: 1 / -1;
+        }
+
+        .story-list,
+        .proof-list {
+            display: grid;
+            gap: 12px;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .story-list li,
+        .proof-list li {
+            padding: 12px 14px;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(148, 163, 184, 0.14);
+            line-height: 1.42;
+            color: var(--text-dim);
+        }
+
+        .story-list strong,
+        .proof-list strong {
+            color: var(--text-bright);
+        }
+
+        @media (max-width: 768px) {
+            .story-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .story-left {
+                grid-row: auto;
+            }
+
+            .story-proof-strip {
+                grid-template-columns: 1fr;
+            }
+
+            .story-quote-section {
+                grid-column: 1;
+            }
+
+            .photo-glow-wrap {
+                width: 120px;
+                height: 120px;
+            }
+
+            .photo-glow-wrap img {
+                width: 110px;
+                height: 110px;
+            }
+
+            .quote-block {
+                font-size: 16px;
+                padding: 20px;
+            }
+
+            .quote-mark-open,
+            .quote-mark-close {
+                font-size: 38px;
+            }
+        }
+
+        .evidence-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .proof-card {
+            display: grid;
+            gap: 12px;
+            align-content: start;
+            min-height: 216px;
+        }
+
+        .proof-label {
+            color: var(--accent);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            letter-spacing: 0.7px;
+            text-transform: uppercase;
+        }
+
+        .proof-number {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(38px, 4.2vw, 54px);
+            line-height: 0.95;
+            color: var(--text-bright);
+            letter-spacing: -0.05em;
+        }
+
+        .proof-card p {
+            color: var(--text-dim);
+            line-height: 1.46;
+            font-size: 15px;
+        }
+
+        .proof-note {
+            color: var(--accent-warm);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            line-height: 1.45;
+        }
+
+        .proof-banner {
+            margin-top: 12px;
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+        }
+
+        .proof-banner .glass {
+            padding: 16px 18px;
+        }
+
+        .proof-banner strong {
+            display: block;
+            margin-bottom: 6px;
+            color: var(--text-bright);
+        }
+
+        .proof-banner p {
+            color: var(--text-dim);
+            line-height: 1.5;
+        }
+
+        .spectrum-shell {
+            display: grid;
+            gap: 16px;
+        }
+
+        .spectrum-header {
+            display: flex;
+            justify-content: space-between;
+            gap: 16px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .spectrum-bar {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 14px;
+        }
+
+        .spectrum-node {
+            display: grid;
+            gap: 12px;
+            align-content: start;
+            padding: 22px;
+        }
+
+        .spectrum-step {
+            color: var(--accent);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            letter-spacing: 0.7px;
+            text-transform: uppercase;
+        }
+
+        .spectrum-node p {
+            color: var(--text-dim);
+            line-height: 1.52;
+        }
+
+        .use-case-groups {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 16px;
+        }
+
+        .use-case-cluster {
+            display: grid;
+            gap: 10px;
+            align-content: start;
+            padding: 24px;
+            min-width: 0;
+        }
+
+        .cluster-label {
+            color: var(--accent);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            letter-spacing: 0.7px;
+            text-transform: uppercase;
+        }
+
+        .cluster-intro {
+            color: var(--text-dim);
+            line-height: 1.42;
+            font-size: 14px;
+        }
+
+        .cluster-list {
+            display: grid;
+            gap: 8px;
+        }
+
+        .cluster-point {
+            display: grid;
+            grid-template-columns: 48px 1fr;
+            gap: 10px;
+            align-items: start;
+            padding: 10px 0;
+            border-top: 1px solid rgba(148, 163, 184, 0.12);
+        }
+
+        .cluster-point>div:last-child {
+            min-width: 0;
+        }
+
+        .cluster-point:first-child {
+            border-top: 0;
+            padding-top: 0;
+        }
+
+        .cluster-point:last-child {
+            padding-bottom: 0;
+        }
+
+        .cluster-point .use-icon {
+            width: 48px;
+            height: 48px;
+            overflow: hidden;
+            border-radius: 16px;
+            border: 1px solid rgba(139, 214, 255, 0.10);
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .cluster-point .use-icon-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+        }
+
+        .cluster-point h3 {
+            margin-bottom: 2px;
+            font-size: 15px;
+        }
+
+        .cluster-point p {
+            color: var(--text-dim);
+            font-size: 13px;
+            line-height: 1.38;
+        }
+
+        .prompt-mode-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 8px;
+        }
+
+        .prompt-mode-pills {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .prompt-mode-pill {
+            padding: 4px 9px;
+            border-radius: 999px;
+            border: 1px solid rgba(148, 163, 184, 0.22);
+            background: rgba(255, 255, 255, 0.03);
+            color: var(--text-dim);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 0.45px;
+            text-transform: uppercase;
+        }
+
+        .prompt-framework-strip {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            margin-bottom: 8px;
+        }
+
+        .prompt-framework-strip .formula-block {
+            transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+            border: 1px solid rgba(148, 163, 184, 0.16);
+            padding: 12px 14px;
+        }
+
+        .prompt-framework-strip .formula-label {
+            min-width: auto;
+            font-size: 12px;
+        }
+
+        .prompt-framework-strip .formula-text {
+            font-size: 12px;
+            line-height: 1.35;
+        }
+
+        .prompt-stage-panel {
+            margin-top: 0;
+            padding: 16px 16px 14px;
+        }
+
+        .prompt-stage-toolbar {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 6px;
+        }
+
+        .prompt-focus-readout {
+            color: var(--text-dim);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 0.45px;
+            text-transform: uppercase;
+        }
+
+        .prompt-focus-readout strong {
+            color: var(--text-bright);
+        }
+
+        .prompt-focus-active {
+            border-color: rgba(139, 214, 255, 0.46) !important;
+            background: rgba(139, 214, 255, 0.08) !important;
+            box-shadow: 0 0 0 1px rgba(139, 214, 255, 0.12) inset, 0 8px 24px rgba(4, 10, 18, 0.26);
+            transform: translateY(-1px);
+        }
+
+        .prompt-legend span {
+            transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease, opacity 0.2s ease;
+            padding: 4px 8px;
+            border-radius: 999px;
+            border: 1px solid transparent;
+        }
+
+        .prompt-legend span.prompt-focus-active {
+            color: var(--text-bright);
+        }
+
+        .tonight-card {
+            min-height: 150px;
+        }
+
+        .secondary-contact-panel {
+            max-width: 760px;
+            margin: 18px auto 0;
+            text-align: left;
+        }
+
+        .slide[data-slide="6"] .tool-card {
+            padding: 22px;
+        }
+
+        .slide[data-slide="6"] .tool-card .tool-icon {
+            width: 52px;
+            height: 52px;
+            margin-bottom: 14px;
+        }
+
+        .slide[data-slide="6"] .tool-card p {
+            font-size: 15px;
+            line-height: 1.46;
+        }
+
+        .slide[data-slide="1"],
+        .slide[data-slide="3"],
+        .slide[data-slide="6"],
+        .slide[data-slide="7"],
+        .slide[data-slide="8"] {
+            align-items: flex-start;
+            padding-top: 24px;
+        }
+
+        /* ===== SCIENCE TIMELINE (Slide 3) ===== */
+        .science-timeline {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            margin-top: 60px;
+            gap: 20px;
+            z-index: 10;
+        }
+
+        .timeline-axis {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-50%);
+            z-index: -1;
+            box-shadow: 0 0 10px rgba(139, 214, 255, 0.5);
+            overflow: hidden;
+        }
+
+        .timeline-axis::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+            background: linear-gradient(90deg, transparent, rgba(139, 214, 255, 0.8), transparent);
+            animation: scanLine 4s linear infinite;
+        }
+
+        @keyframes scanLine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .timeline-node {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            flex: 1;
+            position: relative;
+        }
+
+        .timeline-node::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 2px;
+            height: 120px;
+            background: linear-gradient(to bottom, transparent, var(--node-color), transparent);
+            transform: translate(-50%, -50%);
+            z-index: -1;
+            opacity: 0.5;
+        }
+
+        .node-top {
+            margin-bottom: 30px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 3;
+        }
+
+        .node-badge {
+            background: rgba(4, 10, 18, 0.9);
+            border: 1px solid var(--node-color);
+            color: var(--text-bright);
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            box-shadow: 0 0 15px rgba(0,0,0,0.5), 0 0 8px var(--node-color) inset;
+            text-shadow: 0 0 5px var(--node-color);
+            backdrop-filter: blur(4px);
+        }
+
+        .node-graphic {
+            width: 100px;
+            height: 100px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 30px;
+            z-index: 2;
+        }
+
+        .timeline-node:nth-child(2) .node-graphic { animation: floatNode 4s ease-in-out infinite alternate; }
+        .timeline-node:nth-child(3) .node-graphic { animation: floatNode 4.5s ease-in-out infinite alternate-reverse; }
+        .timeline-node:nth-child(4) .node-graphic { animation: floatNode 5s ease-in-out infinite alternate; }
+
+        .node-graphic > .core-glow {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--node-color) 0%, transparent 60%);
+            opacity: 0.6;
+            filter: blur(12px);
+        }
+
+        .node-svg {
+            width: 60px;
+            height: 60px;
+            color: var(--node-color);
+            position: relative;
+            z-index: 2;
+            filter: drop-shadow(0 0 10px var(--node-color));
+        }
+
+        .svg-alpha {
+            animation: spin-slow 15s linear infinite;
+        }
+
+        .svg-beta {
+            animation: pulse-svg 3s ease-in-out infinite alternate;
+        }
+
+        .svg-gamma {
+            animation: spin-slow 20s linear infinite reverse;
+        }
+
+        @keyframes spin-slow {
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes pulse-svg {
+            0% { transform: scale(0.9); filter: drop-shadow(0 0 5px var(--node-color)); }
+            100% { transform: scale(1.1); filter: drop-shadow(0 0 25px var(--node-color)); }
+        }
+
+        @keyframes floatNode {
+            0% { transform: translateY(-12px); }
+            100% { transform: translateY(12px); }
+        }
+
+        .node-bottom {
+            background: rgba(4, 10, 18, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(12px);
+            padding: 30px 24px;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 360px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.7), 0 0 10px rgba(0,0,0,0.5) inset;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            position: relative;
+            z-index: 3;
+        }
+
+        /* Stagger the middle node down to look more dynamic */
+        .timeline-node:nth-child(3) .node-bottom {
+            margin-top: 40px;
+        }
+
+        .node-bottom::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 1px;
+            background: linear-gradient(90deg, transparent, var(--node-color), transparent);
+            opacity: 0.8;
+        }
+
+        .timeline-node:hover .node-bottom {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 50px rgba(0,0,0,0.9), 0 0 30px rgba(255, 255, 255, 0.1) inset;
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .node-title {
+            color: var(--text-bright);
+            font-size: 32px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            margin-bottom: 14px;
+            letter-spacing: -0.02em;
+            text-shadow: 0 0 20px var(--node-color);
+        }
+
+        .node-bottom p {
+            color: var(--text-dim);
+            font-size: 17px;
+            line-height: 1.6;
+            margin-bottom: 22px;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.9);
+        }
+
+        .node-note {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            color: var(--node-color);
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            padding-top: 16px;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+
+        @media (max-width: 1100px) {
+            .story-grid,
+            .evidence-grid,
+            .use-case-groups,
+            .spectrum-bar {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .prompt-framework-strip {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .science-timeline {
+                flex-direction: column;
+                gap: 40px;
+                padding-left: 20px;
+                margin-top: 40px;
+            }
+            .timeline-axis {
+                top: 0;
+                bottom: 0;
+                left: 60px;
+                width: 2px;
+                height: 100%;
+                transform: none;
+            }
+            .timeline-axis::after {
+                background: linear-gradient(180deg, transparent, rgba(139, 214, 255, 0.8), transparent);
+                animation: scanLineVert 4s linear infinite;
+            }
+            @keyframes scanLineVert {
+                0% { transform: translateY(-100%); }
+                100% { transform: translateY(100%); }
+            }
+            .timeline-node {
+                flex-direction: row;
+                text-align: left;
+                align-items: flex-start;
+                gap: 20px;
+                width: 100%;
+            }
+            .timeline-node::before {
+                width: 120px;
+                height: 2px;
+                background: linear-gradient(to right, transparent, var(--node-color), transparent);
+                left: -20px;
+                top: 40px;
+                transform: none;
+            }
+            .node-top {
+                margin: 0;
+                position: absolute;
+                top: -15px;
+                left: 100px;
+            }
+            .node-graphic {
+                margin: 0;
+                width: 80px;
+                height: 80px;
+                flex-shrink: 0;
+            }
+            .node-bottom {
+                margin-top: 25px;
+                max-width: none;
+            }
+        }
+
+        /* ===== LANDSCAPE VISUAL ===== */
+        .landscape-visual {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            align-items: stretch;
+            flex-wrap: wrap;
+        }
+
+        .landscape-col {
+            flex: 1;
+            min-width: 300px;
+            max-width: 600px;
+            text-align: center;
+        }
+
+        .landscape-col h3 {
+            margin-bottom: 16px;
+            font-size: 18px;
+        }
+
+        .landscape-items {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .landscape-item {
+            padding: 18px 24px;
+            border-radius: 12px;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        /* CTA */
+        .cta-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 16px;
+        }
+
+        .cta-footer {
+            max-width: 980px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: minmax(280px, 340px) 1fr;
+            gap: 18px;
+            align-items: stretch;
+        }
+
+        .contact-bar {
+            display: grid;
+            gap: 12px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 16px;
+            color: var(--text-dim);
+        }
+
+        .contact-link {
+            color: var(--text-bright);
+            text-decoration: none;
+            border-bottom: 1px solid rgba(108, 198, 255, 0.35);
+            transition: color 0.2s ease, border-color 0.2s ease;
+        }
+
+        .contact-link:hover {
+            color: var(--accent);
+            border-color: rgba(108, 198, 255, 0.85);
+        }
+
+        .contact-panel {
+            text-align: left;
+            padding: 24px 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 16px;
+        }
+
+        .contact-panel h3 {
+            font-size: 30px;
+            margin: 0;
+        }
+
+        .contact-note {
+            margin: 0;
+            color: var(--text-dim);
+            font-size: 14px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .qr-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 20px;
+            text-decoration: none;
+            color: var(--text);
+            margin: 0;
+        }
+
+        .qr-card h4 {
+            font-size: 18px;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .qr-image {
+            width: 260px;
+            height: 260px;
+            border-radius: 12px;
+            border: 1px solid rgba(180, 205, 255, 0.2);
+            background: transparent;
+            padding: 0;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+        }
+
+        .qr-handle {
+            color: var(--text-dim);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            letter-spacing: 0.35px;
+        }
+
+        @media (max-width: 900px) {
+            .cta-footer {
+                grid-template-columns: 1fr;
+                max-width: 520px;
+            }
+
+            .contact-panel {
+                text-align: center;
+                align-items: center;
+            }
+
+            .contact-item {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .qr-image {
+                width: 220px;
+                height: 220px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="bg-gradient"></div>
+    <div class="progress-track">
+        <div class="progress-fill" id="progress"></div>
+    </div>
+
+    <div class="deck" id="deck">
+
+        <!-- ===== SLIDE 1: TITLE ===== -->
+        <div class="slide active" data-slide="0">
+            <div class="slide-inner title-slide">
+                <div class="title-hero-grid">
+                    <div class="title-content">
+                        <div class="slide-number anim anim-1">Presentation</div>
+                        <h1 class="anim anim-2">THE AI <span class="gradient-text">BREAKDOWN</span></h1>
+                        <p class="subtitle anim anim-3" style="max-width: 800px;">Real Tools for Real Life —
+                            Demystifying AI for our community</p>
+                        <div class="anim anim-4">
+                            <div class="title-badge">
+                                Presented by Adam Gurski &bull; Updated March 28, 2026
+                            </div>
+                        </div>
+                        <p class="anim anim-5"
+                            style="margin-top: 34px; font-size: 14px; color: var(--text-dim); font-family: 'JetBrains Mono', monospace;">
+                            Use ← → arrow keys or buttons below to navigate
+                        </p>
+                    </div>
+                    <div class="title-art-stack anim anim-4">
+                        <div class="glass chamber-poster-card">
+                            <img id="cosmicQrHero" class="chamber-poster-image cosmic-qr-hero"
+                                src="assets/images/506059567_10234418340213675_3614464372333725693_n.jpg"
+                                alt="Cosmic QR code artwork"
+                                onerror="this.onerror=null;this.src='assets/images/color-burst-laptop.jpg';">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== SLIDE 2: MY STORY ===== -->
+        <div class="slide" data-slide="1">
+            <div class="slide-inner">
+                <div class="slide-number anim anim-1">01 / My Story</div>
+                <h2 class="anim anim-2" style="margin-bottom: 8px;">Why I&rsquo;m Standing Up Here</h2>
+                <p class="subtitle anim anim-3" style="margin-bottom: 20px; max-width: 52ch;">I&rsquo;m not a developer or a tech executive. Three years ago I hadn&rsquo;t built a single website. Then I started using AI&mdash;and everything I thought was &ldquo;not for me&rdquo; became possible.</p>
+
+                <div class="story-layout anim anim-4">
+                    <!-- LEFT COLUMN: Photo + Proof Cards -->
+                    <div class="story-left">
+                        <div class="story-photo-ring">
+                            <div class="photo-glow-wrap">
+                                <img id="introKidPhoto"
+                                    src="assets/images/516605461_10235383877351500_957627053519839274_n.jpg"
+                                    alt="Young Adam Gurski"
+                                    onerror="this.onerror=null; this.parentElement.innerHTML='<div style=\'width:148px;height:148px;border-radius:50%;background:linear-gradient(135deg,#3b82f6,#8b5cf6);display:flex;align-items:center;justify-content:center;font-size:48px;color:#fff;font-weight:700;position:relative;z-index:1;border:3px solid var(--bg-base)\'>AG</div>';">
+                            </div>
+                            <div class="photo-caption-tag">Same person &bull; New capabilities</div>
+                        </div>
+
+                        <div class="story-proof-strip">
+                            <div class="story-proof-card" data-color="cyan">
+                                <span class="proof-card-icon">&#9200;</span>
+                                <strong>3 years</strong>
+                                <span>From zero technical background to building real tools people use.</span>
+                            </div>
+                            <div class="story-proof-card" data-color="violet">
+                                <span class="proof-card-icon">&#9889;</span>
+                                <strong>Hours, not months</strong>
+                                <span>Projects that would have taken weeks now happen in an afternoon.</span>
+                            </div>
+                            <div class="story-proof-card" data-color="amber">
+                                <span class="proof-card-icon">&#128640;</span>
+                                <strong>Useful output</strong>
+                                <span>Websites, workflows, and businesses&mdash;not just experiments.</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- RIGHT COLUMN: Insight Cards -->
+                    <div class="story-right">
+                        <div class="story-insight-card" data-theme="people">
+                            <span class="insight-icon">&#128101;</span>
+                            <div class="insight-body">
+                                <h3>I&rsquo;m not the exception</h3>
+                                <p>Most people assume AI is for programmers or big companies. I&rsquo;m proof that regular people can use it to do meaningful work.</p>
+                            </div>
+                        </div>
+
+                        <div class="story-insight-card" data-theme="partner">
+                            <span class="insight-icon">&#129302;</span>
+                            <div class="insight-body">
+                                <h3>AI didn&rsquo;t do it for me</h3>
+                                <p>It gave me a thinking partner&mdash;one that could help me research, draft, iterate, and learn faster than I ever could alone.</p>
+                            </div>
+                        </div>
+
+                        <div class="story-insight-card" data-theme="practical">
+                            <span class="insight-icon">&#128736;</span>
+                            <div class="insight-body">
+                                <h3>That&rsquo;s what this talk is about</h3>
+                                <p>Not hype, not fear. Practical tools you can start using this week to make your own work easier and better.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FULL-WIDTH QUOTE -->
+                    <div class="story-quote-section">
+                        <div class="quote-block">
+                            <span class="quote-mark-open">&ldquo;</span>
+                            AI didn&rsquo;t make me smarter. It made me willing to try things I used to think were out of my league.
+                            <span class="quote-mark-close">&rdquo;</span>
+                            <div class="quote-attribution">Adam Gurski</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== SLIDE 3: SCIENCE PROOF ===== -->
+        <div class="slide" data-slide="2">
+            <div class="slide-inner">
+                <div class="slide-number anim anim-1">02 / Science Proof</div>
+                <h2 class="anim anim-2" style="margin-bottom: 8px;">AI is accelerating Nobel-scale discovery</h2>
+                <p class="subtitle anim anim-3" style="margin-bottom: 20px; max-width: 42ch;">If AI can help decode
+                    proteins, discover materials, and speed up weather prediction, it is worth taking seriously in daily
+                    work too.</p>
+                <div class="science-timeline anim anim-4">
+                    <div class="timeline-axis"></div>
+                    
+                    <div class="timeline-node" style="--node-color: #06b6d4;">
+                        <div class="node-top">
+                            <div class="node-badge">CHEMISTRY NOBEL 2024</div>
+                        </div>
+                        <div class="node-graphic">
+                            <div class="core-glow"></div>
+                            <div id="p5-box-1" class="p5-canvas-container"></div>
+                        </div>
+                        <div class="node-bottom">
+                            <div class="node-title">AlphaFold</div>
+                            <p>Demis Hassabis and John Jumper were recognized for showing that AI could solve a decades-old protein-structure challenge at scientific scale.</p>
+                            <div class="node-note">Protein prediction moved from bottleneck to platform.</div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-node" style="--node-color: #8b5cf6;">
+                        <div class="node-top">
+                            <div class="node-badge">MATERIALS DISCOVERY</div>
+                        </div>
+                        <div class="node-graphic">
+                            <div class="core-glow"></div>
+                            <div id="p5-box-2" class="p5-canvas-container"></div>
+                        </div>
+                        <div class="node-bottom">
+                            <div class="node-title">2.2 million</div>
+                            <p>AI systems such as GNoME proposed 2.2 million candidate crystals, including hundreds of thousands of stable materials worth investigating.</p>
+                            <div class="node-note">Search space that would take humans generations to comb through.</div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-node" style="--node-color: #f59e0b;">
+                        <div class="node-top">
+                            <div class="node-badge">FROM LAB TO FORECAST</div>
+                        </div>
+                        <div class="node-graphic">
+                            <div class="core-glow"></div>
+                            <div id="p5-box-3" class="p5-canvas-container"></div>
+                        </div>
+                        <div class="node-bottom">
+                            <div class="node-title">Faster</div>
+                            <p>AI-assisted drug design, astronomy analysis, and weather models are changing how researchers move from raw complexity to usable answers.</p>
+                            <div class="node-note">The pattern is speed plus scale, not just hype.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== SLIDE 4: EDUCATION PROOF ===== -->
+        <div class="slide" data-slide="3">
+            <div class="slide-inner">
+                <div class="slide-number anim anim-1">03 / Education Proof</div>
+                <h2 class="anim anim-2" style="margin-bottom: 8px;">What the evidence actually says</h2>
+                <p class="subtitle anim anim-3" style="margin-bottom: 20px; max-width: 46ch;">The best research does
+                    not say “AI is magic.” It says outcomes improve when the tool, the method, and the human setup are
+                    aligned.</p>
+                <div class="evidence-grid anim anim-4">
+                    <div class="glass proof-card">
+                        <div class="proof-label">Meta-analysis</div>
+                        <div class="proof-number">0.86</div>
+                        <p>Recent education meta-analyses found large positive effects overall, with chatbot and
+                            generative-AI studies climbing above 1.0 in some settings.</p>
+                        <div class="proof-note">Signal: strong upside, but context matters.</div>
+                    </div>
+                    <div class="glass proof-card">
+                        <div class="proof-label">Harvard physics trial</div>
+                        <div class="proof-number">4.5 vs 3.5</div>
+                        <p>The Harvard physics trial showed a pedagogically tuned AI tutor outperforming the same
+                            students&apos; classroom condition on post-test mastery.</p>
+                        <div class="proof-note">Structure and scaffolding mattered more than novelty.</div>
+                    </div>
+                    <div class="glass proof-card">
+                        <div class="proof-label">Human-AI hybrid</div>
+                        <div class="proof-number">Stanford Tutor CoPilot</div>
+                        <p>Stanford Tutor CoPilot improved student mastery most for less-experienced tutors, suggesting
+                            AI can raise the floor when humans stay in the loop.</p>
+                        <div class="proof-note">Use AI to augment expertise, not bypass it.</div>
+                    </div>
+                </div>
+                <div class="proof-banner anim anim-5">
+                    <div class="glass">
+                        <strong>structured use helps</strong>
+                        <p>Prompting, tutoring, and workflow gains are strongest when the activity is clearly staged and
+                            the human still owns the judgment.</p>
+                    </div>
+                    <div class="glass">
+                        <strong>unstructured use can backfire</strong>
+                        <p>Students can perform worse later when AI removes the productive struggle instead of supporting
+                            it. Technique is part of the outcome.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== SLIDE 5: TOOL MAP ===== -->
+        <div class="slide" data-slide="4">
+            <div class="slide-inner">
+                <div class="slide-number anim anim-1">04 / Overview</div>
+                <h2 class="anim anim-2" style="margin-bottom: 8px;">A simple map of the tool landscape</h2>
+                <p class="subtitle anim anim-3" style="margin-bottom: 20px; max-width: 42ch;">Think of AI as a
+                    spectrum. Start broad when you need help thinking. Move narrower when the job demands research,
+                    grounding, or specialized reasoning.</p>
+                <div class="spectrum-shell anim anim-4">
+                    <div class="spectrum-header">
+                        <span class="badge badge-blue">Broad assistants</span>
+                        <span class="badge badge-purple">Specialist tools</span>
+                    </div>
+                    <div class="spectrum-bar">
+                        <div class="glass spectrum-node">
+                            <div class="spectrum-step">Start here</div>
+                            <h3>General chat</h3>
+                            <p>Brainstorm, write, plan, summarize, and ask “where do I even begin?” questions.</p>
+                        </div>
+                        <div class="glass spectrum-node">
+                            <div class="spectrum-step">Add leverage</div>
+                            <h3>Creative and coding</h3>
+                            <p>Generate visuals, iterate on code, and produce first drafts faster than blank-page work.</p>
+                        </div>
+                        <div class="glass spectrum-node">
+                            <div class="spectrum-step">Tighter focus</div>
+                            <h3>Research and source work</h3>
+                            <p>Use tools built for citations, documents, and context windows when accuracy matters.</p>
+                        </div>
+                        <div class="glass spectrum-node">
+                            <div class="spectrum-step">Narrow specialist</div>
+                            <h3>Reasoning and private analysis</h3>
+                            <p>Bring in specialist models when you need deeper problem-solving or grounded internal data
+                                work.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== SLIDE 6: BIG THREE ===== -->
+        <div class="slide" data-slide="5">
+            <div class="slide-inner">
+                <div class="slide-number anim anim-1">05 / Core Assistants</div>
+                <h2 class="anim anim-2" style="margin-bottom: 8px;">Meet the Big Three</h2>
+                <p class="subtitle anim anim-3" style="margin-bottom: 20px;">Three leading general-purpose AI
+                    assistants available today.</p>
+                <div class="card-grid card-grid-3 anim anim-4">
+                    <div class="glass tool-card">
+                        <div class="tool-icon" style="background:rgba(16,163,127,0.15); color:#10a37f;">
+                            <img src="assets/logos/chatgpt.svg" alt="ChatGPT logo" class="brand-logo tool-logo">
+                        </div>
+                        <h3>ChatGPT</h3>
+                        <div class="tool-label">OpenAI &middot; GPT-5 family</div>
+                        <span class="badge badge-green" style="margin-bottom: 10px;">The All-Rounder</span>
+                        <p>Strong for writing, coding, data analysis, multimodal work, and general-purpose problem
+                            solving.</p>
+                        <p
+                            style="margin-top:8px;font-size:13px;color:var(--text-dim);font-family:'JetBrains Mono',monospace;">
+                            Free plan available &bull; Plus $20/mo &bull; Pro $200/mo</p>
+                    </div>
+                    <div class="glass tool-card">
+                        <div class="tool-icon" style="background:rgba(139,92,246,0.15); color:#8b5cf6;">
+                            <img src="assets/logos/claude.svg" alt="Claude logo" class="brand-logo tool-logo">
+                        </div>
+                        <h3>Claude</h3>
+                        <div class="tool-label">Anthropic &middot; Claude Sonnet 4.6</div>
+                        <span class="badge badge-purple" style="margin-bottom: 10px;">The Writer / Coder</span>
+                        <p>Excellent for long-form writing, careful reasoning, coding, and structured professional
+                            work.</p>
+                        <p
+                            style="margin-top:8px;font-size:13px;color:var(--text-dim);font-family:'JetBrains Mono',monospace;">
+                            Free plan available &bull; Pro $20/mo &bull; higher-tier plans available</p>
+                    </div>
+                    <div class="glass tool-card">
+                        <div class="tool-icon" style="background:rgba(59,130,246,0.15); color:#3b82f6;">
+                            <img src="assets/logos/gemini.svg" alt="Gemini logo" class="brand-logo tool-logo">
+                        </div>
+                        <h3>Gemini</h3>
+                        <div class="tool-label">Google &middot; Gemini</div>
+                        <span class="badge badge-blue" style="margin-bottom: 10px;">The Integrator</span>
+                        <p>Strong for Google ecosystem workflows, long-context tasks, multimodal assistance, and
+                            Search-connected answers.</p>
+                        <p
+                            style="margin-top:8px;font-size:13px;color:var(--text-dim);font-family:'JetBrains Mono',monospace;">
+                            Free tier available &bull; Google AI plans available</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== SLIDE 7: SPECIALISTS ===== -->
+        <div class="slide" data-slide="6">
+            <div class="slide-inner">
+                <div class="slide-number anim anim-1">06 / Specialists</div>
+                <h2 class="anim anim-2" style="margin-bottom: 8px;">When the job gets narrower</h2>
+                <p class="subtitle anim anim-3" style="margin-bottom: 16px;">Focused tools for research, grounded
+                    documents, and reasoning-heavy work.</p>
+                <div class="card-grid card-grid-2 anim anim-4">
+                    <div class="glass tool-card">
+                        <div class="tool-icon" style="background:rgba(6,182,212,0.15); color:#06b6d4;">
+                            <img src="assets/logos/perplexity.svg" alt="Perplexity logo" class="brand-logo tool-logo">
+                        </div>
+                        <h3>Perplexity</h3>
+                        <div class="tool-label">The Research Assistant</div>
+                        <p>Direct answers with citations and live web search.</p>
+                        <a href="https://perplexity.ai" target="_blank"
+                            style="display:inline-block; margin-top:8px; font-size:13px; color:var(--accent); text-decoration:none; font-family:'JetBrains Mono',monospace;">→
+                            perplexity.ai</a>
+                    </div>
+                    <div class="glass tool-card">
+                        <div class="tool-icon" style="background:rgba(245,158,11,0.15); color:#f59e0b;">
+                            <img src="assets/logos/notebooklm.svg" alt="NotebookLM logo" class="brand-logo tool-logo">
+                        </div>
+                        <h3>NotebookLM</h3>
+                        <div class="tool-label">The Private Analyst</div>
+                        <p>Ask grounded questions against your own sources, notes, and files.</p>
+                        <a href="https://notebooklm.google.com" target="_blank"
+                            style="display:inline-block; margin-top:8px; font-size:13px; color:var(--accent); text-decoration:none; font-family:'JetBrains Mono',monospace;">→
+                            notebooklm.google.com</a>
+                    </div>
+                    <div class="glass tool-card">
+                        <div class="tool-icon" style="background:rgba(59,130,246,0.15); color:#3b82f6;">
+                            <img src="assets/logos/deepseek.svg" alt="DeepSeek logo" class="brand-logo tool-logo">
+                        </div>
+                        <h3>DeepSeek</h3>
+                        <div class="tool-label">The Reasoning Engine</div>
+                        <p>Reasoning-first help for coding, math, and technical problem-solving.</p>
+                        <a href="https://chat.deepseek.com" target="_blank"
+                            style="display:inline-block; margin-top:8px; font-size:13px; color:var(--accent); text-decoration:none; font-family:'JetBrains Mono',monospace;">→
+                            chat.deepseek.com</a>
+                    </div>
+                    <div class="glass tool-card">
+                        <div class="tool-icon" style="background:rgba(239,68,68,0.15); color:#ef4444;">
+                            <img src="assets/logos/grok.svg" alt="Grok logo" class="brand-logo tool-logo">
+                        </div>
+                        <h3>Grok</h3>
+                        <div class="tool-label">The Real-Time Companion</div>
+                        <p>Useful for live trends, current events, and public-web signal.</p>
+                        <a href="https://grok.x.ai" target="_blank"
+                            style="display:inline-block; margin-top:8px; font-size:13px; color:var(--accent); text-decoration:none; font-family:'JetBrains Mono',monospace;">→
+                            grok.x.ai</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== SLIDE 8: APPLICATIONS ===== -->
+        <div class="slide" data-slide="7">
+            <div class="slide-inner">
+                <div class="slide-number anim anim-1">07 / Applications</div>
+                <h2 class="anim anim-2" style="margin-bottom: 8px;">Where this gets useful fast</h2>
+                <p class="subtitle anim anim-3" style="margin-bottom: 20px; max-width: 44ch;">The point is not to learn
+                    every tool. The point is to spot the first place AI can save you time, unblock you, or help you make
+                    something real.</p>
+                <div class="use-case-groups anim anim-4">
+                    <div class="glass use-case-cluster">
+                        <div class="cluster-label">Local business</div>
+                        <p class="cluster-intro">Use AI to move faster on customer-facing work you already understand.</p>
+                        <div class="cluster-list">
+                            <div class="cluster-point">
+                                <div class="use-icon"><img src="assets/images/generated/practical-use-cases-logos-v1/hospitality_logo-01.png" alt="Hospitality logo" class="use-icon-image"></div>
+                                <div><h3>Hospitality and retail</h3><p>Draft guest replies, create offers, and turn rough ideas into usable marketing copy.</p></div>
+                            </div>
+                            <div class="cluster-point">
+                                <div class="use-icon"><img src="assets/images/generated/practical-use-cases-logos-v1/trades_logo-01.png" alt="Trades logo" class="use-icon-image"></div>
+                                <div><h3>Trades and services</h3><p>Estimate materials, draft bids, and troubleshoot with photos before you burn time on the wrong lead.</p></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="glass use-case-cluster">
+                        <div class="cluster-label">Learning and research</div>
+                        <p class="cluster-intro">Use AI to compress reading time and surface the next right question.</p>
+                        <div class="cluster-list">
+                            <div class="cluster-point">
+                                <div class="use-icon"><img src="assets/images/generated/practical-use-cases-logos-v1/libraries_logo-01.png" alt="Libraries logo" class="use-icon-image"></div>
+                                <div><h3>Study and synthesis</h3><p>Summarize documents, build reading lists, and turn dense sources into clean briefings.</p></div>
+                            </div>
+                            <div class="cluster-point">
+                                <div class="use-icon"><img src="assets/images/generated/practical-use-cases-logos-v1/education_logo-01.png" alt="Education logo" class="use-icon-image"></div>
+                                <div><h3>Tutoring support</h3><p>Create study guides, practice explanations, and break hard material into staged learning steps.</p></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="glass use-case-cluster">
+                        <div class="cluster-label">Career and work</div>
+                        <p class="cluster-intro">Use AI to sharpen communication, preparation, and follow-through.</p>
+                        <div class="cluster-list">
+                            <div class="cluster-point">
+                                <div class="use-icon"><img src="assets/images/generated/practical-use-cases-logos-v1/job_seekers_logo-01.png" alt="Job seekers logo" class="use-icon-image"></div>
+                                <div><h3>Job search</h3><p>Tailor resumes, practice interviews, and research companies without starting from a blank page each time.</p></div>
+                            </div>
+                            <div class="cluster-point">
+                                <div class="use-icon"><img src="assets/images/generated/practical-use-cases-logos-v1/legal_logo-01.png" alt="Legal logo" class="use-icon-image"></div>
+                                <div><h3>Knowledge work</h3><p>Review documents, draft correspondence, and summarize long threads into next actions.</p></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="glass use-case-cluster">
+                        <div class="cluster-label">Personal projects</div>
+                        <p class="cluster-intro">Use AI to turn curiosity into finished experiments instead of abandoned tabs.</p>
+                        <div class="cluster-list">
+                            <div class="cluster-point">
+                                <div class="use-icon"><img src="assets/images/generated/practical-use-cases-logos-v1/local_news_logo-01.png" alt="Local news logo" class="use-icon-image"></div>
+                                <div><h3>Independent research</h3><p>Track local issues, compare sources, and turn scattered notes into a clear point of view.</p></div>
+                            </div>
+                            <div class="cluster-point">
+                                <div class="use-icon"><img src="assets/images/generated/practical-use-cases-logos-v1/real_estate_logo-01.png" alt="Real estate logo" class="use-icon-image"></div>
+                                <div><h3>Build-for-yourself projects</h3><p>Draft plans, create visuals, and prototype ideas that would have felt out of reach before.</p></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== SLIDE 9: PROMPT LAB ===== -->
+        <div class="slide" data-slide="8">
+            <div class="slide-inner">
+                <div class="slide-number anim anim-1">08 / Prompt Lab</div>
+                <h2 class="anim anim-2" style="margin-bottom: 8px;">Prompt Lab</h2>
+                <p class="subtitle anim anim-3" style="margin-bottom: 12px; max-width: 46ch;">The workshop payoff:
+                    technique changes output. The framework stays compact up top while the live specimen stays big
+                    enough to actually use.</p>
+                <div class="prompt-mode-row anim anim-4">
+                    <div class="prompt-mode-pills">
+                        <span class="prompt-mode-pill">Teach mode</span>
+                        <span class="prompt-mode-pill">Operator mode</span>
+                    </div>
+                    <div class="prompt-focus-readout">Teach mode spotlight: <strong id="promptTeachFocus">Role</strong></div>
+                </div>
+                <div class="anim anim-4 prompt-formula-grid prompt-framework-strip">
+                    <div class="glass formula-block" data-prompt-part="role">
+                        <div class="formula-icon">01</div>
+                        <div>
+                            <div class="formula-label" style="color: #9fc7ff;">Role</div>
+                            <div class="formula-text" id="promptRoleBoxText">Tell the AI who to be and what expertise to borrow.</div>
+                        </div>
+                    </div>
+                    <div class="glass formula-block" data-prompt-part="task">
+                        <div class="formula-icon">02</div>
+                        <div>
+                            <div class="formula-label" style="color: #34d399;">Task</div>
+                            <div class="formula-text" id="promptTaskBoxText">State exactly what you need it to do for you right now.</div>
+                        </div>
+                    </div>
+                    <div class="glass formula-block" data-prompt-part="context">
+                        <div class="formula-icon">03</div>
+                        <div>
+                            <div class="formula-label" style="color: #fbbf24;">Context</div>
+                            <div class="formula-text" id="promptContextBoxText">Supply the facts, constraints, and audience so it does not guess badly.</div>
+                        </div>
+                    </div>
+                    <div class="glass formula-block" data-prompt-part="format">
+                        <div class="formula-icon">04</div>
+                        <div>
+                            <div class="formula-label" style="color: #ff9b80;">Format</div>
+                            <div class="formula-text" id="promptFormatBoxText">Ask for the shape of answer you want to receive back.</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="prompt-example prompt-stage-panel anim anim-5">
+                    <div class="prompt-stage-toolbar">
+                        <div class="prompt-heading">LIVE SPECIMEN</div>
+                        <div class="prompt-focus-readout">Operator mode: full packet stays live for the demo.</div>
+                    </div>
+                    <div class="prompt-meta-row">
+                        <div class="prompt-chips">
+                            <span class="prompt-chip" id="promptCategory">Deep Research</span>
+                            <span class="prompt-chip platform-chip" id="promptPlatform">
+                                <img class="platform-logo" id="promptPlatformLogo" src="assets/logos/chatgpt.svg"
+                                    alt="ChatGPT logo">
+                                <span id="promptPlatformLabel">ChatGPT</span>
+                            </span>
+                            <span class="prompt-chip prompt-chip-counter" id="promptCounter">1 / 9</span>
+                        </div>
+                    </div>
+                    <div class="prompt-legend">
+                        <span class="prompt-role" data-prompt-part="role">Role</span>
+                        <span class="prompt-task" data-prompt-part="task">Task</span>
+                        <span class="prompt-context" data-prompt-part="context">Context</span>
+                        <span class="prompt-format" data-prompt-part="format">Format</span>
+                    </div>
+                    <div class="prompt-text" id="promptText" aria-live="polite"></div>
+                    <div class="prompt-controls">
+                        <button class="prompt-control-btn" id="promptPrevBtn" type="button">&larr; Prev Prompt</button>
+                        <button class="prompt-control-btn" id="promptCopyPacketBtn" type="button">Copy Demo Packet</button>
+                        <button class="prompt-control-btn" id="promptNextBtn" type="button">Next Prompt &rarr;</button>
+                    </div>
+                    <div class="prompt-data-hint" id="promptDataHint">One click copies a run packet with only the
+                        prompt and inputs required for the selected demo.</div>
+                    <div class="prompt-run-guide" id="promptRunGuide">Quick run: open a fresh chat, add only listed
+                        inputs, paste the copied packet, and run.</div>
+                    <div class="prompt-asset-gallery" id="promptAssetGallery" style="display:none;"></div>
+                    <div class="prompt-copy-status" id="promptCopyStatus" aria-live="polite"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== SLIDE 10: SAFETY ===== -->
+        <div class="slide" data-slide="9">
+            <div class="slide-inner">
+                <div class="slide-number anim anim-1">09 / Safety</div>
+                <h2 class="anim anim-2" style="margin-bottom: 8px;">Use it boldly, use it responsibly</h2>
+                <p class="subtitle anim anim-3" style="margin-bottom: 20px; max-width: 42ch;">A good AI workflow keeps
+                    momentum high without pretending the tool is infallible.</p>
+                <div class="card-grid safety-grid anim anim-4">
+                    <div class="glass safety-item">
+                        <div class="safety-icon">
+                            <img src="assets/images/generated/safety-ethics-logos-v2/privacy_first_logo-02-01.png"
+                                alt="Privacy First icon" class="safety-icon-image">
+                        </div>
+                        <div>
+                            <h3>Protect sensitive data</h3>
+                            <p>Do not paste passwords, SSNs, or confidential records into consumer chat tools. Business
+                                and API products often have different privacy defaults.</p>
+                        </div>
+                    </div>
+                    <div class="glass safety-item">
+                        <div class="safety-icon">
+                            <img src="assets/images/generated/safety-ethics-logos-v2/verify_everything_logo-02-01.png"
+                                alt="Verify Everything icon" class="safety-icon-image">
+                        </div>
+                        <div>
+                            <h3>Verify important claims</h3>
+                            <p>Dates, statistics, citations, and legal or medical guidance still need human checking
+                                before you trust them.</p>
+                        </div>
+                    </div>
+                    <div class="glass safety-item">
+                        <div class="safety-icon">
+                            <img src="assets/images/generated/safety-ethics-logos-v2/disclose_ai_use_logo-02-01.png"
+                                alt="Disclose AI Use icon" class="safety-icon-image">
+                        </div>
+                        <div>
+                            <h3>Disclose meaningful AI help</h3>
+                            <p>Be honest when AI shaped work you are presenting professionally, academically, or publicly.
+                                Trust is worth keeping.</p>
+                        </div>
+                    </div>
+                    <div class="glass safety-item">
+                        <div class="safety-icon">
+                            <img src="assets/images/generated/safety-ethics-logos-v2/think_critically_logo-02-01.png"
+                                alt="Think critically icon" class="safety-icon-image">
+                        </div>
+                        <div>
+                            <h3>Human review is a feature</h3>
+                            <p>Use AI to accelerate thinking, not replace it. The strongest results still come from human
+                                judgment plus AI leverage.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== SLIDE 11: TONIGHT ACTION ===== -->
+        <div class="slide" data-slide="10">
+            <div class="slide-inner" style="text-align: center;">
+                <div class="slide-number anim anim-1">10 / Tonight</div>
+                <h2 class="anim anim-2" style="margin-bottom: 8px;">Try one thing tonight</h2>
+                <p class="subtitle anim anim-3"
+                    style="margin-bottom: 24px; max-width: 760px; margin-left:auto; margin-right:auto;">You do not need
+                    a giant system to start. Pick one useful first win and let that change what feels possible next.</p>
+                <div class="cta-grid anim anim-4" style="margin-bottom: 18px;">
+                    <a href="https://perplexity.ai" target="_blank" class="glass link-card tonight-card">
+                        <div class="link-icon"><img src="assets/logos/perplexity.svg" alt="Perplexity logo"
+                                class="brand-logo link-logo"></div>
+                        <div style="text-align:left;">
+                            <div class="link-label">Ask one research question</div>
+                            <div class="link-url">Perplexity &middot; get citations instead of ten blue links</div>
+                        </div>
+                    </a>
+                    <a href="https://notebooklm.google.com" target="_blank" class="glass link-card tonight-card">
+                        <div class="link-icon"><img src="assets/logos/notebooklm.svg" alt="NotebookLM logo"
+                                class="brand-logo link-logo"></div>
+                        <div style="text-align:left;">
+                            <div class="link-label">Upload one document</div>
+                            <div class="link-url">NotebookLM &middot; turn your own material into a briefing</div>
+                        </div>
+                    </a>
+                    <a href="https://chatgpt.com" target="_blank" class="glass link-card tonight-card">
+                        <div class="link-icon"><img src="assets/logos/chatgpt.svg" alt="ChatGPT logo"
+                                class="brand-logo link-logo"></div>
+                        <div style="text-align:left;">
+                            <div class="link-label">Start one practical conversation</div>
+                            <div class="link-url">ChatGPT &middot; ask for help on a real task you already care about</div>
+                        </div>
+                    </a>
+                </div>
+                <div class="glass contact-panel secondary-contact-panel anim anim-5">
+                    <h3>Questions? Let's connect.</h3>
+                    <div class="contact-bar">
+                        <div class="contact-item"><span>📧</span> <a class="contact-link"
+                                href="mailto:Adam88gur@gmail.com">Adam88gur@gmail.com</a></div>
+                        <div class="contact-item"><span>📸</span> <a class="contact-link"
+                                href="https://www.instagram.com/gingerbot5000/" target="_blank"
+                                rel="noopener noreferrer">@Gingerbot5000</a></div>
+                    </div>
+                    <p class="contact-note">Contact stays secondary. Tonight&apos;s goal is one useful first win.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== NAVIGATION BAR ===== -->
+    <div class="nav-bar">
+        <div class="nav-group nav-left">
+            <a class="nav-btn nav-back-btn" href="/">↩ Back</a>
+            <button class="nav-btn" id="prevBtn" disabled>← Prev</button>
+        </div>
+        <div class="nav-group nav-center">
+            <div class="dots" id="dots"></div>
+            <span class="nav-indicator" id="navIndicator">1 / 11</span>
+        </div>
+        <div class="nav-group nav-right">
+            <button class="nav-btn" id="nextBtn">Next →</button>
+        </div>
+    </div>
+
+    <script src="assets/data/ai101-demo-prompt-catalog.js"></script>
+    <script>
+        // ===== SLIDE ENGINE =====
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        let current = 0;
+
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const progress = document.getElementById('progress');
+        const navIndicator = document.getElementById('navIndicator');
+        const dotsContainer = document.getElementById('dots');
+        const navBar = document.querySelector('.nav-bar');
+        const navBackBtn = document.querySelector('.nav-back-btn');
+        const compactNavQuery = window.matchMedia('(max-width: 520px)');
+        const promptText = document.getElementById('promptText');
+        const promptCategory = document.getElementById('promptCategory');
+        const promptPlatform = document.getElementById('promptPlatform');
+        const promptPlatformLogo = document.getElementById('promptPlatformLogo');
+        const promptPlatformLabel = document.getElementById('promptPlatformLabel');
+        const promptCounter = document.getElementById('promptCounter');
+        const promptPrevBtn = document.getElementById('promptPrevBtn');
+        const promptNextBtn = document.getElementById('promptNextBtn');
+        const promptCopyPacketBtn = document.getElementById('promptCopyPacketBtn');
+        const promptDataHint = document.getElementById('promptDataHint');
+        const promptRunGuide = document.getElementById('promptRunGuide');
+        const promptAssetGallery = document.getElementById('promptAssetGallery');
+        const promptCopyStatus = document.getElementById('promptCopyStatus');
+        const promptRoleBoxText = document.getElementById('promptRoleBoxText');
+        const promptTaskBoxText = document.getElementById('promptTaskBoxText');
+        const promptContextBoxText = document.getElementById('promptContextBoxText');
+        const promptFormatBoxText = document.getElementById('promptFormatBoxText');
+        const promptTeachFocus = document.getElementById('promptTeachFocus');
+        const promptFormulaBlocks = document.querySelectorAll('.formula-block[data-prompt-part]');
+        const promptLegendItems = document.querySelectorAll('.prompt-legend [data-prompt-part]');
+        let promptIndex = 0;
+
+        function updateNavButtons() {
+            const compact = compactNavQuery.matches;
+            const isLastSlide = current === totalSlides - 1;
+
+            if (navBackBtn) {
+                navBackBtn.textContent = compact ? '↩' : '↩ Back';
+            }
+
+            if (prevBtn) {
+                prevBtn.textContent = compact ? '←' : '← Prev';
+            }
+
+            if (nextBtn) {
+                if (isLastSlide) {
+            nextBtn.textContent = compact ? 'Done' : 'Finish';
+                } else {
+                    nextBtn.innerHTML = compact ? '→' : 'Next →';
+                }
+            }
+        }
+
+        function syncNavHeight() {
+            if (!navBar) return;
+            const navHeight = Math.ceil(navBar.getBoundingClientRect().height);
+            if (navHeight > 0) {
+                document.documentElement.style.setProperty('--nav-height', navHeight + 'px');
+            }
+        }
+
+        const promptLibrary = Array.isArray(window.ai101DemoPromptCatalog)
+            ? window.ai101DemoPromptCatalog.slice()
+            : [];
+
+        const promptTypeLabels = {
+            text_only: 'Text Only',
+            search_backed: 'Search Backed',
+            mock_data: 'Mock Data',
+            image_edit_single: 'Image Edit (Single Image)',
+            animation_start_end: 'Animation (Start + End Frame)'
+        };
+        const promptFocusOrder = ['role', 'task', 'context', 'format'];
+
+        function escapeHtml(text) {
+            return String(text)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        function getPlatformLogo(platform) {
+            const normalized = String(platform || '').toLowerCase();
+
+            if (normalized.includes('chatgpt') || normalized.includes('gpt')) {
+                return 'assets/logos/chatgpt.svg';
+            }
+            if (normalized.includes('gemini')) {
+                return 'assets/logos/gemini.svg';
+            }
+            if (normalized.includes('claude')) {
+                return 'assets/logos/claude.svg';
+            }
+            if (normalized.includes('deepseek')) {
+                return 'assets/logos/deepseek.svg';
+            }
+            if (normalized.includes('perplexity')) {
+                return 'assets/logos/perplexity.svg';
+            }
+
+            return '';
+        }
+
+        function getPromptTypeLabel(promptType) {
+            return promptTypeLabels[promptType] || 'Text Only';
+        }
+
+        function setPromptFocus(part) {
+            const activePart = promptFocusOrder.includes(part) ? part : promptFocusOrder[0];
+
+            promptFormulaBlocks.forEach((block) => {
+                block.classList.toggle('prompt-focus-active', block.getAttribute('data-prompt-part') === activePart);
+            });
+
+            promptLegendItems.forEach((item) => {
+                item.classList.toggle('prompt-focus-active', item.getAttribute('data-prompt-part') === activePart);
+            });
+
+            if (promptTeachFocus) {
+                promptTeachFocus.textContent = activePart.charAt(0).toUpperCase() + activePart.slice(1);
+            }
+        }
+
+        function toAssetUrl(assetPath) {
+            const normalized = String(assetPath || '').replace(/\\/g, '/');
+            const marker = '/04_projects/ai-101/';
+            const markerIndex = normalized.toLowerCase().indexOf(marker.toLowerCase());
+
+            if (markerIndex >= 0) {
+                return normalized.slice(markerIndex + marker.length);
+            }
+
+            if (/^https?:\/\//i.test(normalized)) {
+                return normalized;
+            }
+
+            if (normalized.startsWith('/')) {
+                return normalized.replace(/^\/+/, '');
+            }
+
+            return normalized;
+        }
+
+        function getAssetFilename(assetPath) {
+            const normalized = String(assetPath || '').replace(/\\/g, '/');
+            const parts = normalized.split('/').filter(Boolean);
+            return parts.length ? parts[parts.length - 1] : 'attachment';
+        }
+
+        function buildRunGuideSummary(item) {
+            const platformName = item.platform || 'your preferred assistant';
+            const extras = [];
+
+            if (Array.isArray(item.requiredAssets) && item.requiredAssets.length) {
+                extras.push('upload REQUIRED ATTACHMENTS (use preview cards for image copy/download)');
+            }
+            if (Array.isArray(item.searchQueries) && item.searchQueries.length) {
+                extras.push('run LIVE SEARCH INPUTS and paste sourced findings with dates');
+            }
+            if (typeof item.mockData === 'string' && item.mockData.trim()) {
+                extras.push('paste OFFLINE MOCK INPUTS');
+            }
+
+            if (!extras.length) {
+                return 'Quick run: open a fresh chat in ' + platformName + ', paste PROMPT TO PASTE, and run. Copy Demo Packet includes prompt text only.';
+            }
+
+            return 'Quick run: open a fresh chat in ' + platformName + ', ' + extras.join('; ') + ', then paste PROMPT TO PASTE and run. Copy Demo Packet includes prompt text plus listed input blocks only.';
+        }
+
+        function updatePromptRunGuide(item) {
+            if (!promptRunGuide || !item) return;
+            promptRunGuide.textContent = buildRunGuideSummary(item);
+        }
+
+        function updatePromptPacketHint(item) {
+            if (!promptDataHint || !item) return;
+
+            const details = [getPromptTypeLabel(item.promptType)];
+            if (Array.isArray(item.requiredAssets) && item.requiredAssets.length) {
+                details.push(item.requiredAssets.length + ' attachment' + (item.requiredAssets.length === 1 ? '' : 's'));
+            }
+            if (Array.isArray(item.searchQueries) && item.searchQueries.length) {
+                details.push(item.searchQueries.length + ' live search quer' + (item.searchQueries.length === 1 ? 'y' : 'ies'));
+            }
+            if (typeof item.mockData === 'string' && item.mockData.trim()) {
+                details.push('offline mock input included');
+            }
+            if (item.optionalKreaStarter) {
+                details.push('optional Krea starter prompt');
+            }
+
+            promptDataHint.textContent = 'Demo packet includes: ' + details.join(', ') + '.';
+        }
+
+        async function copyImageToClipboard(assetUrl) {
+            if (!navigator.clipboard || typeof window.ClipboardItem === 'undefined') {
+                throw new Error('Clipboard image copy is not supported in this browser context.');
+            }
+
+            const response = await fetch(assetUrl, { cache: 'no-store' });
+            if (!response.ok) {
+                throw new Error('Image file could not be loaded.');
+            }
+
+            const blob = await response.blob();
+            if (!blob.type || !blob.type.startsWith('image/')) {
+                throw new Error('Attachment is not a valid image payload.');
+            }
+
+            const item = new ClipboardItem({ [blob.type]: blob });
+            await navigator.clipboard.write([item]);
+        }
+
+        function triggerBlobDownload(blob, filename) {
+            const objectUrl = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = objectUrl;
+            link.download = filename || 'attachment';
+            link.style.display = 'none';
+            document.body.appendChild(link);
+            link.click();
+            setTimeout(() => {
+                URL.revokeObjectURL(objectUrl);
+                link.remove();
+            }, 0);
+        }
+
+        function downloadBlobViaXHR(assetUrl) {
+            return new Promise((resolve, reject) => {
+                const xhr = new XMLHttpRequest();
+                xhr.open('GET', assetUrl, true);
+                xhr.responseType = 'blob';
+                xhr.onload = () => {
+                    // In file:// contexts, successful local reads often return status 0.
+                    if ((xhr.status >= 200 && xhr.status < 300) || xhr.status === 0) {
+                        if (xhr.response instanceof Blob && xhr.response.size > 0) {
+                            resolve(xhr.response);
+                            return;
+                        }
+                    }
+                    reject(new Error('XHR image download failed.'));
+                };
+                xhr.onerror = () => reject(new Error('XHR network error.'));
+                xhr.onabort = () => reject(new Error('XHR aborted.'));
+                xhr.send();
+            });
+        }
+
+        async function downloadAssetFile(assetUrl, fileName, imageEl) {
+            let blob = null;
+
+            try {
+                const response = await fetch(assetUrl, { cache: 'no-store' });
+                if (!response.ok) {
+                    throw new Error('Attachment could not be downloaded.');
+                }
+                blob = await response.blob();
+                if (!(blob instanceof Blob) || blob.size === 0) {
+                    throw new Error('Fetch returned empty image payload.');
+                }
+            } catch (fetchErr) {
+                try {
+                    blob = await downloadBlobViaXHR(assetUrl);
+                } catch (xhrErr) {
+                    // Final fallback for strict local file contexts: export from already-rendered preview image.
+                    if (imageEl) {
+                        try {
+                            if (typeof imageEl.decode === 'function') {
+                                await imageEl.decode();
+                            }
+                        } catch (decodeErr) {
+                            // Continue; image may still be drawable even if decode() rejects.
+                        }
+                    }
+
+                    if (imageEl && imageEl.complete && imageEl.naturalWidth > 0 && imageEl.naturalHeight > 0) {
+                        const canvas = document.createElement('canvas');
+                        canvas.width = imageEl.naturalWidth;
+                        canvas.height = imageEl.naturalHeight;
+                        const context2d = canvas.getContext('2d');
+                        if (!context2d) {
+                            throw xhrErr;
+                        }
+                        context2d.drawImage(imageEl, 0, 0);
+                        const exportType = /\.png$/i.test(fileName || '') ? 'image/png' : 'image/jpeg';
+                        blob = await new Promise((resolve, reject) => {
+                            canvas.toBlob((canvasBlob) => {
+                                if (!canvasBlob) {
+                                    reject(new Error('Image export failed.'));
+                                    return;
+                                }
+                                resolve(canvasBlob);
+                            }, exportType, 0.92);
+                        });
+                    } else {
+                        throw xhrErr;
+                    }
+                }
+            }
+
+            triggerBlobDownload(blob, fileName);
+        }
+
+        function renderPromptAssetGallery(promptItem) {
+            if (!promptAssetGallery) return;
+
+            const assets = Array.isArray(promptItem && promptItem.requiredAssets) ? promptItem.requiredAssets : [];
+            if (!assets.length) {
+                promptAssetGallery.style.display = 'none';
+                promptAssetGallery.innerHTML = '';
+                return;
+            }
+
+            const galleryHtml = ['<div class=\"prompt-asset-header\">Attachment Preview</div>'];
+            galleryHtml.push('<div class=\"prompt-asset-list\">');
+
+            assets.forEach((assetPath, idx) => {
+                const assetUrl = toAssetUrl(assetPath);
+                const assetHref = encodeURI(assetUrl);
+                const fileName = getAssetFilename(assetPath);
+
+                galleryHtml.push(
+                    '<div class=\"prompt-asset-card\">' +
+                    '<img class=\"prompt-asset-preview\" src=\"' + escapeHtml(assetHref) + '\" alt=\"Attachment preview ' + (idx + 1) + '\" loading=\"lazy\">' +
+                    '<div class=\"prompt-asset-body\">' +
+                    '<div class=\"prompt-asset-name\">' + escapeHtml(fileName) + '</div>' +
+                    '<div class=\"prompt-asset-actions\">' +
+                    '<button class=\"prompt-control-btn\" type=\"button\" data-action=\"copy-image\" data-asset-url=\"' + escapeHtml(assetHref) + '\">Copy Image</button>' +
+                    '<button class=\"prompt-control-btn prompt-link-btn\" type=\"button\" data-action=\"download-image\" data-asset-url=\"' + escapeHtml(assetHref) + '\" data-file-name=\"' + escapeHtml(fileName) + '\">Download</button>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>'
+                );
+            });
+
+            galleryHtml.push('</div>');
+            promptAssetGallery.innerHTML = galleryHtml.join('');
+            promptAssetGallery.style.display = 'block';
+
+            promptAssetGallery.querySelectorAll('[data-action=\"copy-image\"]').forEach((button) => {
+                button.addEventListener('click', async (event) => {
+                    event.stopPropagation();
+                    const trigger = event.currentTarget;
+                    const assetUrl = trigger.getAttribute('data-asset-url') || '';
+                    if (!assetUrl) return;
+
+                    const originalLabel = trigger.textContent;
+                    trigger.disabled = true;
+                    trigger.textContent = 'Copying...';
+
+                    try {
+                        await copyImageToClipboard(assetUrl);
+                        if (promptCopyStatus) {
+                            promptCopyStatus.textContent = 'Image copied. Paste directly into Gemini chat.';
+                        }
+                    } catch (err) {
+                        if (promptCopyStatus) {
+                            promptCopyStatus.textContent = 'Image copy is unavailable here. Use Download instead.';
+                        }
+                    } finally {
+                        trigger.disabled = false;
+                        trigger.textContent = originalLabel;
+                    }
+                });
+            });
+
+            promptAssetGallery.querySelectorAll('[data-action=\"download-image\"]').forEach((button) => {
+                button.addEventListener('click', async (event) => {
+                    event.stopPropagation();
+                    event.preventDefault();
+                    const trigger = event.currentTarget;
+                    const assetUrl = trigger.getAttribute('data-asset-url') || '';
+                    const fileName = trigger.getAttribute('data-file-name') || 'attachment';
+                    if (!assetUrl) return;
+
+                    const originalLabel = trigger.textContent;
+                    trigger.disabled = true;
+                    trigger.textContent = 'Saving...';
+
+                    try {
+                        const card = trigger.closest('.prompt-asset-card');
+                        const imageEl = card ? card.querySelector('.prompt-asset-preview') : null;
+                        await downloadAssetFile(assetUrl, fileName, imageEl);
+                        if (promptCopyStatus) {
+                            promptCopyStatus.textContent = 'Image downloaded.';
+                        }
+                    } catch (err) {
+                        if (promptCopyStatus) {
+                            promptCopyStatus.textContent = 'Download failed in this browser context.';
+                        }
+                    } finally {
+                        trigger.disabled = false;
+                        trigger.textContent = originalLabel;
+                    }
+                });
+            });
+        }
+
+        function buildPromptPacket(item) {
+            if (!item) return '';
+
+            const lines = [];
+
+            lines.push('PROMPT TO PASTE');
+            lines.push('Role: ' + item.role);
+            lines.push('Task: ' + item.task);
+            lines.push('Context: ' + item.context);
+            lines.push('Format: ' + item.format);
+
+            if (Array.isArray(item.requiredAssets) && item.requiredAssets.length) {
+                lines.push('');
+                lines.push('REQUIRED ATTACHMENTS');
+                item.requiredAssets.forEach((assetPath, idx) => {
+                    lines.push((idx + 1) + '. ' + assetPath);
+                });
+            }
+
+            if (Array.isArray(item.searchQueries) && item.searchQueries.length) {
+                lines.push('');
+                lines.push('LIVE SEARCH INPUTS');
+                item.searchQueries.forEach((query, idx) => {
+                    lines.push((idx + 1) + '. ' + query);
+                });
+            }
+
+            if (typeof item.mockData === 'string' && item.mockData.trim()) {
+                lines.push('');
+                lines.push('OFFLINE MOCK INPUTS');
+                lines.push(item.mockData);
+            }
+
+            if (item.optionalKreaStarter && typeof item.optionalKreaStarter === 'object') {
+                lines.push('');
+                lines.push('OPTIONAL STARTER IMAGE GENERATION (KREA)');
+                if (item.optionalKreaStarter.model) {
+                    lines.push('Model: ' + item.optionalKreaStarter.model);
+                }
+                if (item.optionalKreaStarter.aspectRatio) {
+                    lines.push('Aspect ratio: ' + item.optionalKreaStarter.aspectRatio);
+                }
+                if (item.optionalKreaStarter.prompt) {
+                    lines.push('Prompt: ' + item.optionalKreaStarter.prompt);
+                }
+            }
+
+            return lines.join('\n');
+        }
+
+        function renderPrompt(index) {
+            if (!promptText || !promptCategory || !promptCounter) return;
+            const item = promptLibrary[index];
+            if (!item) return;
+
+            promptCategory.textContent = item.category;
+            if (promptPlatformLabel) {
+                promptPlatformLabel.textContent = item.platform;
+            }
+
+            if (promptPlatformLogo) {
+                const logoPath = getPlatformLogo(item.platform);
+                if (logoPath) {
+                    promptPlatformLogo.src = logoPath;
+                    promptPlatformLogo.alt = item.platform + ' logo';
+                    promptPlatformLogo.style.display = 'block';
+                } else {
+                    promptPlatformLogo.removeAttribute('src');
+                    promptPlatformLogo.removeAttribute('alt');
+                    promptPlatformLogo.style.display = 'none';
+                }
+            }
+
+            promptCounter.textContent = (index + 1) + ' / ' + promptLibrary.length;
+            promptText.innerHTML =
+                '<span class="prompt-role">' + escapeHtml(item.role) + '</span> ' +
+                '<span class="prompt-task">' + escapeHtml(item.task) + '</span> ' +
+                '<span class="prompt-context">' + escapeHtml(item.context) + '</span> ' +
+                '<span class="prompt-format">' + escapeHtml(item.format) + '</span>';
+
+            if (promptRoleBoxText) promptRoleBoxText.textContent = item.role;
+            if (promptTaskBoxText) promptTaskBoxText.textContent = item.task;
+            if (promptContextBoxText) promptContextBoxText.textContent = item.context;
+            if (promptFormatBoxText) promptFormatBoxText.textContent = item.format;
+            setPromptFocus(promptFocusOrder[index % promptFocusOrder.length]);
+
+            updatePromptPacketHint(item);
+            updatePromptRunGuide(item);
+            renderPromptAssetGallery(item);
+            if (promptCopyStatus) promptCopyStatus.textContent = '';
+        }
+
+        function stepPrompt(delta) {
+            if (!promptLibrary.length) return;
+            promptIndex = (promptIndex + delta + promptLibrary.length) % promptLibrary.length;
+            renderPrompt(promptIndex);
+        }
+
+        function copyTextFallback(text) {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            textarea.setAttribute('readonly', '');
+            textarea.style.position = 'fixed';
+            textarea.style.opacity = '0';
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+        }
+
+        async function copyCurrentPromptPacket() {
+            const item = promptLibrary[promptIndex];
+            if (!item) return;
+            const packet = buildPromptPacket(item);
+
+            try {
+                if (navigator.clipboard && window.isSecureContext) {
+                    await navigator.clipboard.writeText(packet);
+                } else {
+                    copyTextFallback(packet);
+                }
+
+                if (promptCopyStatus) promptCopyStatus.textContent = 'Demo packet copied to clipboard.';
+            } catch (err) {
+                if (promptCopyStatus) promptCopyStatus.textContent = 'Copy failed. Select text and copy manually.';
+            }
+        }
+
+        if (promptPrevBtn) {
+            promptPrevBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                stepPrompt(-1);
+            });
+        }
+
+        if (promptNextBtn) {
+            promptNextBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                stepPrompt(1);
+            });
+        }
+
+        if (promptCopyPacketBtn) {
+            promptCopyPacketBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                copyCurrentPromptPacket();
+            });
+        }
+
+        renderPrompt(promptIndex);
+
+        // Create dots
+        for (let i = 0; i < totalSlides; i++) {
+            const d = document.createElement('div');
+            d.className = 'dot' + (i === 0 ? ' active' : '');
+            d.onclick = () => goTo(i);
+            dotsContainer.appendChild(d);
+        }
+
+        function goTo(n) {
+            if (n < 0 || n >= totalSlides || n === current) return;
+            const dir = n > current ? 1 : -1;
+
+            slides.forEach(s => {
+                s.classList.remove('active', 'exit-left', 'exit-right');
+            });
+
+            slides[current].classList.add(dir > 0 ? 'exit-left' : 'exit-right');
+            slides[n].classList.add('active');
+
+            current = n;
+
+            // Update UI
+            prevBtn.disabled = current === 0;
+            updateNavButtons();
+
+            if (progress) progress.style.width = ((current + 1) / totalSlides * 100) + '%';
+            if (navIndicator) navIndicator.textContent = (current + 1) + ' / ' + totalSlides;
+
+            // Update dots
+            if (dotsContainer) {
+                dotsContainer.querySelectorAll('.dot').forEach((d, i) => {
+                    d.classList.toggle('active', i === current);
+                });
+            }
+
+            syncNavHeight();
+        }
+
+        prevBtn.onclick = () => goTo(current - 1);
+        nextBtn.onclick = () => goTo(current + 1);
+
+        if (compactNavQuery.addEventListener) {
+            compactNavQuery.addEventListener('change', () => {
+                updateNavButtons();
+                syncNavHeight();
+            });
+        } else if (compactNavQuery.addListener) {
+            compactNavQuery.addListener(() => {
+                updateNavButtons();
+                syncNavHeight();
+            });
+        }
+
+        window.addEventListener('resize', () => {
+            updateNavButtons();
+            syncNavHeight();
+        }, { passive: true });
+
+        window.addEventListener('orientationchange', () => {
+            updateNavButtons();
+            syncNavHeight();
+        }, { passive: true });
+
+        if (window.visualViewport) {
+            window.visualViewport.addEventListener('resize', syncNavHeight, { passive: true });
+        }
+
+        window.addEventListener('load', () => {
+            syncNavHeight();
+            setTimeout(syncNavHeight, 250);
+            setTimeout(syncNavHeight, 900);
+        }, { once: true });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); goTo(current + 1); }
+            if (e.key === 'ArrowLeft') { e.preventDefault(); goTo(current - 1); }
+            if (e.key === 'Home') { e.preventDefault(); goTo(0); }
+            if (e.key === 'End') { e.preventDefault(); goTo(totalSlides - 1); }
+        });
+
+        // Touch swipe
+        let touchStartX = 0;
+        let touchStartY = 0;
+        let swipeArmed = false;
+
+        function isSwipeExcludedTarget(target) {
+            if (!(target instanceof Element)) return false;
+            return Boolean(target.closest('a, button, input, textarea, select, label, [contenteditable="true"], .prompt-asset-list'));
+        }
+
+        document.addEventListener('touchstart', (e) => {
+            if (!e.touches || !e.touches.length) return;
+            if (isSwipeExcludedTarget(e.target)) {
+                swipeArmed = false;
+                return;
+            }
+            touchStartX = e.touches[0].clientX;
+            touchStartY = e.touches[0].clientY;
+            swipeArmed = true;
+        }, { passive: true });
+
+        document.addEventListener('touchend', (e) => {
+            if (!swipeArmed || !e.changedTouches || !e.changedTouches.length) return;
+            swipeArmed = false;
+
+            const dx = e.changedTouches[0].clientX - touchStartX;
+            const dy = e.changedTouches[0].clientY - touchStartY;
+            const absX = Math.abs(dx);
+            const absY = Math.abs(dy);
+
+            if (absX < 56 || absX <= absY * 1.2) return;
+
+            if (dx < 0) goTo(current + 1);
+            else goTo(current - 1);
+        }, { passive: true });
+
+        document.addEventListener('touchcancel', () => {
+            swipeArmed = false;
+        }, { passive: true });
+
+        // Init progress
+        progress.style.width = (1 / totalSlides * 100) + '%';
+        updateNavButtons();
+        syncNavHeight();
+        requestAnimationFrame(syncNavHeight);
+        setTimeout(syncNavHeight, 120);
+        setTimeout(syncNavHeight, 420);
+    </script>
+    <!-- P5.js Generative Math Creatures -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+    <script>
+        const initP5Creatures = () => {
+            // Creature 1: Helix/Serpent (AlphaFold - Blue)
+            new p5((p) => {
+                let t = 0;
+                p.setup = () => { p.createCanvas(100, 100); p.noFill(); }
+                p.draw = () => {
+                    p.clear();
+                    p.translate(50, 50);
+                    p.strokeWeight(1.5);
+                    p.stroke('rgba(6, 182, 212, 0.9)');
+                    
+                    p.beginShape();
+                    for (let i = 0; i <= 40; i++) {
+                        let angle = i * 0.2 + t;
+                        let radius = 15 + p.sin(i * 0.5 - t * 2) * 12;
+                        let x = p.cos(angle) * radius;
+                        let y = p.sin(angle) * radius;
+                        p.vertex(x, y);
+                        
+                        if (i % 5 === 0) {
+                            p.push();
+                            p.strokeWeight(1);
+                            p.stroke('rgba(6, 182, 212, 0.4)');
+                            p.ellipse(x, y, 6, 6);
+                            p.pop();
+                        }
+                    }
+                    p.endShape(p.CLOSE);
+                    t += 0.02;
+                }
+            }, 'p5-box-1');
+
+            // Creature 2: Spiky Crystal (Materials - Purple)
+            new p5((p) => {
+                let t = 0;
+                p.setup = () => { p.createCanvas(100, 100); p.noFill(); }
+                p.draw = () => {
+                    p.clear();
+                    p.translate(50, 50);
+                    p.strokeWeight(1.5);
+                    p.stroke('rgba(139, 92, 246, 0.9)');
+                    
+                    p.beginShape();
+                    for (let i = 0; i <= 100; i++) {
+                        let angle = i * p.TWO_PI / 100;
+                        let r = 24 + 8 * p.sin(angle * 6 + t) + 5 * p.cos(angle * 12 - t * 1.5);
+                        p.vertex(p.cos(angle) * r, p.sin(angle) * r);
+                    }
+                    p.endShape(p.CLOSE);
+                    
+                    // Core shape
+                    p.stroke('rgba(139, 92, 246, 0.5)');
+                    p.beginShape();
+                    for (let i = 0; i <= 60; i++) {
+                        let angle = i * p.TWO_PI / 60;
+                        let r = 12 + 4 * p.sin(angle * 4 - t * 2.5);
+                        p.vertex(p.cos(angle) * r, p.sin(angle) * r);
+                    }
+                    p.endShape(p.CLOSE);
+                    t += 0.03;
+                }
+            }, 'p5-box-2');
+
+            // Creature 3: Jellyfish Flow (Forecast - Amber)
+            new p5((p) => {
+                let t = 0;
+                p.setup = () => { p.createCanvas(100, 100); p.noFill(); }
+                p.draw = () => {
+                    p.clear();
+                    p.translate(50, 50);
+                    p.strokeWeight(1.2);
+                    p.stroke('rgba(245, 158, 11, 0.7)');
+                    
+                    for(let j = 0; j < 4; j++) {
+                        p.beginShape();
+                        for (let i = 0; i <= 60; i++) {
+                            let angle = i * p.TWO_PI / 60;
+                            let offset = j * 0.8;
+                            let r = 10 + j * 7 + 8 * p.sin(angle * 3 + t + offset) * p.cos(angle * 2 - t);
+                            p.vertex(p.cos(angle) * r, p.sin(angle) * r);
+                        }
+                        p.endShape(p.CLOSE);
+                    }
+                    t += 0.02;
+                }
+            }, 'p5-box-3');
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => { if (window.p5) initP5Creatures(); }, 100);
+        });
+    </script>
+</body>
+
+</html>
+
+
+
+

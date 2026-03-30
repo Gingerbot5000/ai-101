@@ -1,0 +1,83 @@
+[
+  {
+    "id": "hospitality",
+    "category": "Hospitality",
+    "width": 1024,
+    "height": 1024,
+    "batchSize": 1,
+    "prompt": "Luxury boutique hotel reception at twilight, concierge using an AI assistant interface to draft multilingual guest messages and itinerary options, polished marble and glass, warm hospitality, subtle floating translation cues, tasteful human interaction, ultra detailed cinematic realism, iridescent liquid chrome reflections, cosmic deep field background, nebula filaments, starlight sparkle, cyan violet amber color harmony, volumetric light rays, premium presentation composition, high dynamic range, no text, no logo, no watermark",
+    "negative_prompt": "blurry, low quality, cartoon style, flat lighting, muddy colors, noisy artifacts, warped anatomy, extra limbs, bad hands, misshapen faces, text overlay, watermark, logo, frame, border"
+  },
+  {
+    "id": "real_estate",
+    "category": "Real Estate",
+    "width": 1024,
+    "height": 1024,
+    "batchSize": 1,
+    "prompt": "Real estate agent in a sunlit staged home using AI on a tablet to generate listing highlights, neighborhood comps, and marketing copy, clean architecture lines, modern furniture, trustworthy professional tone, subtle holographic data overlays, ultra detailed cinematic realism, iridescent liquid chrome reflections, cosmic deep field background, nebula filaments, starlight sparkle, cyan violet amber color harmony, volumetric light rays, premium presentation composition, high dynamic range, no text, no logo, no watermark",
+    "negative_prompt": "blurry, low quality, cartoon style, flat lighting, muddy colors, noisy artifacts, warped anatomy, extra limbs, bad hands, misshapen faces, text overlay, watermark, logo, frame, border"
+  },
+  {
+    "id": "trades",
+    "category": "Trades",
+    "width": 1024,
+    "height": 1024,
+    "batchSize": 1,
+    "prompt": "Professional tradesperson in a residential mechanical room using AI assisted AR overlays to diagnose wiring and estimate materials, tools neatly organized, safe jobsite realism, strong side lighting, precision craftsmanship, ultra detailed cinematic realism, iridescent liquid chrome reflections, cosmic deep field background, nebula filaments, starlight sparkle, cyan violet amber color harmony, volumetric light rays, premium presentation composition, high dynamic range, no text, no logo, no watermark",
+    "negative_prompt": "blurry, low quality, cartoon style, flat lighting, muddy colors, noisy artifacts, warped anatomy, extra limbs, bad hands, misshapen faces, text overlay, watermark, logo, frame, border"
+  },
+  {
+    "id": "libraries",
+    "category": "Libraries",
+    "width": 1024,
+    "height": 1024,
+    "batchSize": 1,
+    "prompt": "Public library innovation desk, librarian helping patrons with AI powered research and summary assistance, books and digital terminals combined, inclusive community atmosphere, knowledge visualized as elegant star map style connections, ultra detailed cinematic realism, iridescent liquid chrome reflections, cosmic deep field background, nebula filaments, starlight sparkle, cyan violet amber color harmony, volumetric light rays, premium presentation composition, high dynamic range, no text, no logo, no watermark",
+    "negative_prompt": "blurry, low quality, cartoon style, flat lighting, muddy colors, noisy artifacts, warped anatomy, extra limbs, bad hands, misshapen faces, text overlay, watermark, logo, frame, border"
+  },
+  {
+    "id": "retail",
+    "category": "Retail",
+    "width": 1024,
+    "height": 1024,
+    "batchSize": 1,
+    "prompt": "Independent shop owner managing inventory and product descriptions with AI, curated shelves, ecommerce and in-store workflow blended, subtle dashboard-like visual overlays for stock and campaigns, energetic commercial scene, ultra detailed cinematic realism, iridescent liquid chrome reflections, cosmic deep field background, nebula filaments, starlight sparkle, cyan violet amber color harmony, volumetric light rays, premium presentation composition, high dynamic range, no text, no logo, no watermark",
+    "negative_prompt": "blurry, low quality, cartoon style, flat lighting, muddy colors, noisy artifacts, warped anatomy, extra limbs, bad hands, misshapen faces, text overlay, watermark, logo, frame, border"
+  },
+  {
+    "id": "job_seekers",
+    "category": "Job Seekers",
+    "width": 1024,
+    "height": 1024,
+    "batchSize": 1,
+    "prompt": "Focused job seeker in a home office practicing interviews with AI coach, resume revisions on screen, confidence and momentum, desk details realistic, soft practical lighting with aspirational tone, subtle feedback graphics in air, ultra detailed cinematic realism, iridescent liquid chrome reflections, cosmic deep field background, nebula filaments, starlight sparkle, cyan violet amber color harmony, volumetric light rays, premium presentation composition, high dynamic range, no text, no logo, no watermark",
+    "negative_prompt": "blurry, low quality, cartoon style, flat lighting, muddy colors, noisy artifacts, warped anatomy, extra limbs, bad hands, misshapen faces, text overlay, watermark, logo, frame, border"
+  },
+  {
+    "id": "education",
+    "category": "Education",
+    "width": 1024,
+    "height": 1024,
+    "batchSize": 1,
+    "prompt": "Teacher leading an interactive classroom where AI creates adaptive lesson visuals and study support for diverse students, collaborative learning energy, tablets and whiteboard in use, optimistic future-ready environment, ultra detailed cinematic realism, iridescent liquid chrome reflections, cosmic deep field background, nebula filaments, starlight sparkle, cyan violet amber color harmony, volumetric light rays, premium presentation composition, high dynamic range, no text, no logo, no watermark",
+    "negative_prompt": "blurry, low quality, cartoon style, flat lighting, muddy colors, noisy artifacts, warped anatomy, extra limbs, bad hands, misshapen faces, text overlay, watermark, logo, frame, border"
+  },
+  {
+    "id": "healthcare",
+    "category": "Healthcare",
+    "width": 1024,
+    "height": 1024,
+    "batchSize": 1,
+    "prompt": "Clinician reviewing patient notes with AI summarization assistant in a modern exam room, clear empathetic doctor patient interaction, clean medical environment, calm trustworthy lighting, treatment options visualized as secure data cards, ultra detailed cinematic realism, iridescent liquid chrome reflections, cosmic deep field background, nebula filaments, starlight sparkle, cyan violet amber color harmony, volumetric light rays, premium presentation composition, high dynamic range, no text, no logo, no watermark",
+    "negative_prompt": "blurry, low quality, cartoon style, flat lighting, muddy colors, noisy artifacts, warped anatomy, extra limbs, bad hands, misshapen faces, text overlay, watermark, logo, frame, border"
+  },
+  {
+    "id": "legal",
+    "category": "Legal",
+    "width": 1024,
+    "height": 1024,
+    "batchSize": 1,
+    "prompt": "Attorney in a refined office using AI to analyze case files, contract clauses, and precedents, stacks of documents and laptop, serious professional tone, citation links represented as luminous node network, courtroom-grade confidence, ultra detailed cinematic realism, iridescent liquid chrome reflections, cosmic deep field background, nebula filaments, starlight sparkle, cyan violet amber color harmony, volumetric light rays, premium presentation composition, high dynamic range, no text, no logo, no watermark",
+    "negative_prompt": "blurry, low quality, cartoon style, flat lighting, muddy colors, noisy artifacts, warped anatomy, extra limbs, bad hands, misshapen faces, text overlay, watermark, logo, frame, border"
+  }
+]
