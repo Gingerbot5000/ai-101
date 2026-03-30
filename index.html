@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The AI Breakdown — Real Tools for Real Life</title>
-    <meta name="description" content="Demystifying AI for our community — A presentation by Adam Gurski">
+    <title>The AI Breakdown â€” Real Tools for Real Life</title>
+    <meta name="description" content="Demystifying AI for our community â€” A presentation by Adam Gurski">
     <link rel="icon"
         href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23060a12'/%3E%3Cpath d='M15 18h15c10 0 16 5 16 14s-6 14-16 14H15V18zm11 8v12h4c5 0 8-2 8-6s-3-6-8-6h-4z' fill='%23f5f7fb'/%3E%3Cpath d='M48 18h6L38 46h-6l16-28z' fill='%238bd6ff'/%3E%3C/svg%3E">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -129,28 +129,47 @@
             justify-content: center;
             padding: 38px 56px calc(var(--nav-height) + 24px);
             opacity: 0;
-            transform: translateX(60px);
-            transition: opacity 0.5s ease, transform 0.5s ease;
+            transform: translate3d(0, 0, 0) scale(1.03);
+            filter: blur(0px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out, filter 0.6s ease-out;
             pointer-events: none;
             overflow-y: auto;
             touch-action: pan-y;
             scroll-padding-bottom: calc(var(--nav-height) + 24px);
+            will-change: transform, opacity, filter;
         }
 
         .slide.active {
             opacity: 1;
-            transform: translateX(0);
+            transform: translate3d(0, 0, 0) scale(1);
+            filter: blur(0px);
             pointer-events: auto;
+        }
+
+        .slide.active.enter-from-left,
+        .slide.active.enter-from-right {
+            transform: translate3d(0, 0, 0) scale(1);
+            filter: blur(0px);
+        }
+
+        .slide.enter-from-left {
+            transform: translate3d(-18px, 0, 0) scale(1.03);
+        }
+
+        .slide.enter-from-right {
+            transform: translate3d(18px, 0, 0) scale(1.03);
         }
 
         .slide.exit-left {
             opacity: 0;
-            transform: translateX(-60px);
+            transform: translate3d(-18px, 0, 0) scale(0.97);
+            filter: blur(2px);
         }
 
         .slide.exit-right {
             opacity: 0;
-            transform: translateX(60px);
+            transform: translate3d(18px, 0, 0) scale(0.97);
+            filter: blur(2px);
         }
 
         .slide-inner {
@@ -2596,6 +2615,1527 @@
                 height: 220px;
             }
         }
+
+        /* ===== VISUAL OVERHAUL LAYER ===== */
+        @keyframes heroFadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(18px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes orbitalPulse {
+            0%,
+            100% {
+                box-shadow: 0 0 0 0 rgba(139, 214, 255, 0.18);
+            }
+
+            50% {
+                box-shadow: 0 0 0 14px rgba(139, 214, 255, 0);
+            }
+        }
+
+        @keyframes logoDriftA {
+            0%,
+            100% {
+                transform: translate3d(0, 0, 0);
+            }
+
+            50% {
+                transform: translate3d(0, -12px, 0);
+            }
+        }
+
+        @keyframes logoDriftB {
+            0%,
+            100% {
+                transform: translate3d(0, 0, 0);
+            }
+
+            50% {
+                transform: translate3d(8px, -16px, 0);
+            }
+        }
+
+        @keyframes logoDriftC {
+            0%,
+            100% {
+                transform: translate3d(0, 0, 0);
+            }
+
+            50% {
+                transform: translate3d(-8px, -10px, 0);
+            }
+        }
+
+        @keyframes shieldBreath {
+            0%,
+            100% {
+                opacity: 0.9;
+            }
+
+            50% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes montageDrift {
+            0%,
+            100% {
+                transform: translate3d(0, 0, 0);
+            }
+
+            50% {
+                transform: translate3d(12px, -10px, 0);
+            }
+        }
+
+        .slide[data-slide="0"] {
+            padding-top: 24px;
+        }
+
+        .slide[data-slide="0"] .slide-inner {
+            position: relative;
+            min-height: calc(var(--viewport-height) - var(--nav-height) - 56px);
+            display: grid;
+            align-items: center;
+        }
+
+        .hero-vortex-layer {
+            position: absolute;
+            inset: -32px -56px calc(var(--nav-height) * -1) -56px;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .hero-vortex-layer canvas {
+            width: 100% !important;
+            height: 100% !important;
+            opacity: 0.92;
+        }
+
+        .slide[data-slide="0"] .title-content,
+        .slide[data-slide="0"] .title-art-stack {
+            position: relative;
+            z-index: 1;
+        }
+
+        .slide[data-slide="0"] .title-content>* {
+            opacity: 0;
+            transform: translateY(18px);
+        }
+
+        .slide[data-slide="0"].hero-sequence-active .slide-number {
+            animation: heroFadeUp 0.28s ease-out 0.4s both;
+        }
+
+        .slide[data-slide="0"].hero-sequence-active h1 {
+            animation: heroFadeUp 0.18s ease-out 1.5s both;
+        }
+
+        .slide[data-slide="0"].hero-sequence-active .subtitle {
+            animation: heroFadeUp 0.32s ease-out 2s both;
+        }
+
+        .slide[data-slide="0"].hero-sequence-active .title-badge {
+            animation: heroFadeUp 0.32s ease-out 2.3s both;
+        }
+
+        .slide[data-slide="0"].hero-sequence-active .title-content .anim-5 {
+            animation: heroFadeUp 0.28s ease-out 2.45s both;
+        }
+
+        .story-thread-layout {
+            display: grid;
+            grid-template-columns: minmax(300px, 0.72fr) minmax(520px, 1.28fr);
+            gap: 32px;
+            align-items: start;
+        }
+
+        .story-thread-stage {
+            display: grid;
+            gap: 18px;
+            align-content: start;
+        }
+
+        .story-thread-photo {
+            display: grid;
+            gap: 14px;
+            justify-items: start;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+        }
+
+        .slide.active[data-slide="1"] .story-thread-photo {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .story-thread-photo .story-photo-ring {
+            align-items: flex-start;
+        }
+
+        .story-thread-kicker {
+            max-width: 34ch;
+            padding: 16px 18px;
+            border-radius: 18px;
+            border: 1px solid rgba(139, 214, 255, 0.16);
+            background: rgba(6, 12, 22, 0.62);
+            color: var(--text-dim);
+            line-height: 1.55;
+        }
+
+        .story-thread-kicker strong {
+            display: block;
+            color: var(--text-bright);
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .story-thread-rail {
+            position: relative;
+            min-height: 760px;
+            padding-left: 12px;
+        }
+
+        .story-thread-svg {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 220px;
+            height: 100%;
+            overflow: visible;
+        }
+
+        .story-thread-path,
+        .story-thread-branch {
+            fill: none;
+            stroke: var(--accent);
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-dasharray: 1200;
+            stroke-dashoffset: 1200;
+            transition: stroke-dashoffset 0.8s ease-out;
+        }
+
+        .story-thread-node {
+            fill: rgba(6, 10, 18, 0.95);
+            stroke: var(--accent);
+            stroke-width: 2;
+            opacity: 0;
+            transition: opacity 0.3s ease-out;
+        }
+
+        .slide.active[data-slide="1"] .story-thread-path,
+        .slide.active[data-slide="1"] .story-thread-branch {
+            stroke-dashoffset: 0;
+        }
+
+        .slide.active[data-slide="1"] .story-thread-node {
+            opacity: 1;
+        }
+
+        .story-thread-cards {
+            margin-left: 104px;
+            display: grid;
+            gap: 18px;
+            align-content: start;
+        }
+
+        .story-thread-card {
+            position: relative;
+            padding: 22px 24px 22px 34px;
+            opacity: 0;
+            transform: translateY(18px);
+            transition: opacity 0.46s ease-out, transform 0.46s ease-out;
+            transition-delay: var(--card-delay, 0s);
+        }
+
+        .story-thread-card::before {
+            content: '';
+            position: absolute;
+            left: -32px;
+            top: 34px;
+            width: 32px;
+            height: 1px;
+            border-top: 1px dashed rgba(139, 214, 255, 0.5);
+        }
+
+        .story-thread-card::after {
+            content: '';
+            position: absolute;
+            left: -40px;
+            top: 28px;
+            width: 12px;
+            height: 12px;
+            border-radius: 999px;
+            background: rgba(6, 10, 18, 0.95);
+            border: 2px solid var(--accent);
+            box-shadow: 0 0 0 8px rgba(139, 214, 255, 0.06);
+        }
+
+        .slide.active[data-slide="1"] .story-thread-card {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .story-timestamp {
+            display: inline-flex;
+            align-items: center;
+            padding: 6px 10px;
+            border-radius: 999px;
+            font-size: 11px;
+            letter-spacing: 1.1px;
+            text-transform: uppercase;
+            color: var(--accent);
+            background: rgba(83, 179, 248, 0.1);
+            border: 1px solid rgba(83, 179, 248, 0.18);
+            font-family: 'JetBrains Mono', monospace;
+            margin-bottom: 12px;
+        }
+
+        .story-thread-card h3 {
+            margin-bottom: 8px;
+        }
+
+        .story-thread-card p {
+            color: var(--text-dim);
+            line-height: 1.56;
+            font-size: 16px;
+        }
+
+        .story-thread-footer {
+            margin-left: 104px;
+            color: var(--accent-warm);
+            font-family: 'JetBrains Mono', monospace;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        .editorial-callout-shell {
+            display: grid;
+            grid-template-columns: repeat(12, minmax(0, 1fr));
+            gap: 18px;
+            margin-top: 10px;
+        }
+
+        .editorial-callout-block {
+            display: grid;
+            gap: 14px;
+            padding: 28px;
+            min-height: 220px;
+            clip-path: inset(0 100% 0 0 round 18px);
+            opacity: 0;
+            transform: translateY(12px);
+            transition: clip-path 0.6s ease-out, opacity 0.6s ease-out, transform 0.6s ease-out;
+            transition-delay: var(--delay, 0s);
+        }
+
+        .editorial-callout-block[data-span="wide"] {
+            grid-column: span 7;
+        }
+
+        .editorial-callout-block[data-span="tall"] {
+            grid-column: span 5;
+        }
+
+        .editorial-callout-block[data-span="full"] {
+            grid-column: span 12;
+        }
+
+        .slide.active[data-slide="2"] .editorial-callout-block,
+        .slide.active[data-slide="3"] .editorial-callout-block {
+            clip-path: inset(0 0% 0 0 round 18px);
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .editorial-kicker {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+            color: var(--accent);
+        }
+
+        .editorial-stat {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(42px, 7vw, 88px);
+            line-height: 0.92;
+            letter-spacing: -0.06em;
+            color: var(--accent);
+        }
+
+        .editorial-callout-block h3 {
+            font-size: clamp(24px, 2.8vw, 40px);
+            line-height: 1.05;
+            margin: 0;
+        }
+
+        .editorial-copy {
+            color: var(--text-dim);
+            font-size: clamp(16px, 1.7vw, 20px);
+            line-height: 1.55;
+            max-width: 30ch;
+        }
+
+        .editorial-accent-rule {
+            width: 0%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent) 0%, var(--accent-strong) 100%);
+            transition: width 0.4s ease-out;
+            transition-delay: calc(var(--delay, 0s) + 0.08s);
+        }
+
+        .slide.active[data-slide="2"] .editorial-accent-rule,
+        .slide.active[data-slide="3"] .editorial-accent-rule {
+            width: 100%;
+        }
+
+        .editorial-source {
+            color: var(--text-muted);
+            font-size: 12px;
+            letter-spacing: 0.3px;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.32s ease-out, transform 0.32s ease-out;
+            transition-delay: calc(var(--delay, 0s) + 0.22s);
+        }
+
+        .slide.active[data-slide="2"] .editorial-source,
+        .slide.active[data-slide="3"] .editorial-source {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .editorial-side-list {
+            display: grid;
+            gap: 14px;
+        }
+
+        .editorial-side-item {
+            display: grid;
+            gap: 10px;
+            padding: 18px 20px;
+            border-radius: 18px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(148, 163, 184, 0.12);
+        }
+
+        .editorial-side-item strong {
+            color: var(--text-bright);
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 24px;
+        }
+
+        .orbital-diagram {
+            position: relative;
+            width: min(800px, 100%);
+            min-height: 560px;
+            margin: 8px auto 0;
+            display: grid;
+            place-items: center;
+        }
+
+        .orbital-core {
+            position: relative;
+            z-index: 3;
+            width: 132px;
+            height: 132px;
+            border-radius: 999px;
+            display: grid;
+            place-items: center;
+            text-align: center;
+            background: radial-gradient(circle at 30% 25%, rgba(139, 214, 255, 0.18), rgba(6, 10, 18, 0.92) 70%);
+            border: 1px solid rgba(139, 214, 255, 0.34);
+            color: var(--text-bright);
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 34px;
+            letter-spacing: -0.04em;
+            opacity: 0;
+            transform: scale(0.88);
+            transition: opacity 0.42s ease-out, transform 0.42s ease-out;
+            animation: orbitalPulse 4s ease-in-out infinite;
+        }
+
+        .slide.active[data-slide="4"] .orbital-core {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .orbital-rings {
+            position: absolute;
+            inset: 0;
+            display: grid;
+            place-items: center;
+            pointer-events: none;
+        }
+
+        .orbital-ring {
+            position: absolute;
+            border-radius: 999px;
+            border: 1px solid rgba(139, 214, 255, 0.18);
+            opacity: 0;
+            transform: scale(0.86);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            transition-delay: var(--delay, 0s);
+        }
+
+        .slide.active[data-slide="4"] .orbital-ring {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .orbital-ring[data-ring="1"] {
+            width: 196px;
+            height: 196px;
+            opacity: 0.3;
+        }
+
+        .orbital-ring[data-ring="2"] {
+            width: 300px;
+            height: 300px;
+            opacity: 0.22;
+        }
+
+        .orbital-ring[data-ring="3"] {
+            width: 424px;
+            height: 424px;
+            opacity: 0.16;
+        }
+
+        .orbital-ring[data-ring="4"] {
+            width: 540px;
+            height: 540px;
+            opacity: 0.1;
+        }
+
+        .orbital-node {
+            position: absolute;
+            z-index: 4;
+            width: min(196px, 31vw);
+            padding: 18px 18px 16px;
+            border-radius: 22px;
+            appearance: none;
+            background: rgba(8, 14, 24, 0.82);
+            border: 1px solid rgba(139, 214, 255, 0.16);
+            box-shadow: 0 18px 42px rgba(1, 5, 11, 0.24);
+            color: var(--text);
+            text-align: left;
+            opacity: 0;
+            transform: translate3d(var(--x), var(--y), 0) scale(0.86);
+            transition: transform 0.8s cubic-bezier(0.2, 1.05, 0.28, 1), opacity 0.8s ease-out, border-color 0.25s ease, box-shadow 0.25s ease;
+            transition-delay: var(--delay, 0s);
+        }
+
+        .slide.active[data-slide="4"] .orbital-node {
+            opacity: 1;
+            transform: translate3d(var(--x), var(--y), 0) scale(1);
+        }
+
+        .orbital-node:hover,
+        .orbital-node:focus-visible {
+            transform: translate3d(var(--x), var(--y), 0) scale(1.05);
+            border-color: rgba(139, 214, 255, 0.3);
+            box-shadow: 0 20px 48px rgba(83, 179, 248, 0.18);
+        }
+
+        .orbital-node .orbital-step {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1.1px;
+            color: var(--accent);
+            margin-bottom: 10px;
+        }
+
+        .orbital-node h3 {
+            font-size: 22px;
+            margin-bottom: 8px;
+        }
+
+        .orbital-node p {
+            color: var(--text-dim);
+            font-size: 14px;
+            line-height: 1.5;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.25s ease;
+        }
+
+        .orbital-node:hover p,
+        .orbital-node:focus-visible p {
+            max-height: 96px;
+        }
+
+        .assistant-constellation {
+            position: relative;
+            overflow: hidden;
+            padding: 34px;
+            border-radius: 30px;
+            background: linear-gradient(160deg, rgba(10, 18, 30, 0.96) 0%, rgba(6, 10, 18, 0.96) 100%);
+            border: 1px solid rgba(139, 214, 255, 0.12);
+            min-height: 620px;
+        }
+
+        .assistant-constellation-bg {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+        }
+
+        .assistant-constellation-bg canvas {
+            width: 100% !important;
+            height: 100% !important;
+            opacity: 0.8;
+        }
+
+        .assistant-constellation-grid {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            grid-template-columns: minmax(320px, 1fr) minmax(320px, 0.96fr);
+            gap: 28px;
+            align-items: center;
+            min-height: 540px;
+        }
+
+        .assistant-node-cluster {
+            position: relative;
+            min-height: 360px;
+        }
+
+        .assistant-orb {
+            position: absolute;
+            width: 118px;
+            height: 118px;
+            border-radius: 999px;
+            display: grid;
+            place-items: center;
+            background: rgba(10, 18, 30, 0.92);
+            border: 1px solid rgba(148, 163, 184, 0.18);
+            box-shadow: 0 24px 60px rgba(1, 5, 11, 0.28);
+            cursor: pointer;
+            transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .assistant-orb::before {
+            content: '';
+            position: absolute;
+            inset: -20px;
+            border-radius: 999px;
+            background: radial-gradient(circle, var(--halo) 0%, rgba(255, 255, 255, 0) 70%);
+            opacity: 0.48;
+            z-index: -1;
+        }
+
+        .assistant-orb[data-assistant="chatgpt"] {
+            left: 10%;
+            top: 18%;
+            --halo: rgba(16, 163, 127, 0.32);
+            animation: logoDriftA 6s ease-in-out infinite;
+        }
+
+        .assistant-orb[data-assistant="claude"] {
+            left: 42%;
+            top: 6%;
+            --halo: rgba(167, 139, 250, 0.28);
+            animation: logoDriftB 7s ease-in-out infinite;
+        }
+
+        .assistant-orb[data-assistant="gemini"] {
+            left: 58%;
+            top: 54%;
+            --halo: rgba(83, 179, 248, 0.28);
+            animation: logoDriftC 8s ease-in-out infinite;
+        }
+
+        .assistant-orb img {
+            width: 66px;
+            height: 66px;
+            object-fit: contain;
+        }
+
+        .assistant-orb:hover,
+        .assistant-orb:focus-visible,
+        .assistant-orb.is-active {
+            transform: scale(1.06);
+            border-color: rgba(139, 214, 255, 0.34);
+            box-shadow: 0 26px 68px rgba(83, 179, 248, 0.16);
+        }
+
+        .assistant-panel-list {
+            display: grid;
+            gap: 14px;
+            align-content: center;
+        }
+
+        .assistant-panel {
+            display: grid;
+            gap: 10px;
+            padding: 18px 20px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(148, 163, 184, 0.12);
+            opacity: 0.86;
+            transform: translateX(0);
+            transition: opacity 0.28s ease, transform 0.28s ease, border-color 0.28s ease, background 0.28s ease;
+        }
+
+        .assistant-panel.is-active {
+            opacity: 1;
+            transform: translateX(8px);
+            border-color: rgba(139, 214, 255, 0.24);
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .assistant-panel-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .assistant-panel .tool-label {
+            margin-bottom: 0;
+        }
+
+        .assistant-panel p {
+            color: var(--text-dim);
+            line-height: 1.55;
+            font-size: 16px;
+        }
+
+        .specialist-carousel {
+            display: grid;
+            gap: 18px;
+            margin-top: 8px;
+        }
+
+        .specialist-carousel-track {
+            position: relative;
+            min-height: 380px;
+            overflow: hidden;
+            border-radius: 28px;
+        }
+
+        .specialist-card {
+            position: absolute;
+            inset: 0;
+            display: grid;
+            grid-template-columns: 120px 1fr;
+            gap: 24px;
+            align-items: center;
+            padding: 42px;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateX(80px);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+
+        .specialist-card.is-before {
+            transform: translateX(-80px);
+        }
+
+        .specialist-card.is-active {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateX(0);
+        }
+
+        .specialist-card-logo {
+            width: 92px;
+            height: 92px;
+            border-radius: 22px;
+            display: grid;
+            place-items: center;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .specialist-card-logo img {
+            width: 58px;
+            height: 58px;
+            object-fit: contain;
+        }
+
+        .specialist-card-copy {
+            display: grid;
+            gap: 10px;
+        }
+
+        .specialist-card-copy h3 {
+            font-size: clamp(30px, 3vw, 44px);
+        }
+
+        .specialist-card-copy p {
+            font-size: 20px;
+            line-height: 1.55;
+            color: var(--text-dim);
+            max-width: 42ch;
+        }
+
+        .specialist-card-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 6px;
+            color: var(--accent);
+            text-decoration: none;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+        }
+
+        .specialist-carousel-controls {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+        }
+
+        .specialist-carousel-nav {
+            display: inline-flex;
+            gap: 8px;
+        }
+
+        .specialist-nav-btn {
+            min-width: 44px;
+            min-height: 44px;
+            border-radius: 999px;
+            border: 1px solid rgba(148, 163, 184, 0.18);
+            background: rgba(255, 255, 255, 0.04);
+            color: var(--text);
+            cursor: pointer;
+        }
+
+        .specialist-carousel-dots {
+            display: inline-flex;
+            gap: 8px;
+            align-items: center;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .specialist-dot {
+            width: 48px;
+            height: 8px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.08);
+            overflow: hidden;
+            border: 0;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        .specialist-dot.is-current {
+            background: rgba(139, 214, 255, 0.16);
+            box-shadow: inset 0 0 0 1px rgba(139, 214, 255, 0.18);
+        }
+
+        .specialist-progress-bar {
+            width: 100%;
+            height: 100%;
+            transform: scaleX(0);
+            transform-origin: left center;
+            background: linear-gradient(90deg, var(--accent) 0%, var(--accent-strong) 100%);
+            opacity: 0;
+        }
+
+        .specialist-dot.is-active .specialist-progress-bar {
+            transition: transform 4s linear;
+            transform: scaleX(1);
+            opacity: 1;
+        }
+
+        .specialist-dot.is-current .specialist-progress-bar {
+            transition: none;
+            transform: scaleX(0.28);
+            opacity: 0.42;
+        }
+
+        .specialist-dot.is-static .specialist-progress-bar {
+            transition: none;
+            transform: scaleX(0);
+            opacity: 0;
+        }
+
+        .use-case-scene-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px;
+            margin-top: 8px;
+        }
+
+        .use-case-scene-card {
+            display: grid;
+            grid-template-rows: 40% 60%;
+            min-height: 440px;
+            padding: 0;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out, box-shadow 0.25s ease;
+            transition-delay: var(--delay, 0s);
+        }
+
+        .slide.active[data-slide="7"] .use-case-scene-card {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .use-case-scene-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 28px 68px rgba(1, 5, 11, 0.34);
+        }
+
+        .use-case-scene-media {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .use-case-scene-media img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .use-case-scene-body {
+            display: grid;
+            gap: 14px;
+            padding: 22px 24px 24px;
+            align-content: start;
+        }
+
+        .use-case-scene-eyebrow {
+            color: var(--accent);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            letter-spacing: 1.1px;
+            text-transform: uppercase;
+        }
+
+        .use-case-scene-body p {
+            color: var(--text-dim);
+            line-height: 1.55;
+        }
+
+        .use-case-sublist {
+            display: grid;
+            gap: 10px;
+        }
+
+        .use-case-subitem {
+            display: grid;
+            grid-template-columns: 30px 1fr;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .use-case-subicon {
+            width: 30px;
+            height: 30px;
+            border-radius: 999px;
+            overflow: hidden;
+            border: 1px solid rgba(139, 214, 255, 0.12);
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .use-case-subicon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .prompt-stack-shell {
+            position: relative;
+            display: grid;
+            grid-template-columns: minmax(280px, 0.72fr) minmax(360px, 1.28fr);
+            gap: 26px;
+            align-items: start;
+            margin-top: 8px;
+        }
+
+        .prompt-stack-formulas {
+            position: relative;
+            display: grid;
+            gap: 10px;
+            align-content: start;
+            opacity: 0;
+            transform: translateX(-24px);
+            transition: opacity 0.46s ease-out, transform 0.46s ease-out;
+        }
+
+        .slide.active[data-slide="8"] .prompt-stack-formulas {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .prompt-stack-formulas::after {
+            content: '';
+            position: absolute;
+            top: 48px;
+            right: -18px;
+            bottom: 48px;
+            border-right: 1px dotted rgba(139, 214, 255, 0.4);
+        }
+
+        .prompt-card-stack {
+            position: relative;
+            display: grid;
+            gap: 12px;
+            opacity: 0;
+            transform: translateX(24px);
+            transition: opacity 0.46s ease-out, transform 0.46s ease-out;
+        }
+
+        .slide.active[data-slide="8"] .prompt-card-stack {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .prompt-stack-position {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--accent-warm);
+        }
+
+        .prompt-stack-cards {
+            position: relative;
+            min-height: 436px;
+        }
+
+        .prompt-stack-card {
+            position: absolute;
+            inset: 0;
+            border-radius: 22px;
+            background: linear-gradient(180deg, rgba(8, 14, 24, 0.97) 0%, rgba(6, 10, 18, 0.98) 100%);
+            border: 1px solid rgba(139, 214, 255, 0.16);
+            box-shadow: 0 24px 68px rgba(1, 5, 11, 0.34);
+            padding: 22px;
+            transition: transform 0.42s ease, opacity 0.42s ease, box-shadow 0.25s ease;
+        }
+
+        .prompt-stack-card.is-active {
+            z-index: 4;
+            opacity: 1;
+            transform: translate3d(0, 0, 0) rotate(0deg);
+        }
+
+        .prompt-stack-card.is-stack-1 {
+            z-index: 3;
+            opacity: 0.76;
+            transform: translate3d(16px, 14px, 0) rotate(1.8deg);
+        }
+
+        .prompt-stack-card.is-stack-2 {
+            z-index: 2;
+            opacity: 0.56;
+            transform: translate3d(28px, 26px, 0) rotate(-1.6deg);
+        }
+
+        .prompt-stack-card.is-stack-3 {
+            z-index: 1;
+            opacity: 0.36;
+            transform: translate3d(40px, 38px, 0) rotate(2.2deg);
+        }
+
+        .prompt-card-stack.is-transitioning-next .prompt-stack-card.is-active {
+            transform: translate3d(72px, 0, 0) rotate(8deg);
+            opacity: 0;
+        }
+
+        .prompt-card-stack.is-transitioning-prev .prompt-stack-card.is-active {
+            transform: translate3d(-72px, 0, 0) rotate(-8deg);
+            opacity: 0;
+        }
+
+        .prompt-stack-card .prompt-legend {
+            margin-bottom: 12px;
+        }
+
+        .prompt-stack-card .prompt-controls {
+            margin-top: 12px;
+        }
+
+        .prompt-stack-card .prompt-text {
+            min-height: 136px;
+            max-height: 220px;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .prompt-stack-preview-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 20px;
+            color: var(--text-bright);
+        }
+
+        .prompt-stack-preview-meta {
+            color: var(--text-muted);
+            font-size: 12px;
+            font-family: 'JetBrains Mono', monospace;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+        }
+
+        .prompt-copy-btn {
+            position: relative;
+            padding-right: 34px;
+        }
+
+        .prompt-copy-label {
+            transition: opacity 0.2s ease;
+        }
+
+        .prompt-copy-check {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%) scale(0.5);
+            opacity: 0;
+            transition: transform 0.22s ease, opacity 0.22s ease;
+        }
+
+        .prompt-copy-btn.copied .prompt-copy-label {
+            opacity: 0.35;
+        }
+
+        .prompt-copy-btn.copied .prompt-copy-check {
+            opacity: 1;
+            transform: translateY(-50%) scale(1);
+        }
+
+        .safety-shield-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 18px;
+            margin-top: 8px;
+        }
+
+        .safety-shield {
+            display: grid;
+            gap: 14px;
+            justify-items: center;
+            align-content: start;
+            text-align: center;
+            min-height: 268px;
+            padding: 28px 24px;
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            border: 1px solid rgba(139, 214, 255, 0.14);
+            background: linear-gradient(180deg, rgba(10, 18, 30, 0.92) 0%, rgba(6, 10, 18, 0.96) 100%);
+            opacity: 0.78;
+            transform: scale(0.94);
+            transition: transform 0.32s ease, opacity 0.32s ease, border-color 0.32s ease, box-shadow 0.32s ease, filter 0.32s ease;
+            animation: shieldBreath 3s ease-in-out infinite;
+            animation-delay: calc(var(--pulse-delay, 0) * 0.22s);
+        }
+
+        .slide.active[data-slide="9"] .safety-shield {
+            opacity: 1;
+            transform: scale(1);
+            transition-delay: calc(var(--ripple-order, 0) * 0.2s);
+        }
+
+        .safety-shield:hover {
+            border-color: rgba(139, 214, 255, 0.34);
+            box-shadow: 0 22px 54px rgba(83, 179, 248, 0.14);
+            filter: brightness(1.06);
+        }
+
+        .safety-shield .safety-icon {
+            width: 82px;
+            height: 82px;
+            border-radius: 26px;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(139, 214, 255, 0.14);
+            transition: transform 0.25s ease;
+        }
+
+        .safety-shield:hover .safety-icon {
+            transform: scale(1.06);
+        }
+
+        .safety-shield h3 {
+            font-size: 21px;
+        }
+
+        .safety-shield p {
+            color: var(--text-dim);
+            line-height: 1.52;
+            font-size: 15px;
+        }
+
+        .callback-montage {
+            position: relative;
+            min-height: 680px;
+            overflow: hidden;
+            border-radius: 32px;
+            padding: 36px;
+            border: 1px solid rgba(139, 214, 255, 0.12);
+            background: linear-gradient(180deg, rgba(7, 12, 21, 0.94) 0%, rgba(6, 10, 18, 0.98) 100%);
+            display: grid;
+            place-items: center;
+        }
+
+        .montage-fragment {
+            position: absolute;
+            opacity: 0.15;
+            filter: blur(8px);
+            border: 1px solid rgba(148, 163, 184, 0.12);
+            background: rgba(255, 255, 255, 0.04);
+            animation: montageDrift 12s ease-in-out infinite;
+        }
+
+        .montage-fragment[data-fragment="title"] {
+            top: 9%;
+            left: 8%;
+            width: 240px;
+            padding: 18px;
+            border-radius: 24px;
+            color: var(--text-bright);
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 34px;
+            line-height: 0.96;
+        }
+
+        .montage-fragment[data-fragment="orbit"] {
+            top: 14%;
+            right: 10%;
+            width: 180px;
+            height: 180px;
+            border-radius: 999px;
+        }
+
+        .montage-fragment[data-fragment="quote"] {
+            top: 42%;
+            left: 4%;
+            width: 220px;
+            padding: 18px;
+            border-radius: 22px;
+            color: var(--text-dim);
+            line-height: 1.45;
+        }
+
+        .montage-fragment[data-fragment="logo"] {
+            bottom: 20%;
+            left: 18%;
+            width: 180px;
+            height: 92px;
+            border-radius: 24px;
+        }
+
+        .montage-fragment[data-fragment="shield"] {
+            bottom: 18%;
+            right: 16%;
+            width: 140px;
+            height: 160px;
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+        }
+
+        .montage-fragment[data-fragment="prompt"] {
+            top: 26%;
+            left: 38%;
+            width: 260px;
+            height: 140px;
+            border-radius: 26px;
+        }
+
+        .montage-fragment[data-fragment="rule"] {
+            bottom: 30%;
+            right: 4%;
+            width: 220px;
+            height: 120px;
+            border-radius: 24px;
+        }
+
+        .callback-cta-card {
+            position: relative;
+            z-index: 1;
+            width: min(1080px, 100%);
+            display: grid;
+            gap: 22px;
+            padding: 30px;
+            text-align: center;
+            opacity: 0;
+            transform: scale(0.9);
+            transition: opacity 0.4s ease-out 0.3s, transform 0.4s ease-out 0.3s;
+        }
+
+        .slide.active[data-slide="10"] .callback-cta-card {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .callback-cta-card .subtitle {
+            max-width: 46ch;
+            margin: 0 auto;
+        }
+
+        .callback-cta-card .cta-grid {
+            margin-bottom: 0;
+        }
+
+        @media (max-width: 1180px) {
+            .story-thread-layout,
+            .assistant-constellation-grid,
+            .prompt-stack-shell {
+                grid-template-columns: 1fr;
+            }
+
+            .prompt-stack-formulas::after {
+                display: none;
+            }
+
+            .editorial-callout-block[data-span="wide"],
+            .editorial-callout-block[data-span="tall"] {
+                grid-column: span 12;
+            }
+
+            .safety-shield-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 900px) {
+            .specialist-card {
+                grid-template-columns: 1fr;
+                justify-items: start;
+                padding: 30px 26px;
+            }
+
+            .use-case-scene-grid,
+            .safety-shield-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .orbital-diagram {
+                min-height: 700px;
+            }
+
+            .orbital-node {
+                width: min(220px, 58vw);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-vortex-layer {
+                inset: -20px -10px calc(var(--nav-height) * -1) -10px;
+            }
+
+            .title-hero-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .title-art-stack {
+                order: -1;
+            }
+
+            .story-thread-rail {
+                min-height: 0;
+                padding-left: 0;
+            }
+
+            .story-thread-svg {
+                display: none;
+            }
+
+            .story-thread-cards,
+            .story-thread-footer {
+                margin-left: 0;
+            }
+
+            .story-thread-card::before,
+            .story-thread-card::after {
+                display: none;
+            }
+
+            .orbital-diagram {
+                width: 100%;
+                min-height: 0;
+                padding-top: 210px;
+                margin-top: 22px;
+                display: grid;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 14px;
+                align-items: start;
+                place-items: stretch;
+            }
+
+            .orbital-rings {
+                inset: 12px 0 auto;
+                height: 220px;
+            }
+
+            .orbital-ring[data-ring="1"] {
+                width: 144px;
+                height: 144px;
+            }
+
+            .orbital-ring[data-ring="2"] {
+                width: 212px;
+                height: 212px;
+            }
+
+            .orbital-ring[data-ring="3"] {
+                width: 280px;
+                height: 280px;
+            }
+
+            .orbital-ring[data-ring="4"] {
+                width: 336px;
+                height: 336px;
+            }
+
+            .orbital-core {
+                position: absolute;
+                top: 58px;
+                left: 50%;
+                width: 108px;
+                height: 108px;
+                font-size: 30px;
+                transform: translateX(-50%) scale(0.88);
+            }
+
+            .slide.active[data-slide="4"] .orbital-core {
+                transform: translateX(-50%) scale(1);
+            }
+
+            .orbital-node {
+                position: relative;
+                width: 100%;
+                min-height: 0;
+                padding: 16px 16px 14px;
+                transform: none !important;
+            }
+
+            .slide.active[data-slide="4"] .orbital-node {
+                transform: none !important;
+            }
+
+            .orbital-node:hover,
+            .orbital-node:focus-visible {
+                transform: translateY(-4px) scale(1.02) !important;
+            }
+
+            .orbital-diagram>.orbital-node:nth-of-type(1),
+            .orbital-diagram>.orbital-node:nth-of-type(4) {
+                grid-column: 1 / -1;
+                max-width: 264px;
+                justify-self: center;
+            }
+
+            .specialist-carousel-controls {
+                flex-direction: column;
+            }
+
+            .callback-montage {
+                min-height: 0;
+                padding: 18px 14px 22px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .assistant-constellation {
+                padding: 22px 18px;
+            }
+
+            .assistant-node-cluster {
+                min-height: 300px;
+            }
+
+            .assistant-orb {
+                width: 96px;
+                height: 96px;
+            }
+
+            .assistant-orb img {
+                width: 54px;
+                height: 54px;
+            }
+
+            .specialist-carousel-track {
+                min-height: 420px;
+            }
+
+            .prompt-stack-cards {
+                min-height: 500px;
+            }
+
+            .callback-cta-card {
+                padding: 22px 18px;
+            }
+
+            .montage-fragment {
+                display: none;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .slide,
+            .slide.active,
+            .slide.exit-left,
+            .slide.exit-right {
+                transition: opacity 0.01ms linear !important;
+                transform: none !important;
+                filter: none !important;
+            }
+
+            .hero-vortex-layer,
+            .assistant-constellation-bg {
+                display: none !important;
+            }
+
+            .slide[data-slide="0"] .title-content>*,
+            .story-thread-photo,
+            .story-thread-card,
+            .editorial-callout-block,
+            .editorial-source,
+            .orbital-core,
+            .orbital-ring,
+            .orbital-node,
+            .assistant-panel,
+            .prompt-stack-formulas,
+            .prompt-card-stack,
+            .use-case-scene-card,
+            .callback-cta-card,
+            .safety-shield {
+                opacity: 1 !important;
+                transform: none !important;
+                clip-path: inset(0 0 0 0 round 18px) !important;
+            }
+
+            .story-thread-path,
+            .story-thread-branch {
+                stroke-dashoffset: 0 !important;
+            }
+
+            .story-thread-node,
+            .editorial-accent-rule {
+                opacity: 1 !important;
+                width: 100% !important;
+            }
+
+            .assistant-orb,
+            .safety-shield,
+            .montage-fragment,
+            .specialist-progress-bar {
+                animation: none !important;
+            }
+        }
     </style>
 </head>
 
@@ -2610,13 +4150,14 @@
         <!-- ===== SLIDE 1: TITLE ===== -->
         <div class="slide active" data-slide="0">
             <div class="slide-inner title-slide">
+                <div class="hero-vortex-layer" id="heroVortexLayer" aria-hidden="true"></div>
                 <div class="title-hero-grid">
-                    <div class="title-content">
-                        <div class="slide-number anim anim-1">Presentation</div>
-                        <h1 class="anim anim-2">THE AI <span class="gradient-text">BREAKDOWN</span></h1>
-                        <p class="subtitle anim anim-3" style="max-width: 800px;">Real Tools for Real Life —
+                    <div class="title-content hero-vortex-copy">
+                        <div class="slide-number">Presentation</div>
+                        <h1>THE AI <span class="gradient-text">BREAKDOWN</span></h1>
+                        <p class="subtitle" style="max-width: 16ch;">Real Tools for Real Life —
                             Demystifying AI for our community</p>
-                        <div class="anim anim-4">
+                        <div>
                             <div class="title-badge">
                                 Presented by Adam Gurski &bull; Updated March 28, 2026
                             </div>
@@ -2626,12 +4167,17 @@
                             Use ← → arrow keys or buttons below to navigate
                         </p>
                     </div>
-                    <div class="title-art-stack anim anim-4">
+                    <div class="title-art-stack">
                         <div class="glass chamber-poster-card">
                             <img id="cosmicQrHero" class="chamber-poster-image cosmic-qr-hero"
                                 src="assets/images/506059567_10234418340213675_3614464372333725693_n.jpg"
                                 alt="Cosmic QR code artwork"
                                 onerror="this.onerror=null;this.src='assets/images/color-burst-laptop.jpg';">
+                        </div>
+                        <div class="glass" style="padding:18px 20px; text-align:left; max-width:360px;">
+                            <span class="badge badge-blue" style="margin-bottom: 12px;">Live demo keynote</span>
+                            <p style="color:var(--text-dim); line-height:1.58;">11 slides. One clear goal: show how ordinary
+                                people can actually use AI tonight, not someday.</p>
                         </div>
                     </div>
                 </div>
@@ -2641,77 +4187,73 @@
         <!-- ===== SLIDE 2: MY STORY ===== -->
         <div class="slide" data-slide="1">
             <div class="slide-inner">
-                <div class="slide-number anim anim-1">01 / My Story</div>
-                <h2 class="anim anim-2" style="margin-bottom: 8px;">Why I&rsquo;m Standing Up Here</h2>
-                <p class="subtitle anim anim-3" style="margin-bottom: 20px; max-width: 52ch;">I&rsquo;m not a developer or a tech executive. Three years ago I hadn&rsquo;t built a single website. Then I started using AI&mdash;and everything I thought was &ldquo;not for me&rdquo; became possible.</p>
+                <div class="slide-number">01 / My Story</div>
+                <h2 style="margin-bottom: 8px;">Why I&rsquo;m Standing Up Here</h2>
+                <p class="subtitle" style="margin-bottom: 20px; max-width: 54ch;">I&rsquo;m not a developer or a tech
+                    executive. Three years ago, I had never built a website. Then AI turned the blank page into a thread I
+                    could actually follow and made it possible to learn this much this fast.</p>
 
-                <div class="story-layout anim anim-4">
-                    <!-- LEFT COLUMN: Photo + Proof Cards -->
-                    <div class="story-left">
-                        <div class="story-photo-ring">
-                            <div class="photo-glow-wrap">
-                                <img id="introKidPhoto"
-                                    src="assets/images/516605461_10235383877351500_957627053519839274_n.jpg"
-                                    alt="Young Adam Gurski"
-                                    onerror="this.onerror=null; this.parentElement.innerHTML='<div style=\'width:148px;height:148px;border-radius:50%;background:linear-gradient(135deg,#3b82f6,#8b5cf6);display:flex;align-items:center;justify-content:center;font-size:48px;color:#fff;font-weight:700;position:relative;z-index:1;border:3px solid var(--bg-base)\'>AG</div>';">
+                <div class="story-thread-layout">
+                    <div class="story-thread-stage">
+                        <div class="story-thread-photo">
+                            <div class="story-photo-ring">
+                                <div class="photo-glow-wrap">
+                                    <img id="introKidPhoto"
+                                        src="assets/images/516605461_10235383877351500_957627053519839274_n.jpg"
+                                        alt="Young Adam Gurski"
+                                        onerror="this.onerror=null; this.parentElement.innerHTML='<div style=\'width:148px;height:148px;border-radius:50%;background:linear-gradient(135deg,#3b82f6,#53b3f8);display:flex;align-items:center;justify-content:center;font-size:48px;color:#fff;font-weight:700;position:relative;z-index:1;border:3px solid var(--bg-base)\'>AG</div>';">
+                                </div>
+                                <div class="photo-caption-tag">Same person &bull; New capabilities</div>
                             </div>
-                            <div class="photo-caption-tag">Same person &bull; New capabilities</div>
-                        </div>
-
-                        <div class="story-proof-strip">
-                            <div class="story-proof-card" data-color="cyan">
-                                <span class="proof-card-icon">&#9200;</span>
-                                <strong>3 years</strong>
-                                <span>From zero technical background to building real tools people use.</span>
-                            </div>
-                            <div class="story-proof-card" data-color="violet">
-                                <span class="proof-card-icon">&#9889;</span>
-                                <strong>Hours, not months</strong>
-                                <span>Projects that would have taken weeks now happen in an afternoon.</span>
-                            </div>
-                            <div class="story-proof-card" data-color="amber">
-                                <span class="proof-card-icon">&#128640;</span>
-                                <strong>Useful output</strong>
-                                <span>Websites, workflows, and businesses&mdash;not just experiments.</span>
+                            <div class="story-thread-kicker glass">
+                                <strong>The point of this deck</strong>
+                                AI did not replace the work. It made the next step legible enough that I could keep moving.
                             </div>
                         </div>
                     </div>
 
-                    <!-- RIGHT COLUMN: Insight Cards -->
-                    <div class="story-right">
-                        <div class="story-insight-card" data-theme="people">
-                            <span class="insight-icon">&#128101;</span>
-                            <div class="insight-body">
-                                <h3>I&rsquo;m not the exception</h3>
-                                <p>Most people assume AI is for programmers or big companies. I&rsquo;m proof that regular people can use it to do meaningful work.</p>
+                    <div class="story-thread-rail">
+                        <svg class="story-thread-svg" viewBox="0 0 220 760" aria-hidden="true">
+                            <path class="story-thread-path" d="M62 54 L62 676" />
+                            <path class="story-thread-branch" d="M62 148 L150 148" />
+                            <path class="story-thread-branch" d="M62 282 L174 282" />
+                            <path class="story-thread-branch" d="M62 430 L150 430" />
+                            <path class="story-thread-branch" d="M62 574 L182 574" />
+                            <circle class="story-thread-node" cx="62" cy="148" r="7"></circle>
+                            <circle class="story-thread-node" cx="62" cy="282" r="7"></circle>
+                            <circle class="story-thread-node" cx="62" cy="430" r="7"></circle>
+                            <circle class="story-thread-node" cx="62" cy="574" r="7"></circle>
+                        </svg>
+
+                        <div class="story-thread-cards">
+                            <div class="glass story-thread-card" style="--card-delay: 0.12s;">
+                                <div class="story-timestamp">2023</div>
+                                <h3>I made a video</h3>
+                                <p>Not because I suddenly became technical, but because AI finally gave me a way to draft,
+                                    revise, and ship without waiting for permission.</p>
+                            </div>
+                            <div class="glass story-thread-card" style="--card-delay: 0.24s;">
+                                <div class="story-timestamp">2024</div>
+                                <h3>I built a workflow</h3>
+                                <p>I could connect tools, automate repeat work, and stop treating every new idea like a
+                                    multi-month obstacle course.</p>
+                            </div>
+                            <div class="glass story-thread-card" style="--card-delay: 0.36s;">
+                                <div class="story-timestamp">2025</div>
+                                <h3>I started a business</h3>
+                                <p>AI helped with research, planning, writing, and iteration fast enough that momentum finally
+                                    beat hesitation.</p>
+                            </div>
+                            <div class="glass story-thread-card" style="--card-delay: 0.48s;">
+                                <div class="story-timestamp">2026</div>
+                                <h3>I designed logos</h3>
+                                <p>That still would have sounded impossible to the earlier version of me. But you can learn
+                                    this much this fast when the feedback loop stops punishing you for not knowing where to
+                                    start.</p>
                             </div>
                         </div>
 
-                        <div class="story-insight-card" data-theme="partner">
-                            <span class="insight-icon">&#129302;</span>
-                            <div class="insight-body">
-                                <h3>AI didn&rsquo;t do it for me</h3>
-                                <p>It gave me a thinking partner&mdash;one that could help me research, draft, iterate, and learn faster than I ever could alone.</p>
-                            </div>
-                        </div>
-
-                        <div class="story-insight-card" data-theme="practical">
-                            <span class="insight-icon">&#128736;</span>
-                            <div class="insight-body">
-                                <h3>That&rsquo;s what this talk is about</h3>
-                                <p>Not hype, not fear. Practical tools you can start using this week to make your own work easier and better.</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- FULL-WIDTH QUOTE -->
-                    <div class="story-quote-section">
-                        <div class="quote-block">
-                            <span class="quote-mark-open">&ldquo;</span>
-                            AI didn&rsquo;t make me smarter. It made me willing to try things I used to think were out of my league.
-                            <span class="quote-mark-close">&rdquo;</span>
-                            <div class="quote-attribution">Adam Gurski</div>
-                        </div>
+                        <div class="story-thread-footer">The throughline: curiosity plus AI beats waiting to feel ready.</div>
                     </div>
                 </div>
             </div>
@@ -2720,58 +4262,45 @@
         <!-- ===== SLIDE 3: SCIENCE PROOF ===== -->
         <div class="slide" data-slide="2">
             <div class="slide-inner">
-                <div class="slide-number anim anim-1">02 / Science Proof</div>
-                <h2 class="anim anim-2" style="margin-bottom: 8px;">AI is accelerating Nobel-scale discovery</h2>
-                <p class="subtitle anim anim-3" style="margin-bottom: 20px; max-width: 42ch;">If AI can help decode
-                    proteins, discover materials, and speed up weather prediction, it is worth taking seriously in daily
-                    work too.</p>
-                <div class="science-timeline anim anim-4">
-                    <div class="timeline-axis"></div>
-                    
-                    <div class="timeline-node" style="--node-color: #06b6d4;">
-                        <div class="node-top">
-                            <div class="node-badge">CHEMISTRY NOBEL 2024</div>
+                <div class="slide-number">02 / Science Proof</div>
+                <h2 style="margin-bottom: 8px;">AI is accelerating Nobel-scale discovery</h2>
+                <p class="subtitle" style="margin-bottom: 20px; max-width: 44ch;">If AI can help decode proteins,
+                    discover materials, and speed up weather prediction, it is worth taking seriously in daily work too.</p>
+                <div class="editorial-callout-shell editorial-callout-shell-science">
+                    <article class="glass editorial-callout-block" data-span="wide" style="--delay: 0.05s;">
+                        <div class="editorial-kicker">Chemistry Nobel 2024</div>
+                        <div class="editorial-stat">AlphaFold</div>
+                        <div class="editorial-accent-rule"></div>
+                        <h3>Protein prediction moved from bottleneck to platform.</h3>
+                        <p class="editorial-copy">Demis Hassabis and John Jumper showed that AI could solve a decades-old
+                            protein-structure challenge at scientific scale.</p>
+                        <div class="editorial-source">Source: Nobel Prize in Chemistry 2024 coverage and AlphaFold reporting.</div>
+                    </article>
+                    <article class="glass editorial-callout-block" data-span="tall" style="--delay: 0.14s;">
+                        <div class="editorial-side-list">
+                            <div class="editorial-side-item">
+                                <div class="editorial-kicker">Materials discovery</div>
+                                <strong>2.2 million</strong>
+                                <p>Candidate crystals proposed by AI systems such as GNoME, including hundreds of thousands of
+                                    stable materials worth investigating.</p>
+                            </div>
+                            <div class="editorial-side-item">
+                                <div class="editorial-kicker">From lab to forecast</div>
+                                <strong>Faster</strong>
+                                <p>AI-assisted drug design, astronomy analysis, and weather models keep collapsing the time from
+                                    raw complexity to usable answers.</p>
+                            </div>
                         </div>
-                        <div class="node-graphic">
-                            <div class="core-glow"></div>
-                            <div id="p5-box-1" class="p5-canvas-container"></div>
-                        </div>
-                        <div class="node-bottom">
-                            <div class="node-title">AlphaFold</div>
-                            <p>Demis Hassabis and John Jumper were recognized for showing that AI could solve a decades-old protein-structure challenge at scientific scale.</p>
-                            <div class="node-note">Protein prediction moved from bottleneck to platform.</div>
-                        </div>
-                    </div>
-
-                    <div class="timeline-node" style="--node-color: #8b5cf6;">
-                        <div class="node-top">
-                            <div class="node-badge">MATERIALS DISCOVERY</div>
-                        </div>
-                        <div class="node-graphic">
-                            <div class="core-glow"></div>
-                            <div id="p5-box-2" class="p5-canvas-container"></div>
-                        </div>
-                        <div class="node-bottom">
-                            <div class="node-title">2.2 million</div>
-                            <p>AI systems such as GNoME proposed 2.2 million candidate crystals, including hundreds of thousands of stable materials worth investigating.</p>
-                            <div class="node-note">Search space that would take humans generations to comb through.</div>
-                        </div>
-                    </div>
-
-                    <div class="timeline-node" style="--node-color: #f59e0b;">
-                        <div class="node-top">
-                            <div class="node-badge">FROM LAB TO FORECAST</div>
-                        </div>
-                        <div class="node-graphic">
-                            <div class="core-glow"></div>
-                            <div id="p5-box-3" class="p5-canvas-container"></div>
-                        </div>
-                        <div class="node-bottom">
-                            <div class="node-title">Faster</div>
-                            <p>AI-assisted drug design, astronomy analysis, and weather models are changing how researchers move from raw complexity to usable answers.</p>
-                            <div class="node-note">The pattern is speed plus scale, not just hype.</div>
-                        </div>
-                    </div>
+                        <div class="editorial-source">Source: DeepMind materials reports and broad AI-for-science coverage.</div>
+                    </article>
+                    <article class="glass editorial-callout-block" data-span="full" style="--delay: 0.22s;">
+                        <div class="editorial-kicker">The pattern</div>
+                        <h3>Speed plus scale, not just hype.</h3>
+                        <div class="editorial-accent-rule"></div>
+                        <p class="editorial-copy" style="max-width: 62ch;">Once AI can search spaces too large for humans to hold,
+                            entire fields stop asking “is this possible?” and start asking “how fast can we verify the next batch?”</p>
+                        <div class="editorial-source">Source citations appear last so the stage read stays clean but accountable.</div>
+                    </article>
                 </div>
             </div>
         </div>
@@ -2779,45 +4308,46 @@
         <!-- ===== SLIDE 4: EDUCATION PROOF ===== -->
         <div class="slide" data-slide="3">
             <div class="slide-inner">
-                <div class="slide-number anim anim-1">03 / Education Proof</div>
-                <h2 class="anim anim-2" style="margin-bottom: 8px;">What the evidence actually says</h2>
-                <p class="subtitle anim anim-3" style="margin-bottom: 20px; max-width: 46ch;">The best research does
-                    not say “AI is magic.” It says outcomes improve when the tool, the method, and the human setup are
-                    aligned.</p>
-                <div class="evidence-grid anim anim-4">
-                    <div class="glass proof-card">
-                        <div class="proof-label">Meta-analysis</div>
-                        <div class="proof-number">0.86</div>
-                        <p>Recent education meta-analyses found large positive effects overall, with chatbot and
-                            generative-AI studies climbing above 1.0 in some settings.</p>
-                        <div class="proof-note">Signal: strong upside, but context matters.</div>
-                    </div>
-                    <div class="glass proof-card">
-                        <div class="proof-label">Harvard physics trial</div>
-                        <div class="proof-number">4.5 vs 3.5</div>
-                        <p>The Harvard physics trial showed a pedagogically tuned AI tutor outperforming the same
-                            students&apos; classroom condition on post-test mastery.</p>
-                        <div class="proof-note">Structure and scaffolding mattered more than novelty.</div>
-                    </div>
-                    <div class="glass proof-card">
-                        <div class="proof-label">Human-AI hybrid</div>
-                        <div class="proof-number">Stanford Tutor CoPilot</div>
-                        <p>Stanford Tutor CoPilot improved student mastery most for less-experienced tutors, suggesting
-                            AI can raise the floor when humans stay in the loop.</p>
-                        <div class="proof-note">Use AI to augment expertise, not bypass it.</div>
-                    </div>
-                </div>
-                <div class="proof-banner anim anim-5">
-                    <div class="glass">
-                        <strong>structured use helps</strong>
-                        <p>Prompting, tutoring, and workflow gains are strongest when the activity is clearly staged and
-                            the human still owns the judgment.</p>
-                    </div>
-                    <div class="glass">
-                        <strong>unstructured use can backfire</strong>
-                        <p>Students can perform worse later when AI removes the productive struggle instead of supporting
-                            it. Technique is part of the outcome.</p>
-                    </div>
+                <div class="slide-number">03 / Education Proof</div>
+                <h2 style="margin-bottom: 8px;">What the evidence actually says</h2>
+                <p class="subtitle" style="margin-bottom: 20px; max-width: 46ch;">The best research does not say “AI is
+                    magic.” It says outcomes improve when the tool, the method, and the human setup are aligned.</p>
+                <div class="editorial-callout-shell editorial-callout-shell-education">
+                    <article class="glass editorial-callout-block" data-span="wide" style="--delay: 0.05s;">
+                        <div class="editorial-kicker">Meta-analysis signal</div>
+                        <div class="editorial-stat">0.86</div>
+                        <div class="editorial-accent-rule"></div>
+                        <h3>Recent education syntheses still point to meaningful upside.</h3>
+                        <p class="editorial-copy">Chatbot and generative-AI studies can climb above 1.0 in some settings, but the
+                            stronger read is that design and scaffolding change the result.</p>
+                        <div class="editorial-source">Source: recent education meta-analyses summarized for this workshop.</div>
+                    </article>
+                    <article class="glass editorial-callout-block" data-span="tall" style="--delay: 0.14s;">
+                        <div class="editorial-side-list">
+                            <div class="editorial-side-item">
+                                <div class="editorial-kicker">Harvard physics trial</div>
+                                <strong>4.5 vs 3.5</strong>
+                                <p>The Harvard physics trial showed a pedagogically tuned AI tutor outperforming the same students’
+                                    classroom condition on post-test mastery.</p>
+                            </div>
+                            <div class="editorial-side-item">
+                                <div class="editorial-kicker">Human-AI hybrid</div>
+                                <strong>Stanford Tutor CoPilot</strong>
+                                <p>Stanford Tutor CoPilot improved student mastery most for less-experienced tutors, suggesting AI can
+                                    raise the floor when humans stay in the loop.</p>
+                            </div>
+                        </div>
+                        <div class="editorial-source">Source: Harvard and Stanford tutoring studies.</div>
+                    </article>
+                    <article class="glass editorial-callout-block" data-span="full" style="--delay: 0.22s;">
+                        <div class="editorial-kicker">Operational takeaway</div>
+                        <h3>structured use helps. unstructured use can backfire.</h3>
+                        <div class="editorial-accent-rule"></div>
+                        <p class="editorial-copy" style="max-width: 62ch;">Prompting, tutoring, and workflow gains are strongest
+                            when the activity is clearly staged and the human still owns the judgment. Remove the productive
+                            struggle entirely, and later performance can sag.</p>
+                        <div class="editorial-source">Technique is part of the outcome.</div>
+                    </article>
                 </div>
             </div>
         </div>
@@ -2825,38 +4355,44 @@
         <!-- ===== SLIDE 5: TOOL MAP ===== -->
         <div class="slide" data-slide="4">
             <div class="slide-inner">
-                <div class="slide-number anim anim-1">04 / Overview</div>
-                <h2 class="anim anim-2" style="margin-bottom: 8px;">A simple map of the tool landscape</h2>
-                <p class="subtitle anim anim-3" style="margin-bottom: 20px; max-width: 42ch;">Think of AI as a
-                    spectrum. Start broad when you need help thinking. Move narrower when the job demands research,
-                    grounding, or specialized reasoning.</p>
-                <div class="spectrum-shell anim anim-4">
+                <div class="slide-number">04 / Overview</div>
+                <h2 style="margin-bottom: 8px;">A simple map of the tool landscape</h2>
+                <p class="subtitle" style="margin-bottom: 20px; max-width: 42ch;">Think of AI as a spectrum. Start broad
+                    when you need help thinking. Move narrower when the job demands research, grounding, or specialized
+                    reasoning.</p>
+                <div class="spectrum-shell">
                     <div class="spectrum-header">
                         <span class="badge badge-blue">Broad assistants</span>
                         <span class="badge badge-purple">Specialist tools</span>
                     </div>
-                    <div class="spectrum-bar">
-                        <div class="glass spectrum-node">
-                            <div class="spectrum-step">Start here</div>
+                    <div class="orbital-diagram">
+                        <div class="orbital-rings" aria-hidden="true">
+                            <div class="orbital-ring" data-ring="1" style="--delay: 0.1s;"></div>
+                            <div class="orbital-ring" data-ring="2" style="--delay: 0.18s;"></div>
+                            <div class="orbital-ring" data-ring="3" style="--delay: 0.26s;"></div>
+                            <div class="orbital-ring" data-ring="4" style="--delay: 0.34s;"></div>
+                        </div>
+                        <div class="orbital-core">AI</div>
+                        <button class="orbital-node" style="--x: 128px; --y: -184px; --delay: 0.42s;" type="button">
+                            <div class="orbital-step">Start here</div>
                             <h3>General chat</h3>
                             <p>Brainstorm, write, plan, summarize, and ask “where do I even begin?” questions.</p>
-                        </div>
-                        <div class="glass spectrum-node">
-                            <div class="spectrum-step">Add leverage</div>
+                        </button>
+                        <button class="orbital-node" style="--x: 202px; --y: -22px; --delay: 0.52s;" type="button">
+                            <div class="orbital-step">Add leverage</div>
                             <h3>Creative and coding</h3>
                             <p>Generate visuals, iterate on code, and produce first drafts faster than blank-page work.</p>
-                        </div>
-                        <div class="glass spectrum-node">
-                            <div class="spectrum-step">Tighter focus</div>
+                        </button>
+                        <button class="orbital-node" style="--x: -236px; --y: 46px; --delay: 0.62s;" type="button">
+                            <div class="orbital-step">Tighter focus</div>
                             <h3>Research and source work</h3>
                             <p>Use tools built for citations, documents, and context windows when accuracy matters.</p>
-                        </div>
-                        <div class="glass spectrum-node">
-                            <div class="spectrum-step">Narrow specialist</div>
+                        </button>
+                        <button class="orbital-node" style="--x: -116px; --y: 186px; --delay: 0.72s;" type="button">
+                            <div class="orbital-step">Narrow specialist</div>
                             <h3>Reasoning and private analysis</h3>
-                            <p>Bring in specialist models when you need deeper problem-solving or grounded internal data
-                                work.</p>
-                        </div>
+                            <p>Bring in specialist models when you need deeper problem-solving or grounded internal data work.</p>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -2865,49 +4401,59 @@
         <!-- ===== SLIDE 6: BIG THREE ===== -->
         <div class="slide" data-slide="5">
             <div class="slide-inner">
-                <div class="slide-number anim anim-1">05 / Core Assistants</div>
-                <h2 class="anim anim-2" style="margin-bottom: 8px;">Meet the Big Three</h2>
-                <p class="subtitle anim anim-3" style="margin-bottom: 20px;">Three leading general-purpose AI
+                <div class="slide-number">05 / Core Assistants</div>
+                <h2 style="margin-bottom: 8px;">Meet the Big Three</h2>
+                <p class="subtitle" style="margin-bottom: 20px; max-width: 40ch;">Three leading general-purpose AI
                     assistants available today.</p>
-                <div class="card-grid card-grid-3 anim anim-4">
-                    <div class="glass tool-card">
-                        <div class="tool-icon" style="background:rgba(16,163,127,0.15); color:#10a37f;">
-                            <img src="assets/logos/chatgpt.svg" alt="ChatGPT logo" class="brand-logo tool-logo">
+                <div class="assistant-constellation">
+                    <div class="assistant-constellation-bg" id="assistantConstellationLayer" aria-hidden="true"></div>
+                    <div class="assistant-constellation-grid">
+                        <div class="assistant-node-cluster">
+                            <button class="assistant-orb is-active" type="button" data-assistant="chatgpt" aria-label="Highlight ChatGPT">
+                                <img src="assets/logos/chatgpt.svg" alt="ChatGPT logo">
+                            </button>
+                            <button class="assistant-orb" type="button" data-assistant="claude" aria-label="Highlight Claude">
+                                <img src="assets/logos/claude.svg" alt="Claude logo">
+                            </button>
+                            <button class="assistant-orb" type="button" data-assistant="gemini" aria-label="Highlight Gemini">
+                                <img src="assets/logos/gemini.svg" alt="Gemini logo">
+                            </button>
                         </div>
-                        <h3>ChatGPT</h3>
-                        <div class="tool-label">OpenAI &middot; GPT-5 family</div>
-                        <span class="badge badge-green" style="margin-bottom: 10px;">The All-Rounder</span>
-                        <p>Strong for writing, coding, data analysis, multimodal work, and general-purpose problem
-                            solving.</p>
-                        <p
-                            style="margin-top:8px;font-size:13px;color:var(--text-dim);font-family:'JetBrains Mono',monospace;">
-                            Free plan available &bull; Plus $20/mo &bull; Pro $200/mo</p>
-                    </div>
-                    <div class="glass tool-card">
-                        <div class="tool-icon" style="background:rgba(139,92,246,0.15); color:#8b5cf6;">
-                            <img src="assets/logos/claude.svg" alt="Claude logo" class="brand-logo tool-logo">
+                        <div class="assistant-panel-list">
+                            <article class="assistant-panel is-active" data-assistant-panel="chatgpt">
+                                <div class="assistant-panel-header">
+                                    <div>
+                                        <h3>ChatGPT</h3>
+                                        <div class="tool-label">OpenAI &middot; GPT-5 family</div>
+                                    </div>
+                                    <span class="badge badge-green">The All-Rounder</span>
+                                </div>
+                                <p>Strong for writing, coding, data analysis, multimodal work, and general-purpose problem solving.</p>
+                                <p style="margin-top:2px;font-size:13px;color:var(--text-dim);font-family:'JetBrains Mono',monospace;">Free plan available &bull; Plus $20/mo &bull; Pro $200/mo</p>
+                            </article>
+                            <article class="assistant-panel" data-assistant-panel="claude">
+                                <div class="assistant-panel-header">
+                                    <div>
+                                        <h3>Claude</h3>
+                                        <div class="tool-label">Anthropic &middot; Claude Sonnet 4.6</div>
+                                    </div>
+                                    <span class="badge badge-purple">The Writer / Coder</span>
+                                </div>
+                                <p>Excellent for long-form writing, careful reasoning, coding, and structured professional work.</p>
+                                <p style="margin-top:2px;font-size:13px;color:var(--text-dim);font-family:'JetBrains Mono',monospace;">Free plan available &bull; Pro $20/mo &bull; higher-tier plans available</p>
+                            </article>
+                            <article class="assistant-panel" data-assistant-panel="gemini">
+                                <div class="assistant-panel-header">
+                                    <div>
+                                        <h3>Gemini</h3>
+                                        <div class="tool-label">Google &middot; Gemini</div>
+                                    </div>
+                                    <span class="badge badge-blue">The Integrator</span>
+                                </div>
+                                <p>Strong for Google ecosystem workflows, long-context tasks, multimodal assistance, and Search-connected answers.</p>
+                                <p style="margin-top:2px;font-size:13px;color:var(--text-dim);font-family:'JetBrains Mono',monospace;">Free tier available &bull; Google AI plans available</p>
+                            </article>
                         </div>
-                        <h3>Claude</h3>
-                        <div class="tool-label">Anthropic &middot; Claude Sonnet 4.6</div>
-                        <span class="badge badge-purple" style="margin-bottom: 10px;">The Writer / Coder</span>
-                        <p>Excellent for long-form writing, careful reasoning, coding, and structured professional
-                            work.</p>
-                        <p
-                            style="margin-top:8px;font-size:13px;color:var(--text-dim);font-family:'JetBrains Mono',monospace;">
-                            Free plan available &bull; Pro $20/mo &bull; higher-tier plans available</p>
-                    </div>
-                    <div class="glass tool-card">
-                        <div class="tool-icon" style="background:rgba(59,130,246,0.15); color:#3b82f6;">
-                            <img src="assets/logos/gemini.svg" alt="Gemini logo" class="brand-logo tool-logo">
-                        </div>
-                        <h3>Gemini</h3>
-                        <div class="tool-label">Google &middot; Gemini</div>
-                        <span class="badge badge-blue" style="margin-bottom: 10px;">The Integrator</span>
-                        <p>Strong for Google ecosystem workflows, long-context tasks, multimodal assistance, and
-                            Search-connected answers.</p>
-                        <p
-                            style="margin-top:8px;font-size:13px;color:var(--text-dim);font-family:'JetBrains Mono',monospace;">
-                            Free tier available &bull; Google AI plans available</p>
                     </div>
                 </div>
             </div>
@@ -2916,54 +4462,18 @@
         <!-- ===== SLIDE 7: SPECIALISTS ===== -->
         <div class="slide" data-slide="6">
             <div class="slide-inner">
-                <div class="slide-number anim anim-1">06 / Specialists</div>
-                <h2 class="anim anim-2" style="margin-bottom: 8px;">When the job gets narrower</h2>
-                <p class="subtitle anim anim-3" style="margin-bottom: 16px;">Focused tools for research, grounded
+                <div class="slide-number">06 / Specialists</div>
+                <h2 style="margin-bottom: 8px;">When the job gets narrower</h2>
+                <p class="subtitle" style="margin-bottom: 16px; max-width: 38ch;">Focused tools for research, grounded
                     documents, and reasoning-heavy work.</p>
-                <div class="card-grid card-grid-2 anim anim-4">
-                    <div class="glass tool-card">
-                        <div class="tool-icon" style="background:rgba(6,182,212,0.15); color:#06b6d4;">
-                            <img src="assets/logos/perplexity.svg" alt="Perplexity logo" class="brand-logo tool-logo">
+                <div class="specialist-carousel">
+                    <div class="specialist-carousel-track" id="specialistCarouselTrack"></div>
+                    <div class="specialist-carousel-controls">
+                        <div class="specialist-carousel-nav">
+                            <button class="specialist-nav-btn" id="specialistPrevBtn" type="button" aria-label="Previous specialist">&#8249;</button>
+                            <button class="specialist-nav-btn" id="specialistNextBtn" type="button" aria-label="Next specialist">&#8250;</button>
                         </div>
-                        <h3>Perplexity</h3>
-                        <div class="tool-label">The Research Assistant</div>
-                        <p>Direct answers with citations and live web search.</p>
-                        <a href="https://perplexity.ai" target="_blank"
-                            style="display:inline-block; margin-top:8px; font-size:13px; color:var(--accent); text-decoration:none; font-family:'JetBrains Mono',monospace;">→
-                            perplexity.ai</a>
-                    </div>
-                    <div class="glass tool-card">
-                        <div class="tool-icon" style="background:rgba(245,158,11,0.15); color:#f59e0b;">
-                            <img src="assets/logos/notebooklm.svg" alt="NotebookLM logo" class="brand-logo tool-logo">
-                        </div>
-                        <h3>NotebookLM</h3>
-                        <div class="tool-label">The Private Analyst</div>
-                        <p>Ask grounded questions against your own sources, notes, and files.</p>
-                        <a href="https://notebooklm.google.com" target="_blank"
-                            style="display:inline-block; margin-top:8px; font-size:13px; color:var(--accent); text-decoration:none; font-family:'JetBrains Mono',monospace;">→
-                            notebooklm.google.com</a>
-                    </div>
-                    <div class="glass tool-card">
-                        <div class="tool-icon" style="background:rgba(59,130,246,0.15); color:#3b82f6;">
-                            <img src="assets/logos/deepseek.svg" alt="DeepSeek logo" class="brand-logo tool-logo">
-                        </div>
-                        <h3>DeepSeek</h3>
-                        <div class="tool-label">The Reasoning Engine</div>
-                        <p>Reasoning-first help for coding, math, and technical problem-solving.</p>
-                        <a href="https://chat.deepseek.com" target="_blank"
-                            style="display:inline-block; margin-top:8px; font-size:13px; color:var(--accent); text-decoration:none; font-family:'JetBrains Mono',monospace;">→
-                            chat.deepseek.com</a>
-                    </div>
-                    <div class="glass tool-card">
-                        <div class="tool-icon" style="background:rgba(239,68,68,0.15); color:#ef4444;">
-                            <img src="assets/logos/grok.svg" alt="Grok logo" class="brand-logo tool-logo">
-                        </div>
-                        <h3>Grok</h3>
-                        <div class="tool-label">The Real-Time Companion</div>
-                        <p>Useful for live trends, current events, and public-web signal.</p>
-                        <a href="https://grok.x.ai" target="_blank"
-                            style="display:inline-block; margin-top:8px; font-size:13px; color:var(--accent); text-decoration:none; font-family:'JetBrains Mono',monospace;">→
-                            grok.x.ai</a>
+                        <div class="specialist-carousel-dots" id="specialistCarouselDots"></div>
                     </div>
                 </div>
             </div>
@@ -2972,68 +4482,91 @@
         <!-- ===== SLIDE 8: APPLICATIONS ===== -->
         <div class="slide" data-slide="7">
             <div class="slide-inner">
-                <div class="slide-number anim anim-1">07 / Applications</div>
-                <h2 class="anim anim-2" style="margin-bottom: 8px;">Where this gets useful fast</h2>
-                <p class="subtitle anim anim-3" style="margin-bottom: 20px; max-width: 44ch;">The point is not to learn
-                    every tool. The point is to spot the first place AI can save you time, unblock you, or help you make
-                    something real.</p>
-                <div class="use-case-groups anim anim-4">
-                    <div class="glass use-case-cluster">
-                        <div class="cluster-label">Local business</div>
-                        <p class="cluster-intro">Use AI to move faster on customer-facing work you already understand.</p>
-                        <div class="cluster-list">
-                            <div class="cluster-point">
-                                <div class="use-icon"><img src="assets/images/generated/practical-use-cases-logos-v1/hospitality_logo-01.png" alt="Hospitality logo" class="use-icon-image"></div>
-                                <div><h3>Hospitality and retail</h3><p>Draft guest replies, create offers, and turn rough ideas into usable marketing copy.</p></div>
-                            </div>
-                            <div class="cluster-point">
-                                <div class="use-icon"><img src="assets/images/generated/practical-use-cases-logos-v1/trades_logo-01.png" alt="Trades logo" class="use-icon-image"></div>
-                                <div><h3>Trades and services</h3><p>Estimate materials, draft bids, and troubleshoot with photos before you burn time on the wrong lead.</p></div>
+                <div class="slide-number">07 / Applications</div>
+                <h2 style="margin-bottom: 8px;">Where this gets useful fast</h2>
+                <p class="subtitle" style="margin-bottom: 20px; max-width: 44ch;">The point is not to learn every tool.
+                    The point is to spot the first place AI can save you time, unblock you, or help you make something real.</p>
+                <div class="use-case-scene-grid">
+                    <article class="glass use-case-scene-card" style="--delay: 0.06s;">
+                        <div class="use-case-scene-media">
+                            <img src="assets/images/generated/practical-use-cases/hospitality-01.png" alt="Hospitality scene">
+                        </div>
+                        <div class="use-case-scene-body">
+                            <div class="use-case-scene-eyebrow">Local business</div>
+                            <h3>Customer-facing work gets easier to ship.</h3>
+                            <p>Use AI to move faster on customer-facing work you already understand.</p>
+                            <div class="use-case-sublist">
+                                <div class="use-case-subitem">
+                                    <div class="use-case-subicon"><img src="assets/images/generated/practical-use-cases-logos-v1/hospitality_logo-01.png" alt="Hospitality icon"></div>
+                                    <div><strong>Hospitality and retail</strong><br>Draft guest replies, create offers, and turn rough ideas into usable marketing copy.</div>
+                                </div>
+                                <div class="use-case-subitem">
+                                    <div class="use-case-subicon"><img src="assets/images/generated/practical-use-cases-logos-v1/trades_logo-01.png" alt="Trades icon"></div>
+                                    <div><strong>Trades and services</strong><br>Estimate materials, draft bids, and troubleshoot with photos before you burn time on the wrong lead.</div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="glass use-case-cluster">
-                        <div class="cluster-label">Learning and research</div>
-                        <p class="cluster-intro">Use AI to compress reading time and surface the next right question.</p>
-                        <div class="cluster-list">
-                            <div class="cluster-point">
-                                <div class="use-icon"><img src="assets/images/generated/practical-use-cases-logos-v1/libraries_logo-01.png" alt="Libraries logo" class="use-icon-image"></div>
-                                <div><h3>Study and synthesis</h3><p>Summarize documents, build reading lists, and turn dense sources into clean briefings.</p></div>
-                            </div>
-                            <div class="cluster-point">
-                                <div class="use-icon"><img src="assets/images/generated/practical-use-cases-logos-v1/education_logo-01.png" alt="Education logo" class="use-icon-image"></div>
-                                <div><h3>Tutoring support</h3><p>Create study guides, practice explanations, and break hard material into staged learning steps.</p></div>
+                    </article>
+                    <article class="glass use-case-scene-card" style="--delay: 0.14s;">
+                        <div class="use-case-scene-media">
+                            <img src="assets/images/generated/practical-use-cases/libraries-01.png" alt="Library research scene">
+                        </div>
+                        <div class="use-case-scene-body">
+                            <div class="use-case-scene-eyebrow">Learning and research</div>
+                            <h3>Reading compression without losing the plot.</h3>
+                            <p>Use AI to compress reading time and surface the next right question.</p>
+                            <div class="use-case-sublist">
+                                <div class="use-case-subitem">
+                                    <div class="use-case-subicon"><img src="assets/images/generated/practical-use-cases-logos-v1/libraries_logo-01.png" alt="Libraries icon"></div>
+                                    <div><strong>Study and synthesis</strong><br>Summarize documents, build reading lists, and turn dense sources into clean briefings.</div>
+                                </div>
+                                <div class="use-case-subitem">
+                                    <div class="use-case-subicon"><img src="assets/images/generated/practical-use-cases-logos-v1/education_logo-01.png" alt="Education icon"></div>
+                                    <div><strong>Tutoring support</strong><br>Create study guides, practice explanations, and break hard material into staged learning steps.</div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="glass use-case-cluster">
-                        <div class="cluster-label">Career and work</div>
-                        <p class="cluster-intro">Use AI to sharpen communication, preparation, and follow-through.</p>
-                        <div class="cluster-list">
-                            <div class="cluster-point">
-                                <div class="use-icon"><img src="assets/images/generated/practical-use-cases-logos-v1/job_seekers_logo-01.png" alt="Job seekers logo" class="use-icon-image"></div>
-                                <div><h3>Job search</h3><p>Tailor resumes, practice interviews, and research companies without starting from a blank page each time.</p></div>
-                            </div>
-                            <div class="cluster-point">
-                                <div class="use-icon"><img src="assets/images/generated/practical-use-cases-logos-v1/legal_logo-01.png" alt="Legal logo" class="use-icon-image"></div>
-                                <div><h3>Knowledge work</h3><p>Review documents, draft correspondence, and summarize long threads into next actions.</p></div>
+                    </article>
+                    <article class="glass use-case-scene-card" style="--delay: 0.22s;">
+                        <div class="use-case-scene-media">
+                            <img src="assets/images/generated/practical-use-cases/job_seekers-01.png" alt="Job search scene">
+                        </div>
+                        <div class="use-case-scene-body">
+                            <div class="use-case-scene-eyebrow">Career and work</div>
+                            <h3>Preparation gets sharper before you ever hit send.</h3>
+                            <p>Use AI to sharpen communication, preparation, and follow-through.</p>
+                            <div class="use-case-sublist">
+                                <div class="use-case-subitem">
+                                    <div class="use-case-subicon"><img src="assets/images/generated/practical-use-cases-logos-v1/job_seekers_logo-01.png" alt="Job seekers icon"></div>
+                                    <div><strong>Job search</strong><br>Tailor resumes, practice interviews, and research companies without starting from a blank page each time.</div>
+                                </div>
+                                <div class="use-case-subitem">
+                                    <div class="use-case-subicon"><img src="assets/images/generated/practical-use-cases-logos-v1/legal_logo-01.png" alt="Knowledge work icon"></div>
+                                    <div><strong>Knowledge work</strong><br>Review documents, draft correspondence, and summarize long threads into next actions.</div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="glass use-case-cluster">
-                        <div class="cluster-label">Personal projects</div>
-                        <p class="cluster-intro">Use AI to turn curiosity into finished experiments instead of abandoned tabs.</p>
-                        <div class="cluster-list">
-                            <div class="cluster-point">
-                                <div class="use-icon"><img src="assets/images/generated/practical-use-cases-logos-v1/local_news_logo-01.png" alt="Local news logo" class="use-icon-image"></div>
-                                <div><h3>Independent research</h3><p>Track local issues, compare sources, and turn scattered notes into a clear point of view.</p></div>
-                            </div>
-                            <div class="cluster-point">
-                                <div class="use-icon"><img src="assets/images/generated/practical-use-cases-logos-v1/real_estate_logo-01.png" alt="Real estate logo" class="use-icon-image"></div>
-                                <div><h3>Build-for-yourself projects</h3><p>Draft plans, create visuals, and prototype ideas that would have felt out of reach before.</p></div>
+                    </article>
+                    <article class="glass use-case-scene-card" style="--delay: 0.3s;">
+                        <div class="use-case-scene-media">
+                            <img src="assets/images/generated/practical-use-cases/real_estate-01.png" alt="Independent project scene">
+                        </div>
+                        <div class="use-case-scene-body">
+                            <div class="use-case-scene-eyebrow">Personal projects</div>
+                            <h3>Curiosity turns into something tangible.</h3>
+                            <p>Use AI to turn curiosity into finished experiments instead of abandoned tabs.</p>
+                            <div class="use-case-sublist">
+                                <div class="use-case-subitem">
+                                    <div class="use-case-subicon"><img src="assets/images/generated/practical-use-cases-logos-v1/local_news_logo-01.png" alt="Local news icon"></div>
+                                    <div><strong>Independent research</strong><br>Track local issues, compare sources, and turn scattered notes into a clear point of view.</div>
+                                </div>
+                                <div class="use-case-subitem">
+                                    <div class="use-case-subicon"><img src="assets/images/generated/practical-use-cases-logos-v1/real_estate_logo-01.png" alt="Build for yourself icon"></div>
+                                    <div><strong>Build-for-yourself projects</strong><br>Draft plans, create visuals, and prototype ideas that would have felt out of reach before.</div>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </article>
                 </div>
             </div>
         </div>
@@ -3041,82 +4574,56 @@
         <!-- ===== SLIDE 9: PROMPT LAB ===== -->
         <div class="slide" data-slide="8">
             <div class="slide-inner">
-                <div class="slide-number anim anim-1">08 / Prompt Lab</div>
-                <h2 class="anim anim-2" style="margin-bottom: 8px;">Prompt Lab</h2>
-                <p class="subtitle anim anim-3" style="margin-bottom: 12px; max-width: 46ch;">The workshop payoff:
-                    technique changes output. The framework stays compact up top while the live specimen stays big
-                    enough to actually use.</p>
-                <div class="prompt-mode-row anim anim-4">
+                <div class="slide-number">08 / Prompt Lab</div>
+                <h2 style="margin-bottom: 8px;">Prompt Lab</h2>
+                <p class="subtitle" style="margin-bottom: 12px; max-width: 46ch;">The workshop payoff: technique changes
+                    output. The framework stays visible while the live specimen behaves like a deck you can actually drive on stage.</p>
+                <div class="prompt-mode-row">
                     <div class="prompt-mode-pills">
                         <span class="prompt-mode-pill">Teach mode</span>
                         <span class="prompt-mode-pill">Operator mode</span>
                     </div>
                     <div class="prompt-focus-readout">Teach mode spotlight: <strong id="promptTeachFocus">Role</strong></div>
                 </div>
-                <div class="anim anim-4 prompt-formula-grid prompt-framework-strip">
-                    <div class="glass formula-block" data-prompt-part="role">
-                        <div class="formula-icon">01</div>
-                        <div>
-                            <div class="formula-label" style="color: #9fc7ff;">Role</div>
-                            <div class="formula-text" id="promptRoleBoxText">Tell the AI who to be and what expertise to borrow.</div>
+                <div class="prompt-stack-shell">
+                    <div class="prompt-stack-formulas prompt-formula-grid prompt-framework-strip">
+                        <div class="glass formula-block" data-prompt-part="role">
+                            <div class="formula-icon">01</div>
+                            <div>
+                                <div class="formula-label" style="color: #9fc7ff;">Role</div>
+                                <div class="formula-text" id="promptRoleBoxText">Tell the AI who to be and what expertise to borrow.</div>
+                            </div>
+                        </div>
+                        <div class="glass formula-block" data-prompt-part="task">
+                            <div class="formula-icon">02</div>
+                            <div>
+                                <div class="formula-label" style="color: #34d399;">Task</div>
+                                <div class="formula-text" id="promptTaskBoxText">State exactly what you need it to do for you right now.</div>
+                            </div>
+                        </div>
+                        <div class="glass formula-block" data-prompt-part="context">
+                            <div class="formula-icon">03</div>
+                            <div>
+                                <div class="formula-label" style="color: #fbbf24;">Context</div>
+                                <div class="formula-text" id="promptContextBoxText">Supply the facts, constraints, and audience so it does not guess badly.</div>
+                            </div>
+                        </div>
+                        <div class="glass formula-block" data-prompt-part="format">
+                            <div class="formula-icon">04</div>
+                            <div>
+                                <div class="formula-label" style="color: #ff9b80;">Format</div>
+                                <div class="formula-text" id="promptFormatBoxText">Ask for the shape of answer you want to receive back.</div>
+                            </div>
                         </div>
                     </div>
-                    <div class="glass formula-block" data-prompt-part="task">
-                        <div class="formula-icon">02</div>
-                        <div>
-                            <div class="formula-label" style="color: #34d399;">Task</div>
-                            <div class="formula-text" id="promptTaskBoxText">State exactly what you need it to do for you right now.</div>
+                    <div class="prompt-card-stack prompt-stage-panel">
+                        <div class="prompt-stage-toolbar">
+                            <div class="prompt-heading">LIVE SPECIMEN</div>
+                            <div class="prompt-focus-readout">Operator mode: full packet stays live for the demo. <span class="prompt-stack-position" id="promptStackPosition">1 / 10</span></div>
                         </div>
+                        <div class="prompt-stack-cards" id="promptStackCards"></div>
+                        <div class="prompt-copy-status" id="promptCopyStatus" aria-live="polite"></div>
                     </div>
-                    <div class="glass formula-block" data-prompt-part="context">
-                        <div class="formula-icon">03</div>
-                        <div>
-                            <div class="formula-label" style="color: #fbbf24;">Context</div>
-                            <div class="formula-text" id="promptContextBoxText">Supply the facts, constraints, and audience so it does not guess badly.</div>
-                        </div>
-                    </div>
-                    <div class="glass formula-block" data-prompt-part="format">
-                        <div class="formula-icon">04</div>
-                        <div>
-                            <div class="formula-label" style="color: #ff9b80;">Format</div>
-                            <div class="formula-text" id="promptFormatBoxText">Ask for the shape of answer you want to receive back.</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="prompt-example prompt-stage-panel anim anim-5">
-                    <div class="prompt-stage-toolbar">
-                        <div class="prompt-heading">LIVE SPECIMEN</div>
-                        <div class="prompt-focus-readout">Operator mode: full packet stays live for the demo.</div>
-                    </div>
-                    <div class="prompt-meta-row">
-                        <div class="prompt-chips">
-                            <span class="prompt-chip" id="promptCategory">Deep Research</span>
-                            <span class="prompt-chip platform-chip" id="promptPlatform">
-                                <img class="platform-logo" id="promptPlatformLogo" src="assets/logos/chatgpt.svg"
-                                    alt="ChatGPT logo">
-                                <span id="promptPlatformLabel">ChatGPT</span>
-                            </span>
-                            <span class="prompt-chip prompt-chip-counter" id="promptCounter">1 / 9</span>
-                        </div>
-                    </div>
-                    <div class="prompt-legend">
-                        <span class="prompt-role" data-prompt-part="role">Role</span>
-                        <span class="prompt-task" data-prompt-part="task">Task</span>
-                        <span class="prompt-context" data-prompt-part="context">Context</span>
-                        <span class="prompt-format" data-prompt-part="format">Format</span>
-                    </div>
-                    <div class="prompt-text" id="promptText" aria-live="polite"></div>
-                    <div class="prompt-controls">
-                        <button class="prompt-control-btn" id="promptPrevBtn" type="button">&larr; Prev Prompt</button>
-                        <button class="prompt-control-btn" id="promptCopyPacketBtn" type="button">Copy Demo Packet</button>
-                        <button class="prompt-control-btn" id="promptNextBtn" type="button">Next Prompt &rarr;</button>
-                    </div>
-                    <div class="prompt-data-hint" id="promptDataHint">One click copies a run packet with only the
-                        prompt and inputs required for the selected demo.</div>
-                    <div class="prompt-run-guide" id="promptRunGuide">Quick run: open a fresh chat, add only listed
-                        inputs, paste the copied packet, and run.</div>
-                    <div class="prompt-asset-gallery" id="promptAssetGallery" style="display:none;"></div>
-                    <div class="prompt-copy-status" id="promptCopyStatus" aria-live="polite"></div>
                 </div>
             </div>
         </div>
@@ -3124,54 +4631,40 @@
         <!-- ===== SLIDE 10: SAFETY ===== -->
         <div class="slide" data-slide="9">
             <div class="slide-inner">
-                <div class="slide-number anim anim-1">09 / Safety</div>
-                <h2 class="anim anim-2" style="margin-bottom: 8px;">Use it boldly, use it responsibly</h2>
-                <p class="subtitle anim anim-3" style="margin-bottom: 20px; max-width: 42ch;">A good AI workflow keeps
-                    momentum high without pretending the tool is infallible.</p>
-                <div class="card-grid safety-grid anim anim-4">
-                    <div class="glass safety-item">
-                        <div class="safety-icon">
-                            <img src="assets/images/generated/safety-ethics-logos-v2/privacy_first_logo-02-01.png"
-                                alt="Privacy First icon" class="safety-icon-image">
-                        </div>
-                        <div>
-                            <h3>Protect sensitive data</h3>
-                            <p>Do not paste passwords, SSNs, or confidential records into consumer chat tools. Business
-                                and API products often have different privacy defaults.</p>
-                        </div>
+                <div class="slide-number">09 / Safety</div>
+                <h2 style="margin-bottom: 8px;">Use it boldly, use it responsibly</h2>
+                <p class="subtitle" style="margin-bottom: 20px; max-width: 42ch;">A good AI workflow keeps momentum high
+                    without pretending the tool is infallible.</p>
+                <div class="safety-shield-grid">
+                    <div class="glass safety-shield" style="--ripple-order: 2; --pulse-delay: 1;">
+                        <div class="safety-icon"><img src="assets/images/generated/safety-ethics-logos-v2/privacy_first_logo-02-01.png" alt="Privacy First icon" class="safety-icon-image"></div>
+                        <h3>Protect sensitive data</h3>
+                        <p>Do not paste passwords, SSNs, or confidential records into consumer chat tools. Business and API products often have different privacy defaults.</p>
                     </div>
-                    <div class="glass safety-item">
-                        <div class="safety-icon">
-                            <img src="assets/images/generated/safety-ethics-logos-v2/verify_everything_logo-02-01.png"
-                                alt="Verify Everything icon" class="safety-icon-image">
-                        </div>
-                        <div>
-                            <h3>Verify important claims</h3>
-                            <p>Dates, statistics, citations, and legal or medical guidance still need human checking
-                                before you trust them.</p>
-                        </div>
+                    <div class="glass safety-shield" style="--ripple-order: 1; --pulse-delay: 0;">
+                        <div class="safety-icon"><img src="assets/images/generated/safety-ethics-logos-v2/verify_everything_logo-02-01.png" alt="Verify Everything icon" class="safety-icon-image"></div>
+                        <h3>Verify important claims</h3>
+                        <p>Dates, statistics, citations, and legal or medical guidance still need human checking before you trust them.</p>
                     </div>
-                    <div class="glass safety-item">
-                        <div class="safety-icon">
-                            <img src="assets/images/generated/safety-ethics-logos-v2/disclose_ai_use_logo-02-01.png"
-                                alt="Disclose AI Use icon" class="safety-icon-image">
-                        </div>
-                        <div>
-                            <h3>Disclose meaningful AI help</h3>
-                            <p>Be honest when AI shaped work you are presenting professionally, academically, or publicly.
-                                Trust is worth keeping.</p>
-                        </div>
+                    <div class="glass safety-shield" style="--ripple-order: 2; --pulse-delay: 2;">
+                        <div class="safety-icon"><img src="assets/images/generated/safety-ethics-logos-v2/disclose_ai_use_logo-02-01.png" alt="Disclose AI Use icon" class="safety-icon-image"></div>
+                        <h3>Disclose meaningful AI help</h3>
+                        <p>Be honest when AI shaped work you are presenting professionally, academically, or publicly. Trust is worth keeping.</p>
                     </div>
-                    <div class="glass safety-item">
-                        <div class="safety-icon">
-                            <img src="assets/images/generated/safety-ethics-logos-v2/think_critically_logo-02-01.png"
-                                alt="Think critically icon" class="safety-icon-image">
-                        </div>
-                        <div>
-                            <h3>Human review is a feature</h3>
-                            <p>Use AI to accelerate thinking, not replace it. The strongest results still come from human
-                                judgment plus AI leverage.</p>
-                        </div>
+                    <div class="glass safety-shield" style="--ripple-order: 3; --pulse-delay: 3;">
+                        <div class="safety-icon"><img src="assets/images/generated/safety-ethics-logos-v2/think_critically_logo-02-01.png" alt="Think critically icon" class="safety-icon-image"></div>
+                        <h3>Human review is a feature</h3>
+                        <p>Use AI to accelerate thinking, not replace it. The strongest results still come from human judgment plus AI leverage.</p>
+                    </div>
+                    <div class="glass safety-shield" style="--ripple-order: 4; --pulse-delay: 4;">
+                        <div class="safety-icon"><img src="assets/images/generated/safety-ethics-logos-v2/ownership_ip_logo-02-01.png" alt="Ownership and IP icon" class="safety-icon-image"></div>
+                        <h3>Respect ownership and IP</h3>
+                        <p>Know what content you are allowed to reuse, remix, or publish. Fast output is not the same as clean rights.</p>
+                    </div>
+                    <div class="glass safety-shield" style="--ripple-order: 5; --pulse-delay: 5;">
+                        <div class="safety-icon"><img src="assets/images/generated/safety-ethics-logos-v2/deepfakes_misuse_logo-02-01.png" alt="Deepfakes and misuse icon" class="safety-icon-image"></div>
+                        <h3>Don’t normalize misuse</h3>
+                        <p>Deception, impersonation, and lazy misinformation scale just as fast as the good stuff. That part is a choice.</p>
                     </div>
                 </div>
             </div>
@@ -3179,48 +4672,51 @@
 
         <!-- ===== SLIDE 11: TONIGHT ACTION ===== -->
         <div class="slide" data-slide="10">
-            <div class="slide-inner" style="text-align: center;">
-                <div class="slide-number anim anim-1">10 / Tonight</div>
-                <h2 class="anim anim-2" style="margin-bottom: 8px;">Try one thing tonight</h2>
-                <p class="subtitle anim anim-3"
-                    style="margin-bottom: 24px; max-width: 760px; margin-left:auto; margin-right:auto;">You do not need
-                    a giant system to start. Pick one useful first win and let that change what feels possible next.</p>
-                <div class="cta-grid anim anim-4" style="margin-bottom: 18px;">
-                    <a href="https://perplexity.ai" target="_blank" class="glass link-card tonight-card">
-                        <div class="link-icon"><img src="assets/logos/perplexity.svg" alt="Perplexity logo"
-                                class="brand-logo link-logo"></div>
-                        <div style="text-align:left;">
-                            <div class="link-label">Ask one research question</div>
-                            <div class="link-url">Perplexity &middot; get citations instead of ten blue links</div>
+            <div class="slide-inner">
+                <div class="callback-montage">
+                    <div class="montage-fragment" data-fragment="title">THE AI<br>BREAKDOWN</div>
+                    <div class="montage-fragment" data-fragment="orbit"></div>
+                    <div class="montage-fragment" data-fragment="quote">“Technique changes output.”</div>
+                    <div class="montage-fragment" data-fragment="logo"></div>
+                    <div class="montage-fragment" data-fragment="shield"></div>
+                    <div class="montage-fragment" data-fragment="prompt"></div>
+                    <div class="montage-fragment" data-fragment="rule"></div>
+                    <div class="glass callback-cta-card">
+                        <div class="slide-number">10 / Tonight</div>
+                        <h2 style="margin-bottom: 8px;">Try one thing tonight</h2>
+                        <p class="subtitle">You do not need a giant system to start. Pick one useful first win and let that change what feels possible next.</p>
+                        <div class="cta-grid">
+                            <a href="https://perplexity.ai" target="_blank" class="glass link-card tonight-card">
+                                <div class="link-icon"><img src="assets/logos/perplexity.svg" alt="Perplexity logo" class="brand-logo link-logo"></div>
+                                <div style="text-align:left;">
+                                    <div class="link-label">Ask one research question</div>
+                                    <div class="link-url">Perplexity &middot; get citations instead of ten blue links</div>
+                                </div>
+                            </a>
+                            <a href="https://notebooklm.google.com" target="_blank" class="glass link-card tonight-card">
+                                <div class="link-icon"><img src="assets/logos/notebooklm.svg" alt="NotebookLM logo" class="brand-logo link-logo"></div>
+                                <div style="text-align:left;">
+                                    <div class="link-label">Upload one document</div>
+                                    <div class="link-url">NotebookLM &middot; turn your own material into a briefing</div>
+                                </div>
+                            </a>
+                            <a href="https://chatgpt.com" target="_blank" class="glass link-card tonight-card">
+                                <div class="link-icon"><img src="assets/logos/chatgpt.svg" alt="ChatGPT logo" class="brand-logo link-logo"></div>
+                                <div style="text-align:left;">
+                                    <div class="link-label">Start one practical conversation</div>
+                                    <div class="link-url">ChatGPT &middot; ask for help on a real task you already care about</div>
+                                </div>
+                            </a>
                         </div>
-                    </a>
-                    <a href="https://notebooklm.google.com" target="_blank" class="glass link-card tonight-card">
-                        <div class="link-icon"><img src="assets/logos/notebooklm.svg" alt="NotebookLM logo"
-                                class="brand-logo link-logo"></div>
-                        <div style="text-align:left;">
-                            <div class="link-label">Upload one document</div>
-                            <div class="link-url">NotebookLM &middot; turn your own material into a briefing</div>
+                        <div class="glass contact-panel secondary-contact-panel">
+                            <h3>Questions? Let's connect.</h3>
+                            <div class="contact-bar">
+                                <div class="contact-item"><span>📧</span> <a class="contact-link" href="mailto:Adam88gur@gmail.com">Adam88gur@gmail.com</a></div>
+                                <div class="contact-item"><span>📸</span> <a class="contact-link" href="https://www.instagram.com/gingerbot5000/" target="_blank" rel="noopener noreferrer">@Gingerbot5000</a></div>
+                            </div>
+                            <p class="contact-note">Contact stays secondary. Tonight&apos;s goal is one useful first win.</p>
                         </div>
-                    </a>
-                    <a href="https://chatgpt.com" target="_blank" class="glass link-card tonight-card">
-                        <div class="link-icon"><img src="assets/logos/chatgpt.svg" alt="ChatGPT logo"
-                                class="brand-logo link-logo"></div>
-                        <div style="text-align:left;">
-                            <div class="link-label">Start one practical conversation</div>
-                            <div class="link-url">ChatGPT &middot; ask for help on a real task you already care about</div>
-                        </div>
-                    </a>
-                </div>
-                <div class="glass contact-panel secondary-contact-panel anim anim-5">
-                    <h3>Questions? Let's connect.</h3>
-                    <div class="contact-bar">
-                        <div class="contact-item"><span>📧</span> <a class="contact-link"
-                                href="mailto:Adam88gur@gmail.com">Adam88gur@gmail.com</a></div>
-                        <div class="contact-item"><span>📸</span> <a class="contact-link"
-                                href="https://www.instagram.com/gingerbot5000/" target="_blank"
-                                rel="noopener noreferrer">@Gingerbot5000</a></div>
                     </div>
-                    <p class="contact-note">Contact stays secondary. Tonight&apos;s goal is one useful first win.</p>
                 </div>
             </div>
         </div>
@@ -3229,21 +4725,20 @@
     <!-- ===== NAVIGATION BAR ===== -->
     <div class="nav-bar">
         <div class="nav-group nav-left">
-            <a class="nav-btn nav-back-btn" href="/">↩ Back</a>
-            <button class="nav-btn" id="prevBtn" disabled>← Prev</button>
+            <a class="nav-btn nav-back-btn" href="/">â†© Back</a>
+            <button class="nav-btn" id="prevBtn" disabled>â† Prev</button>
         </div>
         <div class="nav-group nav-center">
             <div class="dots" id="dots"></div>
             <span class="nav-indicator" id="navIndicator">1 / 11</span>
         </div>
         <div class="nav-group nav-right">
-            <button class="nav-btn" id="nextBtn">Next →</button>
+            <button class="nav-btn" id="nextBtn">Next â†’</button>
         </div>
     </div>
-
     <script src="assets/data/ai101-demo-prompt-catalog.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
     <script>
-        // ===== SLIDE ENGINE =====
         const slides = document.querySelectorAll('.slide');
         const totalSlides = slides.length;
         let current = 0;
@@ -3256,46 +4751,88 @@
         const navBar = document.querySelector('.nav-bar');
         const navBackBtn = document.querySelector('.nav-back-btn');
         const compactNavQuery = window.matchMedia('(max-width: 520px)');
-        const promptText = document.getElementById('promptText');
-        const promptCategory = document.getElementById('promptCategory');
-        const promptPlatform = document.getElementById('promptPlatform');
-        const promptPlatformLogo = document.getElementById('promptPlatformLogo');
-        const promptPlatformLabel = document.getElementById('promptPlatformLabel');
-        const promptCounter = document.getElementById('promptCounter');
-        const promptPrevBtn = document.getElementById('promptPrevBtn');
-        const promptNextBtn = document.getElementById('promptNextBtn');
-        const promptCopyPacketBtn = document.getElementById('promptCopyPacketBtn');
-        const promptDataHint = document.getElementById('promptDataHint');
-        const promptRunGuide = document.getElementById('promptRunGuide');
-        const promptAssetGallery = document.getElementById('promptAssetGallery');
-        const promptCopyStatus = document.getElementById('promptCopyStatus');
-        const promptRoleBoxText = document.getElementById('promptRoleBoxText');
-        const promptTaskBoxText = document.getElementById('promptTaskBoxText');
-        const promptContextBoxText = document.getElementById('promptContextBoxText');
-        const promptFormatBoxText = document.getElementById('promptFormatBoxText');
-        const promptTeachFocus = document.getElementById('promptTeachFocus');
-        const promptFormulaBlocks = document.querySelectorAll('.formula-block[data-prompt-part]');
-        const promptLegendItems = document.querySelectorAll('.prompt-legend [data-prompt-part]');
+        const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+        let prefersReducedMotion = reducedMotionQuery.matches;
+        const slideControllers = new Map();
+        let heroVortexSketch = null;
+        let assistantConstellationSketch = null;
+        let assistantAttractorKey = 'chatgpt';
         let promptIndex = 0;
+        let promptAnimating = false;
 
-        function updateNavButtons() {
-            const compact = compactNavQuery.matches;
-            const isLastSlide = current === totalSlides - 1;
+        const promptFocusOrder = ['role', 'task', 'context', 'format'];
+        const promptLibrary = Array.isArray(window.ai101DemoPromptCatalog)
+            ? window.ai101DemoPromptCatalog.slice(0, 10)
+            : [];
 
-            if (navBackBtn) {
-                navBackBtn.textContent = compact ? '↩' : '↩ Back';
+        const specialistItems = [
+            {
+                key: 'perplexity',
+                name: 'Perplexity',
+                label: 'The Research Assistant',
+                description: 'Direct answers with citations and live web search when you want signal faster than tab overload.',
+                href: 'https://perplexity.ai',
+                logo: 'assets/logos/perplexity.svg',
+                wash: 'linear-gradient(135deg, rgba(6, 182, 212, 0.26) 0%, rgba(9, 15, 25, 0.94) 70%)'
+            },
+            {
+                key: 'notebooklm',
+                name: 'NotebookLM',
+                label: 'The Private Analyst',
+                description: 'Ask grounded questions against your own sources, notes, and files without losing the source trail.',
+                href: 'https://notebooklm.google.com',
+                logo: 'assets/logos/notebooklm.svg',
+                wash: 'linear-gradient(135deg, rgba(215, 166, 90, 0.28) 0%, rgba(9, 15, 25, 0.94) 70%)'
+            },
+            {
+                key: 'deepseek',
+                name: 'DeepSeek',
+                label: 'The Reasoning Engine',
+                description: 'Reasoning-first help for coding, math, and technical problem-solving when you need a narrower analytic pass.',
+                href: 'https://chat.deepseek.com',
+                logo: 'assets/logos/deepseek.svg',
+                wash: 'linear-gradient(135deg, rgba(83, 179, 248, 0.26) 0%, rgba(9, 15, 25, 0.94) 70%)'
+            },
+            {
+                key: 'grok',
+                name: 'Grok',
+                label: 'The Real-Time Companion',
+                description: 'Useful for live trends, current events, and public-web signal when freshness matters more than polished prose.',
+                href: 'https://grok.x.ai',
+                logo: 'assets/logos/grok.svg',
+                wash: 'linear-gradient(135deg, rgba(239, 68, 68, 0.24) 0%, rgba(9, 15, 25, 0.94) 70%)'
             }
+        ];
 
-            if (prevBtn) {
-                prevBtn.textContent = compact ? '←' : '← Prev';
+        const specialistState = {
+            index: 0,
+            autoplay: null,
+            resume: null,
+            active: false
+        };
+
+        function registerSlideController(index, controller) {
+            slideControllers.set(index, controller);
+        }
+
+        function setSlideActivity(index, isActive, direction = 1) {
+            const controller = slideControllers.get(index);
+            if (!controller) return;
+            if (isActive) {
+                controller.enter?.(direction);
+                controller.resume?.();
+            } else {
+                controller.pause?.();
+                controller.exit?.(direction);
             }
+        }
 
-            if (nextBtn) {
-                if (isLastSlide) {
-            nextBtn.textContent = compact ? 'Done' : 'Finish';
-                } else {
-                    nextBtn.innerHTML = compact ? '→' : 'Next →';
-                }
+        function bindMediaQueryChange(query, handler) {
+            if (query.addEventListener) {
+                query.addEventListener('change', handler);
+            } else if (query.addListener) {
+                query.addListener(handler);
             }
         }
 
@@ -3307,21 +4844,31 @@
             }
         }
 
-        const promptLibrary = Array.isArray(window.ai101DemoPromptCatalog)
-            ? window.ai101DemoPromptCatalog.slice()
-            : [];
+        function updateNavButtons() {
+            const compact = compactNavQuery.matches;
+            const isLastSlide = current === totalSlides - 1;
+            if (navBackBtn) navBackBtn.textContent = compact ? '↩' : '↩ Back';
+            if (prevBtn) {
+                prevBtn.textContent = compact ? '←' : '← Prev';
+                prevBtn.disabled = current === 0;
+            }
+            if (nextBtn) nextBtn.textContent = isLastSlide ? (compact ? 'Done' : 'Finish') : (compact ? '→' : 'Next →');
+        }
 
-        const promptTypeLabels = {
-            text_only: 'Text Only',
-            search_backed: 'Search Backed',
-            mock_data: 'Mock Data',
-            image_edit_single: 'Image Edit (Single Image)',
-            animation_start_end: 'Animation (Start + End Frame)'
-        };
-        const promptFocusOrder = ['role', 'task', 'context', 'format'];
+        function updateDeckUI() {
+            updateNavButtons();
+            if (progress) progress.style.width = (((current + 1) / totalSlides) * 100) + '%';
+            if (navIndicator) navIndicator.textContent = (current + 1) + ' / ' + totalSlides;
+            if (dotsContainer) {
+                dotsContainer.querySelectorAll('.dot').forEach((dot, index) => {
+                    dot.classList.toggle('active', index === current);
+                });
+            }
+            syncNavHeight();
+        }
 
-        function escapeHtml(text) {
-            return String(text)
+        function escapeHtml(value) {
+            return String(value || '')
                 .replace(/&/g, '&amp;')
                 .replace(/</g, '&lt;')
                 .replace(/>/g, '&gt;')
@@ -3331,418 +4878,39 @@
 
         function getPlatformLogo(platform) {
             const normalized = String(platform || '').toLowerCase();
-
-            if (normalized.includes('chatgpt') || normalized.includes('gpt')) {
-                return 'assets/logos/chatgpt.svg';
-            }
-            if (normalized.includes('gemini')) {
-                return 'assets/logos/gemini.svg';
-            }
-            if (normalized.includes('claude')) {
-                return 'assets/logos/claude.svg';
-            }
-            if (normalized.includes('deepseek')) {
-                return 'assets/logos/deepseek.svg';
-            }
-            if (normalized.includes('perplexity')) {
-                return 'assets/logos/perplexity.svg';
-            }
-
-            return '';
-        }
-
-        function getPromptTypeLabel(promptType) {
-            return promptTypeLabels[promptType] || 'Text Only';
-        }
-
-        function setPromptFocus(part) {
-            const activePart = promptFocusOrder.includes(part) ? part : promptFocusOrder[0];
-
-            promptFormulaBlocks.forEach((block) => {
-                block.classList.toggle('prompt-focus-active', block.getAttribute('data-prompt-part') === activePart);
-            });
-
-            promptLegendItems.forEach((item) => {
-                item.classList.toggle('prompt-focus-active', item.getAttribute('data-prompt-part') === activePart);
-            });
-
-            if (promptTeachFocus) {
-                promptTeachFocus.textContent = activePart.charAt(0).toUpperCase() + activePart.slice(1);
-            }
-        }
-
-        function toAssetUrl(assetPath) {
-            const normalized = String(assetPath || '').replace(/\\/g, '/');
-            const marker = '/04_projects/ai-101/';
-            const markerIndex = normalized.toLowerCase().indexOf(marker.toLowerCase());
-
-            if (markerIndex >= 0) {
-                return normalized.slice(markerIndex + marker.length);
-            }
-
-            if (/^https?:\/\//i.test(normalized)) {
-                return normalized;
-            }
-
-            if (normalized.startsWith('/')) {
-                return normalized.replace(/^\/+/, '');
-            }
-
-            return normalized;
-        }
-
-        function getAssetFilename(assetPath) {
-            const normalized = String(assetPath || '').replace(/\\/g, '/');
-            const parts = normalized.split('/').filter(Boolean);
-            return parts.length ? parts[parts.length - 1] : 'attachment';
-        }
-
-        function buildRunGuideSummary(item) {
-            const platformName = item.platform || 'your preferred assistant';
-            const extras = [];
-
-            if (Array.isArray(item.requiredAssets) && item.requiredAssets.length) {
-                extras.push('upload REQUIRED ATTACHMENTS (use preview cards for image copy/download)');
-            }
-            if (Array.isArray(item.searchQueries) && item.searchQueries.length) {
-                extras.push('run LIVE SEARCH INPUTS and paste sourced findings with dates');
-            }
-            if (typeof item.mockData === 'string' && item.mockData.trim()) {
-                extras.push('paste OFFLINE MOCK INPUTS');
-            }
-
-            if (!extras.length) {
-                return 'Quick run: open a fresh chat in ' + platformName + ', paste PROMPT TO PASTE, and run. Copy Demo Packet includes prompt text only.';
-            }
-
-            return 'Quick run: open a fresh chat in ' + platformName + ', ' + extras.join('; ') + ', then paste PROMPT TO PASTE and run. Copy Demo Packet includes prompt text plus listed input blocks only.';
-        }
-
-        function updatePromptRunGuide(item) {
-            if (!promptRunGuide || !item) return;
-            promptRunGuide.textContent = buildRunGuideSummary(item);
-        }
-
-        function updatePromptPacketHint(item) {
-            if (!promptDataHint || !item) return;
-
-            const details = [getPromptTypeLabel(item.promptType)];
-            if (Array.isArray(item.requiredAssets) && item.requiredAssets.length) {
-                details.push(item.requiredAssets.length + ' attachment' + (item.requiredAssets.length === 1 ? '' : 's'));
-            }
-            if (Array.isArray(item.searchQueries) && item.searchQueries.length) {
-                details.push(item.searchQueries.length + ' live search quer' + (item.searchQueries.length === 1 ? 'y' : 'ies'));
-            }
-            if (typeof item.mockData === 'string' && item.mockData.trim()) {
-                details.push('offline mock input included');
-            }
-            if (item.optionalKreaStarter) {
-                details.push('optional Krea starter prompt');
-            }
-
-            promptDataHint.textContent = 'Demo packet includes: ' + details.join(', ') + '.';
-        }
-
-        async function copyImageToClipboard(assetUrl) {
-            if (!navigator.clipboard || typeof window.ClipboardItem === 'undefined') {
-                throw new Error('Clipboard image copy is not supported in this browser context.');
-            }
-
-            const response = await fetch(assetUrl, { cache: 'no-store' });
-            if (!response.ok) {
-                throw new Error('Image file could not be loaded.');
-            }
-
-            const blob = await response.blob();
-            if (!blob.type || !blob.type.startsWith('image/')) {
-                throw new Error('Attachment is not a valid image payload.');
-            }
-
-            const item = new ClipboardItem({ [blob.type]: blob });
-            await navigator.clipboard.write([item]);
-        }
-
-        function triggerBlobDownload(blob, filename) {
-            const objectUrl = URL.createObjectURL(blob);
-            const link = document.createElement('a');
-            link.href = objectUrl;
-            link.download = filename || 'attachment';
-            link.style.display = 'none';
-            document.body.appendChild(link);
-            link.click();
-            setTimeout(() => {
-                URL.revokeObjectURL(objectUrl);
-                link.remove();
-            }, 0);
-        }
-
-        function downloadBlobViaXHR(assetUrl) {
-            return new Promise((resolve, reject) => {
-                const xhr = new XMLHttpRequest();
-                xhr.open('GET', assetUrl, true);
-                xhr.responseType = 'blob';
-                xhr.onload = () => {
-                    // In file:// contexts, successful local reads often return status 0.
-                    if ((xhr.status >= 200 && xhr.status < 300) || xhr.status === 0) {
-                        if (xhr.response instanceof Blob && xhr.response.size > 0) {
-                            resolve(xhr.response);
-                            return;
-                        }
-                    }
-                    reject(new Error('XHR image download failed.'));
-                };
-                xhr.onerror = () => reject(new Error('XHR network error.'));
-                xhr.onabort = () => reject(new Error('XHR aborted.'));
-                xhr.send();
-            });
-        }
-
-        async function downloadAssetFile(assetUrl, fileName, imageEl) {
-            let blob = null;
-
-            try {
-                const response = await fetch(assetUrl, { cache: 'no-store' });
-                if (!response.ok) {
-                    throw new Error('Attachment could not be downloaded.');
-                }
-                blob = await response.blob();
-                if (!(blob instanceof Blob) || blob.size === 0) {
-                    throw new Error('Fetch returned empty image payload.');
-                }
-            } catch (fetchErr) {
-                try {
-                    blob = await downloadBlobViaXHR(assetUrl);
-                } catch (xhrErr) {
-                    // Final fallback for strict local file contexts: export from already-rendered preview image.
-                    if (imageEl) {
-                        try {
-                            if (typeof imageEl.decode === 'function') {
-                                await imageEl.decode();
-                            }
-                        } catch (decodeErr) {
-                            // Continue; image may still be drawable even if decode() rejects.
-                        }
-                    }
-
-                    if (imageEl && imageEl.complete && imageEl.naturalWidth > 0 && imageEl.naturalHeight > 0) {
-                        const canvas = document.createElement('canvas');
-                        canvas.width = imageEl.naturalWidth;
-                        canvas.height = imageEl.naturalHeight;
-                        const context2d = canvas.getContext('2d');
-                        if (!context2d) {
-                            throw xhrErr;
-                        }
-                        context2d.drawImage(imageEl, 0, 0);
-                        const exportType = /\.png$/i.test(fileName || '') ? 'image/png' : 'image/jpeg';
-                        blob = await new Promise((resolve, reject) => {
-                            canvas.toBlob((canvasBlob) => {
-                                if (!canvasBlob) {
-                                    reject(new Error('Image export failed.'));
-                                    return;
-                                }
-                                resolve(canvasBlob);
-                            }, exportType, 0.92);
-                        });
-                    } else {
-                        throw xhrErr;
-                    }
-                }
-            }
-
-            triggerBlobDownload(blob, fileName);
-        }
-
-        function renderPromptAssetGallery(promptItem) {
-            if (!promptAssetGallery) return;
-
-            const assets = Array.isArray(promptItem && promptItem.requiredAssets) ? promptItem.requiredAssets : [];
-            if (!assets.length) {
-                promptAssetGallery.style.display = 'none';
-                promptAssetGallery.innerHTML = '';
-                return;
-            }
-
-            const galleryHtml = ['<div class=\"prompt-asset-header\">Attachment Preview</div>'];
-            galleryHtml.push('<div class=\"prompt-asset-list\">');
-
-            assets.forEach((assetPath, idx) => {
-                const assetUrl = toAssetUrl(assetPath);
-                const assetHref = encodeURI(assetUrl);
-                const fileName = getAssetFilename(assetPath);
-
-                galleryHtml.push(
-                    '<div class=\"prompt-asset-card\">' +
-                    '<img class=\"prompt-asset-preview\" src=\"' + escapeHtml(assetHref) + '\" alt=\"Attachment preview ' + (idx + 1) + '\" loading=\"lazy\">' +
-                    '<div class=\"prompt-asset-body\">' +
-                    '<div class=\"prompt-asset-name\">' + escapeHtml(fileName) + '</div>' +
-                    '<div class=\"prompt-asset-actions\">' +
-                    '<button class=\"prompt-control-btn\" type=\"button\" data-action=\"copy-image\" data-asset-url=\"' + escapeHtml(assetHref) + '\">Copy Image</button>' +
-                    '<button class=\"prompt-control-btn prompt-link-btn\" type=\"button\" data-action=\"download-image\" data-asset-url=\"' + escapeHtml(assetHref) + '\" data-file-name=\"' + escapeHtml(fileName) + '\">Download</button>' +
-                    '</div>' +
-                    '</div>' +
-                    '</div>'
-                );
-            });
-
-            galleryHtml.push('</div>');
-            promptAssetGallery.innerHTML = galleryHtml.join('');
-            promptAssetGallery.style.display = 'block';
-
-            promptAssetGallery.querySelectorAll('[data-action=\"copy-image\"]').forEach((button) => {
-                button.addEventListener('click', async (event) => {
-                    event.stopPropagation();
-                    const trigger = event.currentTarget;
-                    const assetUrl = trigger.getAttribute('data-asset-url') || '';
-                    if (!assetUrl) return;
-
-                    const originalLabel = trigger.textContent;
-                    trigger.disabled = true;
-                    trigger.textContent = 'Copying...';
-
-                    try {
-                        await copyImageToClipboard(assetUrl);
-                        if (promptCopyStatus) {
-                            promptCopyStatus.textContent = 'Image copied. Paste directly into Gemini chat.';
-                        }
-                    } catch (err) {
-                        if (promptCopyStatus) {
-                            promptCopyStatus.textContent = 'Image copy is unavailable here. Use Download instead.';
-                        }
-                    } finally {
-                        trigger.disabled = false;
-                        trigger.textContent = originalLabel;
-                    }
-                });
-            });
-
-            promptAssetGallery.querySelectorAll('[data-action=\"download-image\"]').forEach((button) => {
-                button.addEventListener('click', async (event) => {
-                    event.stopPropagation();
-                    event.preventDefault();
-                    const trigger = event.currentTarget;
-                    const assetUrl = trigger.getAttribute('data-asset-url') || '';
-                    const fileName = trigger.getAttribute('data-file-name') || 'attachment';
-                    if (!assetUrl) return;
-
-                    const originalLabel = trigger.textContent;
-                    trigger.disabled = true;
-                    trigger.textContent = 'Saving...';
-
-                    try {
-                        const card = trigger.closest('.prompt-asset-card');
-                        const imageEl = card ? card.querySelector('.prompt-asset-preview') : null;
-                        await downloadAssetFile(assetUrl, fileName, imageEl);
-                        if (promptCopyStatus) {
-                            promptCopyStatus.textContent = 'Image downloaded.';
-                        }
-                    } catch (err) {
-                        if (promptCopyStatus) {
-                            promptCopyStatus.textContent = 'Download failed in this browser context.';
-                        }
-                    } finally {
-                        trigger.disabled = false;
-                        trigger.textContent = originalLabel;
-                    }
-                });
-            });
+            if (normalized.includes('chatgpt') || normalized.includes('gpt')) return 'assets/logos/chatgpt.svg';
+            if (normalized.includes('gemini')) return 'assets/logos/gemini.svg';
+            if (normalized.includes('claude')) return 'assets/logos/claude.svg';
+            if (normalized.includes('deepseek')) return 'assets/logos/deepseek.svg';
+            if (normalized.includes('perplexity')) return 'assets/logos/perplexity.svg';
+            return 'assets/logos/openai.svg';
         }
 
         function buildPromptPacket(item) {
             if (!item) return '';
-
-            const lines = [];
-
-            lines.push('PROMPT TO PASTE');
-            lines.push('Role: ' + item.role);
-            lines.push('Task: ' + item.task);
-            lines.push('Context: ' + item.context);
-            lines.push('Format: ' + item.format);
-
+            const lines = [
+                'PROMPT TO PASTE',
+                'Role: ' + item.role,
+                'Task: ' + item.task,
+                'Context: ' + item.context,
+                'Format: ' + item.format
+            ];
             if (Array.isArray(item.requiredAssets) && item.requiredAssets.length) {
-                lines.push('');
-                lines.push('REQUIRED ATTACHMENTS');
-                item.requiredAssets.forEach((assetPath, idx) => {
-                    lines.push((idx + 1) + '. ' + assetPath);
+                lines.push('', 'REQUIRED ATTACHMENTS');
+                item.requiredAssets.forEach((assetPath, index) => {
+                    lines.push((index + 1) + '. ' + assetPath);
                 });
             }
-
             if (Array.isArray(item.searchQueries) && item.searchQueries.length) {
-                lines.push('');
-                lines.push('LIVE SEARCH INPUTS');
-                item.searchQueries.forEach((query, idx) => {
-                    lines.push((idx + 1) + '. ' + query);
+                lines.push('', 'LIVE SEARCH INPUTS');
+                item.searchQueries.forEach((query, index) => {
+                    lines.push((index + 1) + '. ' + query);
                 });
             }
-
             if (typeof item.mockData === 'string' && item.mockData.trim()) {
-                lines.push('');
-                lines.push('OFFLINE MOCK INPUTS');
-                lines.push(item.mockData);
+                lines.push('', 'OFFLINE MOCK INPUTS', item.mockData.trim());
             }
-
-            if (item.optionalKreaStarter && typeof item.optionalKreaStarter === 'object') {
-                lines.push('');
-                lines.push('OPTIONAL STARTER IMAGE GENERATION (KREA)');
-                if (item.optionalKreaStarter.model) {
-                    lines.push('Model: ' + item.optionalKreaStarter.model);
-                }
-                if (item.optionalKreaStarter.aspectRatio) {
-                    lines.push('Aspect ratio: ' + item.optionalKreaStarter.aspectRatio);
-                }
-                if (item.optionalKreaStarter.prompt) {
-                    lines.push('Prompt: ' + item.optionalKreaStarter.prompt);
-                }
-            }
-
             return lines.join('\n');
-        }
-
-        function renderPrompt(index) {
-            if (!promptText || !promptCategory || !promptCounter) return;
-            const item = promptLibrary[index];
-            if (!item) return;
-
-            promptCategory.textContent = item.category;
-            if (promptPlatformLabel) {
-                promptPlatformLabel.textContent = item.platform;
-            }
-
-            if (promptPlatformLogo) {
-                const logoPath = getPlatformLogo(item.platform);
-                if (logoPath) {
-                    promptPlatformLogo.src = logoPath;
-                    promptPlatformLogo.alt = item.platform + ' logo';
-                    promptPlatformLogo.style.display = 'block';
-                } else {
-                    promptPlatformLogo.removeAttribute('src');
-                    promptPlatformLogo.removeAttribute('alt');
-                    promptPlatformLogo.style.display = 'none';
-                }
-            }
-
-            promptCounter.textContent = (index + 1) + ' / ' + promptLibrary.length;
-            promptText.innerHTML =
-                '<span class="prompt-role">' + escapeHtml(item.role) + '</span> ' +
-                '<span class="prompt-task">' + escapeHtml(item.task) + '</span> ' +
-                '<span class="prompt-context">' + escapeHtml(item.context) + '</span> ' +
-                '<span class="prompt-format">' + escapeHtml(item.format) + '</span>';
-
-            if (promptRoleBoxText) promptRoleBoxText.textContent = item.role;
-            if (promptTaskBoxText) promptTaskBoxText.textContent = item.task;
-            if (promptContextBoxText) promptContextBoxText.textContent = item.context;
-            if (promptFormatBoxText) promptFormatBoxText.textContent = item.format;
-            setPromptFocus(promptFocusOrder[index % promptFocusOrder.length]);
-
-            updatePromptPacketHint(item);
-            updatePromptRunGuide(item);
-            renderPromptAssetGallery(item);
-            if (promptCopyStatus) promptCopyStatus.textContent = '';
-        }
-
-        function stepPrompt(delta) {
-            if (!promptLibrary.length) return;
-            promptIndex = (promptIndex + delta + promptLibrary.length) % promptLibrary.length;
-            renderPrompt(promptIndex);
         }
 
         function copyTextFallback(text) {
@@ -3761,271 +4929,474 @@
             const item = promptLibrary[promptIndex];
             if (!item) return;
             const packet = buildPromptPacket(item);
-
+            const copyButton = document.getElementById('promptCopyPacketBtn');
             try {
                 if (navigator.clipboard && window.isSecureContext) {
                     await navigator.clipboard.writeText(packet);
                 } else {
                     copyTextFallback(packet);
                 }
-
-                if (promptCopyStatus) promptCopyStatus.textContent = 'Demo packet copied to clipboard.';
-            } catch (err) {
-                if (promptCopyStatus) promptCopyStatus.textContent = 'Copy failed. Select text and copy manually.';
+                if (copyButton) {
+                    copyButton.classList.add('copied');
+                    window.setTimeout(() => copyButton.classList.remove('copied'), 1000);
+                }
+                const status = document.getElementById('promptCopyStatus');
+                if (status) status.textContent = 'Demo packet copied to clipboard.';
+            } catch (error) {
+                const status = document.getElementById('promptCopyStatus');
+                if (status) status.textContent = 'Copy failed. Select text and copy manually.';
             }
         }
+        function setPromptFocus(part) {
+            const activePart = promptFocusOrder.includes(part) ? part : promptFocusOrder[0];
+            document.querySelectorAll('.formula-block[data-prompt-part]').forEach((block) => {
+                block.classList.toggle('prompt-focus-active', block.getAttribute('data-prompt-part') === activePart);
+            });
+            document.querySelectorAll('.prompt-legend [data-prompt-part]').forEach((item) => {
+                item.classList.toggle('prompt-focus-active', item.getAttribute('data-prompt-part') === activePart);
+            });
+            const focusTarget = document.getElementById('promptTeachFocus');
+            if (focusTarget) focusTarget.textContent = activePart.charAt(0).toUpperCase() + activePart.slice(1);
+        }
 
-        if (promptPrevBtn) {
-            promptPrevBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                stepPrompt(-1);
+        function buildPromptActiveCard(item, index) {
+            const position = (index + 1) + ' / ' + promptLibrary.length;
+            const packetHint = Array.isArray(item.requiredAssets) && item.requiredAssets.length
+                ? item.requiredAssets.length + ' attachment' + (item.requiredAssets.length === 1 ? '' : 's') + ' required'
+                : Array.isArray(item.searchQueries) && item.searchQueries.length
+                    ? item.searchQueries.length + ' live search quer' + (item.searchQueries.length === 1 ? 'y' : 'ies')
+                    : typeof item.mockData === 'string' && item.mockData.trim()
+                        ? 'offline mock input included'
+                        : 'prompt text only';
+            return `
+                <article class="prompt-stack-card prompt-example is-active">
+                    <div class="prompt-meta-row">
+                        <div class="prompt-chips">
+                            <span class="prompt-chip">${escapeHtml(item.category)}</span>
+                            <span class="prompt-chip platform-chip"><img class="platform-logo" src="${escapeHtml(getPlatformLogo(item.platform))}" alt="${escapeHtml(item.platform)} logo"><span>${escapeHtml(item.platform)}</span></span>
+                            <span class="prompt-chip prompt-chip-counter">${position}</span>
+                        </div>
+                    </div>
+                    <div class="prompt-legend">
+                        <span class="prompt-role" data-prompt-part="role">Role</span>
+                        <span class="prompt-task" data-prompt-part="task">Task</span>
+                        <span class="prompt-context" data-prompt-part="context">Context</span>
+                        <span class="prompt-format" data-prompt-part="format">Format</span>
+                    </div>
+                    <div class="prompt-text" id="promptText" aria-live="polite">
+                        <span class="prompt-role">${escapeHtml(item.role)}</span>
+                        <span class="prompt-task"> ${escapeHtml(item.task)}</span>
+                        <span class="prompt-context"> ${escapeHtml(item.context)}</span>
+                        <span class="prompt-format"> ${escapeHtml(item.format)}</span>
+                    </div>
+                    <div class="prompt-controls">
+                        <button class="prompt-control-btn" id="promptPrevBtn" type="button">← Prev Prompt</button>
+                        <button class="prompt-control-btn prompt-copy-btn" id="promptCopyPacketBtn" type="button"><span class="prompt-copy-label">Copy Demo Packet</span><span class="prompt-copy-check">✓</span></button>
+                        <button class="prompt-control-btn" id="promptNextBtn" type="button">Next Prompt →</button>
+                    </div>
+                    <div class="prompt-data-hint">Demo packet includes: ${escapeHtml(packetHint)}.</div>
+                    <div class="prompt-run-guide">Quick run: open a fresh chat, load only the listed inputs, paste the packet, and run.</div>
+                </article>`;
+        }
+
+        function buildPromptPreviewCard(item, stackClass) {
+            return `
+                <article class="prompt-stack-card ${stackClass}">
+                    <div class="prompt-stack-preview-meta">${escapeHtml(item.category)} · ${escapeHtml(item.platform)}</div>
+                    <div class="prompt-stack-preview-title">${escapeHtml(item.title || item.task)}</div>
+                </article>`;
+        }
+
+        function attachPromptControls() {
+            const prev = document.getElementById('promptPrevBtn');
+            const next = document.getElementById('promptNextBtn');
+            const copy = document.getElementById('promptCopyPacketBtn');
+            if (prev) prev.addEventListener('click', () => stepPrompt(-1));
+            if (next) next.addEventListener('click', () => stepPrompt(1));
+            if (copy) copy.addEventListener('click', () => copyCurrentPromptPacket());
+        }
+
+        function renderPromptStack() {
+            const stackCards = document.getElementById('promptStackCards');
+            if (!stackCards || !promptLibrary.length) return;
+            const item = promptLibrary[promptIndex];
+            const nextOne = promptLibrary[(promptIndex + 1) % promptLibrary.length];
+            const nextTwo = promptLibrary[(promptIndex + 2) % promptLibrary.length];
+            const nextThree = promptLibrary[(promptIndex + 3) % promptLibrary.length];
+            stackCards.innerHTML = [
+                buildPromptPreviewCard(nextThree, 'is-stack-3'),
+                buildPromptPreviewCard(nextTwo, 'is-stack-2'),
+                buildPromptPreviewCard(nextOne, 'is-stack-1'),
+                buildPromptActiveCard(item, promptIndex)
+            ].join('');
+            const promptStackPosition = document.getElementById('promptStackPosition');
+            if (promptStackPosition) promptStackPosition.textContent = (promptIndex + 1) + ' / ' + promptLibrary.length;
+            const roleBox = document.getElementById('promptRoleBoxText');
+            const taskBox = document.getElementById('promptTaskBoxText');
+            const contextBox = document.getElementById('promptContextBoxText');
+            const formatBox = document.getElementById('promptFormatBoxText');
+            if (roleBox) roleBox.textContent = item.role;
+            if (taskBox) taskBox.textContent = item.task;
+            if (contextBox) contextBox.textContent = item.context;
+            if (formatBox) formatBox.textContent = item.format;
+            setPromptFocus(promptFocusOrder[promptIndex % promptFocusOrder.length]);
+            attachPromptControls();
+        }
+
+        function stepPrompt(delta) {
+            if (!promptLibrary.length || promptAnimating) return;
+            const stack = document.querySelector('.prompt-card-stack');
+            if (!stack) return;
+            const transitionClass = delta > 0 ? 'is-transitioning-next' : 'is-transitioning-prev';
+            promptAnimating = true;
+            stack.classList.add(transitionClass);
+            window.setTimeout(() => {
+                promptIndex = (promptIndex + delta + promptLibrary.length) % promptLibrary.length;
+                renderPromptStack();
+                stack.classList.remove(transitionClass);
+                promptAnimating = false;
+            }, prefersReducedMotion ? 1 : 220);
+        }
+
+        function setAssistantAttractor(key) {
+            assistantAttractorKey = key;
+            document.querySelectorAll('.assistant-orb').forEach((orb) => {
+                orb.classList.toggle('is-active', orb.getAttribute('data-assistant') === key);
+            });
+            document.querySelectorAll('.assistant-panel').forEach((panel) => {
+                panel.classList.toggle('is-active', panel.getAttribute('data-assistant-panel') === key);
             });
         }
 
-        if (promptNextBtn) {
-            promptNextBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                stepPrompt(1);
+        function bindAssistantConstellation() {
+            document.querySelectorAll('.assistant-orb').forEach((orb) => {
+                const key = orb.getAttribute('data-assistant');
+                orb.addEventListener('mouseenter', () => setAssistantAttractor(key));
+                orb.addEventListener('focus', () => setAssistantAttractor(key));
+                orb.addEventListener('click', () => setAssistantAttractor(key));
             });
         }
 
-        if (promptCopyPacketBtn) {
-            promptCopyPacketBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                copyCurrentPromptPacket();
-            });
+        function getAttractorCenter(container, selector) {
+            const target = document.querySelector(selector);
+            if (!container || !target) return null;
+            const layerRect = container.getBoundingClientRect();
+            const rect = target.getBoundingClientRect();
+            return { x: rect.left - layerRect.left + rect.width / 2, y: rect.top - layerRect.top + rect.height / 2 };
         }
 
-        renderPrompt(promptIndex);
-
-        // Create dots
-        for (let i = 0; i < totalSlides; i++) {
-            const d = document.createElement('div');
-            d.className = 'dot' + (i === 0 ? ' active' : '');
-            d.onclick = () => goTo(i);
-            dotsContainer.appendChild(d);
+        function createHeroVortexSketch() {
+            const container = document.getElementById('heroVortexLayer');
+            const titleNode = document.querySelector('.slide[data-slide="0"] h1');
+            if (!container || !titleNode || heroVortexSketch || !window.p5 || prefersReducedMotion) return;
+            heroVortexSketch = new p5((p) => {
+                const particles = [];
+                let startAt = 0;
+                let active = false;
+                function applyTargets() {
+                    const bounds = container.getBoundingClientRect();
+                    const titleBounds = titleNode.getBoundingClientRect();
+                    const width = Math.max(titleBounds.width, 220);
+                    const height = Math.max(titleBounds.height, 90);
+                    particles.forEach((particle, index) => {
+                        const angle = (index / particles.length) * Math.PI * 10;
+                        particle.tx = titleBounds.left - bounds.left + (index % 22) / 21 * width;
+                        particle.ty = titleBounds.top - bounds.top + Math.abs(Math.sin(angle)) * height;
+                    });
+                }
+                function seedParticles() {
+                    particles.length = 0;
+                    for (let i = 0; i < 380; i++) {
+                        particles.push({ x: p.random(p.width), y: p.random(p.height), vx: p.random(-0.6, 0.6), vy: p.random(-0.6, 0.6), tx: p.width / 2, ty: p.height / 2, size: p.random(1.6, 3.8), hue: i % 2 === 0 ? 'rgba(139, 214, 255, 0.66)' : 'rgba(83, 179, 248, 0.52)' });
+                    }
+                    applyTargets();
+                }
+                p.setup = () => { const canvas = p.createCanvas(container.offsetWidth || window.innerWidth, container.offsetHeight || window.innerHeight); canvas.style('display', 'block'); p.noStroke(); seedParticles(); p.noLoop(); };
+                p.windowResized = () => { p.resizeCanvas(container.offsetWidth || window.innerWidth, container.offsetHeight || window.innerHeight); seedParticles(); };
+                p.draw = () => {
+                    if (!active) return;
+                    p.clear();
+                    const elapsed = p.millis() - startAt;
+                    const converge = p.constrain(elapsed / 1500, 0, 1);
+                    const hold = elapsed >= 1500 && elapsed < 2000;
+                    applyTargets();
+                    particles.forEach((particle, index) => {
+                        if (elapsed < 2000) {
+                            const swirl = (1 - converge) * 0.16;
+                            const dx = particle.tx - particle.x;
+                            const dy = particle.ty - particle.y;
+                            particle.vx += dx * (hold ? 0.012 : 0.008) - dy * swirl * 0.0016;
+                            particle.vy += dy * (hold ? 0.012 : 0.008) + dx * swirl * 0.0016;
+                        } else {
+                            particle.vx += p.random(-0.015, 0.015);
+                            particle.vy += p.random(-0.015, 0.015);
+                        }
+                        particle.vx *= 0.96;
+                        particle.vy *= 0.96;
+                        particle.x += particle.vx;
+                        particle.y += particle.vy;
+                        if (particle.x < -12) particle.x = p.width + 12;
+                        if (particle.x > p.width + 12) particle.x = -12;
+                        if (particle.y < -12) particle.y = p.height + 12;
+                        if (particle.y > p.height + 12) particle.y = -12;
+                        p.fill(particle.hue);
+                        p.circle(particle.x, particle.y, particle.size + Math.sin((elapsed / 200) + index) * 0.45);
+                    });
+                };
+                p.setActive = (nextActive) => { active = nextActive; if (nextActive) { startAt = p.millis(); seedParticles(); p.loop(); } else { p.noLoop(); } };
+            }, container);
+        }
+        function createAssistantConstellationSketch() {
+            const container = document.getElementById('assistantConstellationLayer');
+            if (!container || assistantConstellationSketch || !window.p5 || prefersReducedMotion) return;
+            assistantConstellationSketch = new p5((p) => {
+                const particles = [];
+                let active = false;
+                function seedParticles() {
+                    particles.length = 0;
+                    for (let i = 0; i < 150; i++) {
+                        particles.push({ x: p.random(p.width), y: p.random(p.height), vx: p.random(-0.3, 0.3), vy: p.random(-0.3, 0.3), size: p.random(1.2, 2.8) });
+                    }
+                }
+                p.setup = () => { const canvas = p.createCanvas(container.offsetWidth || 600, container.offsetHeight || 520); canvas.style('display', 'block'); p.noStroke(); seedParticles(); p.noLoop(); };
+                p.windowResized = () => { p.resizeCanvas(container.offsetWidth || 600, container.offsetHeight || 520); seedParticles(); };
+                p.draw = () => {
+                    if (!active) return;
+                    p.clear();
+                    const attractor = getAttractorCenter(container, `.assistant-orb[data-assistant="${assistantAttractorKey}"]`);
+                    particles.forEach((particle) => {
+                        particle.vx += p.random(-0.015, 0.015);
+                        particle.vy += p.random(-0.015, 0.015);
+                        if (attractor) {
+                            const dx = attractor.x - particle.x;
+                            const dy = attractor.y - particle.y;
+                            const distance = Math.max(Math.sqrt(dx * dx + dy * dy), 12);
+                            if (distance < 180) {
+                                particle.vx += (dx / distance) * 0.08;
+                                particle.vy += (dy / distance) * 0.08;
+                            }
+                        }
+                        particle.vx *= 0.97;
+                        particle.vy *= 0.97;
+                        particle.x += particle.vx;
+                        particle.y += particle.vy;
+                        if (particle.x < -10) particle.x = p.width + 10;
+                        if (particle.x > p.width + 10) particle.x = -10;
+                        if (particle.y < -10) particle.y = p.height + 10;
+                        if (particle.y > p.height + 10) particle.y = -10;
+                        p.fill('rgba(139, 214, 255, 0.38)');
+                        p.circle(particle.x, particle.y, particle.size);
+                    });
+                };
+                p.setActive = (nextActive) => { active = nextActive; if (nextActive) p.loop(); else p.noLoop(); };
+            }, container);
         }
 
-        function goTo(n) {
-            if (n < 0 || n >= totalSlides || n === current) return;
-            const dir = n > current ? 1 : -1;
-
-            slides.forEach(s => {
-                s.classList.remove('active', 'exit-left', 'exit-right');
-            });
-
-            slides[current].classList.add(dir > 0 ? 'exit-left' : 'exit-right');
-            slides[n].classList.add('active');
-
-            current = n;
-
-            // Update UI
-            prevBtn.disabled = current === 0;
-            updateNavButtons();
-
-            if (progress) progress.style.width = ((current + 1) / totalSlides * 100) + '%';
-            if (navIndicator) navIndicator.textContent = (current + 1) + ' / ' + totalSlides;
-
-            // Update dots
-            if (dotsContainer) {
-                dotsContainer.querySelectorAll('.dot').forEach((d, i) => {
-                    d.classList.toggle('active', i === current);
+        function renderSpecialistCarousel() {
+            const track = document.getElementById('specialistCarouselTrack');
+            const dots = document.getElementById('specialistCarouselDots');
+            if (!track || !dots) return;
+            track.innerHTML = specialistItems.map((item, index) => {
+                const stateClass = index === specialistState.index ? 'is-active' : index < specialistState.index ? 'is-before' : '';
+                return `
+                    <article class="glass specialist-card ${stateClass}" style="background:${item.wash};">
+                        <div class="specialist-card-logo"><img src="${item.logo}" alt="${escapeHtml(item.name)} logo"></div>
+                        <div class="specialist-card-copy">
+                            <div class="tool-label">${escapeHtml(item.label)}</div>
+                            <h3>${escapeHtml(item.name)}</h3>
+                            <p>${escapeHtml(item.description)}</p>
+                            <a class="specialist-card-link" href="${item.href}" target="_blank" rel="noopener noreferrer">Visit ${escapeHtml(item.name)} →</a>
+                        </div>
+                    </article>`;
+            }).join('');
+            dots.innerHTML = specialistItems.map((item, index) => {
+                const isCurrent = index === specialistState.index;
+                const classes = [
+                    'specialist-dot',
+                    isCurrent ? 'is-current' : 'is-static',
+                    isCurrent && specialistState.active && !prefersReducedMotion ? 'is-active' : ''
+                ].filter(Boolean).join(' ');
+                return `<button class="${classes}" type="button" data-specialist-dot="${index}" aria-label="Show ${escapeHtml(item.name)}"><span class="specialist-progress-bar"></span></button>`;
+            }).join('');
+            dots.querySelectorAll('[data-specialist-dot]').forEach((button) => {
+                button.addEventListener('click', () => {
+                    specialistState.index = Number(button.getAttribute('data-specialist-dot')) || 0;
+                    renderSpecialistCarousel();
+                    temporarilyPauseSpecialistAutoplay();
                 });
+            });
+        }
+
+        function stopSpecialistAutoplay() {
+            specialistState.active = false;
+            window.clearInterval(specialistState.autoplay);
+            window.clearTimeout(specialistState.resume);
+            specialistState.autoplay = null;
+            specialistState.resume = null;
+            renderSpecialistCarousel();
+        }
+
+        function startSpecialistAutoplay() {
+            window.clearInterval(specialistState.autoplay);
+            window.clearTimeout(specialistState.resume);
+            specialistState.resume = null;
+            specialistState.active = !prefersReducedMotion;
+            renderSpecialistCarousel();
+            if (!specialistState.active) return;
+            specialistState.autoplay = window.setInterval(() => {
+                specialistState.index = (specialistState.index + 1) % specialistItems.length;
+                renderSpecialistCarousel();
+            }, 4000);
+        }
+
+        function temporarilyPauseSpecialistAutoplay() {
+            window.clearInterval(specialistState.autoplay);
+            specialistState.autoplay = null;
+            specialistState.active = false;
+            renderSpecialistCarousel();
+            if (current !== 6 || prefersReducedMotion) return;
+            window.clearTimeout(specialistState.resume);
+            specialistState.resume = window.setTimeout(() => startSpecialistAutoplay(), 6000);
+        }
+
+        function goTo(index) {
+            if (index < 0 || index >= totalSlides || index === current) return;
+            const outgoing = slides[current];
+            const incoming = slides[index];
+            const direction = index > current ? 1 : -1;
+            slides.forEach((slide) => {
+                slide.classList.remove('active', 'exit-left', 'exit-right', 'enter-from-left', 'enter-from-right', 'hero-sequence-active');
+            });
+            outgoing.classList.add(direction > 0 ? 'exit-left' : 'exit-right');
+            incoming.classList.add(direction > 0 ? 'enter-from-right' : 'enter-from-left');
+            incoming.scrollTop = 0;
+            requestAnimationFrame(() => {
+                incoming.scrollTop = 0;
+                incoming.classList.add('active');
+            });
+            setSlideActivity(current, false, direction);
+            current = index;
+            setSlideActivity(current, true, direction);
+            updateDeckUI();
+        }
+
+        registerSlideController(0, {
+            enter() {
+                const slide = slides[0];
+                slide.classList.remove('hero-sequence-active');
+                void slide.offsetWidth;
+                slide.classList.add('hero-sequence-active');
+                createHeroVortexSketch();
+                heroVortexSketch?.setActive?.(!prefersReducedMotion);
+            },
+            pause() { heroVortexSketch?.setActive?.(false); }
+        });
+
+        registerSlideController(5, {
+            enter() {
+                createAssistantConstellationSketch();
+                assistantConstellationSketch?.setActive?.(!prefersReducedMotion);
+            },
+            pause() { assistantConstellationSketch?.setActive?.(false); }
+        });
+
+        registerSlideController(6, {
+            enter() { startSpecialistAutoplay(); },
+            pause() { stopSpecialistAutoplay(); }
+        });
+        function initializeDots() {
+            if (!dotsContainer) return;
+            dotsContainer.innerHTML = '';
+            for (let i = 0; i < totalSlides; i++) {
+                const dot = document.createElement('div');
+                dot.className = 'dot' + (i === current ? ' active' : '');
+                dot.addEventListener('click', () => goTo(i));
+                dotsContainer.appendChild(dot);
             }
-
-            syncNavHeight();
         }
 
-        prevBtn.onclick = () => goTo(current - 1);
-        nextBtn.onclick = () => goTo(current + 1);
+        bindMediaQueryChange(compactNavQuery, () => updateDeckUI());
+        bindMediaQueryChange(reducedMotionQuery, () => {
+            prefersReducedMotion = reducedMotionQuery.matches;
+            renderPromptStack();
+            if (current === 5) assistantConstellationSketch?.setActive?.(!prefersReducedMotion);
+            if (current === 6) prefersReducedMotion ? stopSpecialistAutoplay() : startSpecialistAutoplay();
+            if (current === 0) heroVortexSketch?.setActive?.(!prefersReducedMotion);
+        });
 
-        if (compactNavQuery.addEventListener) {
-            compactNavQuery.addEventListener('change', () => {
-                updateNavButtons();
-                syncNavHeight();
+        if (prevBtn) prevBtn.addEventListener('click', () => goTo(current - 1));
+        if (nextBtn) nextBtn.addEventListener('click', () => goTo(current + 1));
+
+        const specialistPrevBtn = document.getElementById('specialistPrevBtn');
+        const specialistNextBtn = document.getElementById('specialistNextBtn');
+        if (specialistPrevBtn) {
+            specialistPrevBtn.addEventListener('click', () => {
+                specialistState.index = (specialistState.index - 1 + specialistItems.length) % specialistItems.length;
+                renderSpecialistCarousel();
+                temporarilyPauseSpecialistAutoplay();
             });
-        } else if (compactNavQuery.addListener) {
-            compactNavQuery.addListener(() => {
-                updateNavButtons();
-                syncNavHeight();
+        }
+        if (specialistNextBtn) {
+            specialistNextBtn.addEventListener('click', () => {
+                specialistState.index = (specialistState.index + 1) % specialistItems.length;
+                renderSpecialistCarousel();
+                temporarilyPauseSpecialistAutoplay();
             });
         }
 
-        window.addEventListener('resize', () => {
-            updateNavButtons();
-            syncNavHeight();
-        }, { passive: true });
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'ArrowRight' || event.key === ' ') { event.preventDefault(); goTo(current + 1); }
+            if (event.key === 'ArrowLeft') { event.preventDefault(); goTo(current - 1); }
+            if (event.key === 'Home') { event.preventDefault(); goTo(0); }
+            if (event.key === 'End') { event.preventDefault(); goTo(totalSlides - 1); }
+        });
 
-        window.addEventListener('orientationchange', () => {
-            updateNavButtons();
-            syncNavHeight();
-        }, { passive: true });
-
-        if (window.visualViewport) {
-            window.visualViewport.addEventListener('resize', syncNavHeight, { passive: true });
+        let touchStartX = 0;
+        let touchStartY = 0;
+        let swipeArmed = false;
+        function isSwipeExcludedTarget(target) {
+            if (!(target instanceof Element)) return false;
+            return Boolean(target.closest('a, button, input, textarea, select, label, [contenteditable="true"]'));
         }
+        document.addEventListener('touchstart', (event) => {
+            if (!event.touches || !event.touches.length) return;
+            if (isSwipeExcludedTarget(event.target)) { swipeArmed = false; return; }
+            touchStartX = event.touches[0].clientX;
+            touchStartY = event.touches[0].clientY;
+            swipeArmed = true;
+        }, { passive: true });
+        document.addEventListener('touchend', (event) => {
+            if (!swipeArmed || !event.changedTouches || !event.changedTouches.length) return;
+            swipeArmed = false;
+            const dx = event.changedTouches[0].clientX - touchStartX;
+            const dy = event.changedTouches[0].clientY - touchStartY;
+            const absX = Math.abs(dx);
+            const absY = Math.abs(dy);
+            if (absX < 56 || absX <= absY * 1.2) return;
+            if (dx < 0) goTo(current + 1);
+            else goTo(current - 1);
+        }, { passive: true });
+        document.addEventListener('touchcancel', () => { swipeArmed = false; }, { passive: true });
+
+        window.addEventListener('resize', syncNavHeight, { passive: true });
+        window.addEventListener('orientationchange', syncNavHeight, { passive: true });
+        if (window.visualViewport) window.visualViewport.addEventListener('resize', syncNavHeight, { passive: true });
+
+        initializeDots();
+        bindAssistantConstellation();
+        renderSpecialistCarousel();
+        renderPromptStack();
+        updateDeckUI();
+        setAssistantAttractor('chatgpt');
+        setSlideActivity(0, true, 1);
 
         window.addEventListener('load', () => {
             syncNavHeight();
             setTimeout(syncNavHeight, 250);
             setTimeout(syncNavHeight, 900);
         }, { once: true });
-
-        // Keyboard navigation
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); goTo(current + 1); }
-            if (e.key === 'ArrowLeft') { e.preventDefault(); goTo(current - 1); }
-            if (e.key === 'Home') { e.preventDefault(); goTo(0); }
-            if (e.key === 'End') { e.preventDefault(); goTo(totalSlides - 1); }
-        });
-
-        // Touch swipe
-        let touchStartX = 0;
-        let touchStartY = 0;
-        let swipeArmed = false;
-
-        function isSwipeExcludedTarget(target) {
-            if (!(target instanceof Element)) return false;
-            return Boolean(target.closest('a, button, input, textarea, select, label, [contenteditable="true"], .prompt-asset-list'));
-        }
-
-        document.addEventListener('touchstart', (e) => {
-            if (!e.touches || !e.touches.length) return;
-            if (isSwipeExcludedTarget(e.target)) {
-                swipeArmed = false;
-                return;
-            }
-            touchStartX = e.touches[0].clientX;
-            touchStartY = e.touches[0].clientY;
-            swipeArmed = true;
-        }, { passive: true });
-
-        document.addEventListener('touchend', (e) => {
-            if (!swipeArmed || !e.changedTouches || !e.changedTouches.length) return;
-            swipeArmed = false;
-
-            const dx = e.changedTouches[0].clientX - touchStartX;
-            const dy = e.changedTouches[0].clientY - touchStartY;
-            const absX = Math.abs(dx);
-            const absY = Math.abs(dy);
-
-            if (absX < 56 || absX <= absY * 1.2) return;
-
-            if (dx < 0) goTo(current + 1);
-            else goTo(current - 1);
-        }, { passive: true });
-
-        document.addEventListener('touchcancel', () => {
-            swipeArmed = false;
-        }, { passive: true });
-
-        // Init progress
-        progress.style.width = (1 / totalSlides * 100) + '%';
-        updateNavButtons();
-        syncNavHeight();
-        requestAnimationFrame(syncNavHeight);
-        setTimeout(syncNavHeight, 120);
-        setTimeout(syncNavHeight, 420);
-    </script>
-    <!-- P5.js Generative Math Creatures -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
-    <script>
-        const initP5Creatures = () => {
-            // Creature 1: Helix/Serpent (AlphaFold - Blue)
-            new p5((p) => {
-                let t = 0;
-                p.setup = () => { p.createCanvas(100, 100); p.noFill(); }
-                p.draw = () => {
-                    p.clear();
-                    p.translate(50, 50);
-                    p.strokeWeight(1.5);
-                    p.stroke('rgba(6, 182, 212, 0.9)');
-                    
-                    p.beginShape();
-                    for (let i = 0; i <= 40; i++) {
-                        let angle = i * 0.2 + t;
-                        let radius = 15 + p.sin(i * 0.5 - t * 2) * 12;
-                        let x = p.cos(angle) * radius;
-                        let y = p.sin(angle) * radius;
-                        p.vertex(x, y);
-                        
-                        if (i % 5 === 0) {
-                            p.push();
-                            p.strokeWeight(1);
-                            p.stroke('rgba(6, 182, 212, 0.4)');
-                            p.ellipse(x, y, 6, 6);
-                            p.pop();
-                        }
-                    }
-                    p.endShape(p.CLOSE);
-                    t += 0.02;
-                }
-            }, 'p5-box-1');
-
-            // Creature 2: Spiky Crystal (Materials - Purple)
-            new p5((p) => {
-                let t = 0;
-                p.setup = () => { p.createCanvas(100, 100); p.noFill(); }
-                p.draw = () => {
-                    p.clear();
-                    p.translate(50, 50);
-                    p.strokeWeight(1.5);
-                    p.stroke('rgba(139, 92, 246, 0.9)');
-                    
-                    p.beginShape();
-                    for (let i = 0; i <= 100; i++) {
-                        let angle = i * p.TWO_PI / 100;
-                        let r = 24 + 8 * p.sin(angle * 6 + t) + 5 * p.cos(angle * 12 - t * 1.5);
-                        p.vertex(p.cos(angle) * r, p.sin(angle) * r);
-                    }
-                    p.endShape(p.CLOSE);
-                    
-                    // Core shape
-                    p.stroke('rgba(139, 92, 246, 0.5)');
-                    p.beginShape();
-                    for (let i = 0; i <= 60; i++) {
-                        let angle = i * p.TWO_PI / 60;
-                        let r = 12 + 4 * p.sin(angle * 4 - t * 2.5);
-                        p.vertex(p.cos(angle) * r, p.sin(angle) * r);
-                    }
-                    p.endShape(p.CLOSE);
-                    t += 0.03;
-                }
-            }, 'p5-box-2');
-
-            // Creature 3: Jellyfish Flow (Forecast - Amber)
-            new p5((p) => {
-                let t = 0;
-                p.setup = () => { p.createCanvas(100, 100); p.noFill(); }
-                p.draw = () => {
-                    p.clear();
-                    p.translate(50, 50);
-                    p.strokeWeight(1.2);
-                    p.stroke('rgba(245, 158, 11, 0.7)');
-                    
-                    for(let j = 0; j < 4; j++) {
-                        p.beginShape();
-                        for (let i = 0; i <= 60; i++) {
-                            let angle = i * p.TWO_PI / 60;
-                            let offset = j * 0.8;
-                            let r = 10 + j * 7 + 8 * p.sin(angle * 3 + t + offset) * p.cos(angle * 2 - t);
-                            p.vertex(p.cos(angle) * r, p.sin(angle) * r);
-                        }
-                        p.endShape(p.CLOSE);
-                    }
-                    t += 0.02;
-                }
-            }, 'p5-box-3');
-        };
-
-        document.addEventListener('DOMContentLoaded', () => {
-            setTimeout(() => { if (window.p5) initP5Creatures(); }, 100);
-        });
     </script>
 </body>
 
 </html>
-
-
-
 

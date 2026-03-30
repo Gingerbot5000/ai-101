@@ -76,6 +76,46 @@ class PresentationDesignTests(unittest.TestCase):
         self.assertIn("Start one practical conversation", INDEX_HTML)
         self.assertIn("Questions? Let's connect.", INDEX_HTML)
 
+    def test_visual_overhaul_uses_cinematic_cross_dissolve(self):
+        self.assertIn("scale(0.97)", INDEX_HTML)
+        self.assertIn("scale(1.03)", INDEX_HTML)
+        self.assertIn("blur(2px)", INDEX_HTML)
+        self.assertIn("0.6s ease-out", INDEX_HTML)
+        self.assertIn("@media (prefers-reduced-motion: reduce)", INDEX_HTML)
+
+    def test_visual_overhaul_adds_slide_specific_layout_systems(self):
+        for marker in (
+            "hero-vortex-layer",
+            "story-thread-layout",
+            "editorial-callout-shell",
+            "orbital-diagram",
+            "assistant-constellation",
+            "specialist-carousel",
+            "use-case-scene-grid",
+            "prompt-card-stack",
+            "safety-shield-grid",
+            "callback-montage",
+        ):
+            self.assertIn(marker, INDEX_HTML)
+
+    def test_visual_overhaul_registers_slide_activity_controllers(self):
+        self.assertIn("const slideControllers = new Map()", INDEX_HTML)
+        self.assertIn("function registerSlideController", INDEX_HTML)
+        self.assertIn("function setSlideActivity", INDEX_HTML)
+        self.assertIn("heroVortexSketch", INDEX_HTML)
+        self.assertIn("assistantConstellationSketch", INDEX_HTML)
+
+    def test_specialist_and_prompt_interactions_get_new_shells(self):
+        self.assertIn("specialist-carousel-track", INDEX_HTML)
+        self.assertIn("specialist-progress-bar", INDEX_HTML)
+        self.assertIn("prompt-stack-position", INDEX_HTML)
+        self.assertIn("prompt-stack-formulas", INDEX_HTML)
+        self.assertIn("prompt-copy-check", INDEX_HTML)
+
+    def test_safety_and_close_slides_gain_density_and_depth(self):
+        self.assertEqual(INDEX_HTML.count('class="glass safety-shield"'), 6)
+        self.assertGreaterEqual(INDEX_HTML.count('class="montage-fragment"'), 6)
+
 
 if __name__ == "__main__":
     unittest.main()
