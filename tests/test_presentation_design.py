@@ -31,14 +31,18 @@ class PresentationDesignTests(unittest.TestCase):
             "--hover-lift: translate3d(0, -4px, 0);",
         ):
             self.assertIn(marker, INDEX_HTML)
-        self.assertIn(".slide {", INDEX_HTML)
-        self.assertIn("padding: var(--slide-padding-top) var(--slide-padding-x) var(--slide-padding-bottom);", INDEX_HTML)
-        self.assertIn("overflow: hidden;", INDEX_HTML)
-        self.assertIn(".slide-inner {", INDEX_HTML)
-        self.assertIn("max-height: var(--slide-frame-max-height);", INDEX_HTML)
-        self.assertIn("height: var(--slide-frame-max-height);", INDEX_HTML)
-        self.assertIn(".gradient-text {", INDEX_HTML)
-        self.assertIn("background: var(--hero-rainbow);", INDEX_HTML)
+        self.assertRegex(
+            INDEX_HTML,
+            r"\.slide \{[\s\S]*?padding: var\(--slide-padding-top\) var\(--slide-padding-x\) var\(--slide-padding-bottom\);[\s\S]*?overflow: hidden;[\s\S]*?\}",
+        )
+        self.assertRegex(
+            INDEX_HTML,
+            r"\.slide-inner \{[\s\S]*?max-height: var\(--slide-frame-max-height\);[\s\S]*?height: var\(--slide-frame-max-height\);[\s\S]*?\}",
+        )
+        self.assertRegex(
+            INDEX_HTML,
+            r"\.gradient-text \{[\s\S]*?background: var\(--hero-rainbow\);[\s\S]*?\}",
+        )
 
     def test_deck_expands_to_guided_workshop_story(self):
         slide_ids = re.findall(r'<div class="slide(?: active)?" data-slide="(\d+)">', INDEX_HTML)
