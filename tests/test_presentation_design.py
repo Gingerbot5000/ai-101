@@ -20,6 +20,20 @@ class PresentationDesignTests(unittest.TestCase):
         self.assertIn("--bg-base: #060a12;", INDEX_HTML)
         self.assertNotIn("--accent2", INDEX_HTML)
 
+    def test_presentation_fit_tokens_lock_desktop_stage_frame(self):
+        for marker in (
+            "--deck-max-width:",
+            "--slide-frame-max-height:",
+            "--slide-padding-x:",
+            "--slide-padding-top:",
+            "--slide-padding-bottom:",
+            "--hero-rainbow:",
+            "--hover-lift:",
+        ):
+            self.assertIn(marker, INDEX_HTML)
+        self.assertIn("max-height: var(--slide-frame-max-height);", INDEX_HTML)
+        self.assertIn("height: var(--slide-frame-max-height);", INDEX_HTML)
+
     def test_deck_expands_to_guided_workshop_story(self):
         slide_ids = re.findall(r'<div class="slide(?: active)?" data-slide="(\d+)">', INDEX_HTML)
         self.assertEqual([str(i) for i in range(11)], slide_ids)
@@ -76,6 +90,18 @@ class PresentationDesignTests(unittest.TestCase):
         self.assertIn("Start one practical conversation", INDEX_HTML)
         self.assertIn("Questions? Let's connect.", INDEX_HTML)
 
+    def test_shared_hover_focus_language_covers_major_components(self):
+        for marker in (
+            ".story-tag:hover",
+            ".editorial-callout-block:hover",
+            ".specialist-nav-btn:hover",
+            ".specialist-dot:hover",
+            ".prompt-asset-card:hover",
+            ".callback-cta-card:hover",
+            "transform: var(--hover-lift);",
+        ):
+            self.assertIn(marker, INDEX_HTML)
+
     def test_visual_overhaul_uses_cinematic_cross_dissolve(self):
         self.assertIn("scale(0.97)", INDEX_HTML)
         self.assertIn("scale(1.03)", INDEX_HTML)
@@ -104,6 +130,11 @@ class PresentationDesignTests(unittest.TestCase):
         self.assertIn("function setSlideActivity", INDEX_HTML)
         self.assertIn("heroVortexSketch", INDEX_HTML)
         self.assertIn("assistantConstellationSketch", INDEX_HTML)
+
+    def test_assistant_constellation_cards_stay_wired_to_runtime_hooks(self):
+        self.assertRegex(INDEX_HTML, r'class="assistant-card(?: is-active)?" data-assistant="chatgpt"')
+        self.assertIn("document.querySelectorAll('.assistant-card')", INDEX_HTML)
+        self.assertIn('.assistant-card[data-assistant="${assistantAttractorKey}"] .assistant-card-orb', INDEX_HTML)
 
     def test_specialist_and_prompt_interactions_get_new_shells(self):
         self.assertIn("specialist-carousel-track", INDEX_HTML)

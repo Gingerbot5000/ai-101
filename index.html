@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The AI Breakdown â€" Real Tools for Real Life</title>
-    <meta name="description" content="Demystifying AI for our community â€" A presentation by Adam Gurski">
+    <title>The AI Breakdown - Real Tools for Real Life</title>
+    <meta name="description" content="Demystifying AI for our community - A presentation by Adam Gurski">
     <link rel="icon"
         href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23060a12'/%3E%3Cpath d='M15 18h15c10 0 16 5 16 14s-6 14-16 14H15V18zm11 8v12h4c5 0 8-2 8-6s-3-6-8-6h-4z' fill='%23f5f7fb'/%3E%3Cpath d='M48 18h6L38 46h-6l16-28z' fill='%238bd6ff'/%3E%3C/svg%3E">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -43,6 +43,13 @@
             --viewport-height: 100vh;
             --safe-bottom: env(safe-area-inset-bottom, 0px);
             --nav-height: 72px;
+            --deck-max-width: 1440px;
+            --slide-frame-max-height: calc(var(--viewport-height) - var(--nav-height) - 44px);
+            --slide-padding-x: clamp(28px, 3vw, 44px);
+            --slide-padding-top: clamp(18px, 2vh, 28px);
+            --slide-padding-bottom: calc(var(--nav-height) + clamp(14px, 2vh, 20px));
+            --hero-rainbow: linear-gradient(135deg, #ffffff 0%, #8bd6ff 38%, #d7a65a 72%, #c084fc 100%);
+            --hover-lift: translate3d(0, -4px, 0);
         }
 
         @supports (height: 100dvh) {
@@ -127,13 +134,13 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 38px 56px calc(var(--nav-height) + 24px);
+            padding: var(--slide-padding-top) var(--slide-padding-x) var(--slide-padding-bottom);
             opacity: 0;
             transform: translate3d(0, 0, 0) scale(1.03);
             filter: blur(0px);
             transition: opacity 0.6s ease-out, transform 0.6s ease-out, filter 0.6s ease-out;
             pointer-events: none;
-            overflow-y: auto;
+            overflow: hidden;
             touch-action: pan-y;
             scroll-padding-bottom: calc(var(--nav-height) + 24px);
             will-change: transform, opacity, filter;
@@ -173,9 +180,12 @@
         }
 
         .slide-inner {
-            max-width: 1520px;
-            width: 100%;
-            min-width: 0;
+            max-width: min(var(--deck-max-width), 100%);
+            max-height: var(--slide-frame-max-height);
+            height: var(--slide-frame-max-height);
+            display: grid;
+            align-content: center;
+            gap: clamp(10px, 1.2vh, 16px);
         }
 
         /* ===== PRESENTATION SURFACES ===== */
@@ -239,7 +249,7 @@
         }
 
         .gradient-text {
-            background: linear-gradient(135deg, var(--text-bright) 0%, var(--accent) 56%, #b8ebff 100%);
+            background: var(--hero-rainbow);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -456,7 +466,8 @@
             line-height: 1.45;
         }
 
-        .prompt-formula-grid {
+        .prompt-formula-grid,
+        .prompt-stack-formulas {
             display: grid;
             grid-template-columns: repeat(2, minmax(0, 1fr));
             gap: 8px;
@@ -667,7 +678,8 @@
             color: var(--text);
         }
 
-        .prompt-copy-status {
+        .prompt-copy-status,
+        .prompt-copy-check {
             min-height: 16px;
             margin-top: 8px;
             font-size: 11px;
@@ -1378,7 +1390,7 @@
             display: grid;
             grid-template-columns: minmax(420px, 1.15fr) minmax(300px, 0.85fr);
             gap: 26px;
-            align-items: center;
+            align-items: start;
             text-align: left;
         }
 
@@ -1390,6 +1402,7 @@
             display: grid;
             gap: 14px;
             justify-items: center;
+            margin-top: 32px;
         }
 
         .chamber-poster-card {
@@ -2103,7 +2116,8 @@
             line-height: 1.35;
         }
 
-        .prompt-stage-panel {
+        .prompt-stage-panel,
+        .prompt-card-stack {
             margin-top: 0;
             padding: 16px 16px 14px;
         }
@@ -2117,7 +2131,8 @@
             margin-bottom: 6px;
         }
 
-        .prompt-focus-readout {
+        .prompt-focus-readout,
+        .prompt-stack-position {
             color: var(--text-dim);
             font-family: 'JetBrains Mono', monospace;
             font-size: 11px;
@@ -2751,189 +2766,141 @@
             animation: heroFadeUp 0.28s ease-out 2.45s both;
         }
 
-        .story-thread-layout {
+        .story-intro-layout {
             display: grid;
-            grid-template-columns: minmax(300px, 0.72fr) minmax(520px, 1.28fr);
+            grid-template-columns: auto 1fr;
             gap: 32px;
-            align-items: start;
+            align-items: center;
+            margin-bottom: 28px;
         }
 
-        .story-thread-stage {
-            display: grid;
-            gap: 18px;
-            align-content: start;
-        }
-
-        .story-thread-photo {
-            display: grid;
-            gap: 14px;
-            justify-items: start;
+        .story-intro-photo {
             opacity: 0;
-            transform: translateY(-10px);
+            transform: scale(0.9);
             transition: opacity 0.5s ease-out, transform 0.5s ease-out;
         }
 
-        .slide.active[data-slide="1"] .story-thread-photo {
+        .slide.active[data-slide="1"] .story-intro-photo {
             opacity: 1;
-            transform: translateY(0);
+            transform: scale(1);
         }
 
-        .story-thread-photo .story-photo-ring {
-            align-items: flex-start;
+        .story-intro-text {
+            opacity: 0;
+            transform: translateX(-12px);
+            transition: opacity 0.5s ease-out 0.15s, transform 0.5s ease-out 0.15s;
         }
 
-        .story-thread-kicker {
-            max-width: 34ch;
-            padding: 16px 18px;
-            border-radius: 18px;
-            border: 1px solid rgba(139, 214, 255, 0.16);
-            background: rgba(6, 12, 22, 0.62);
-            color: var(--text-dim);
-            line-height: 1.55;
+        .slide.active[data-slide="1"] .story-intro-text {
+            opacity: 1;
+            transform: translateX(0);
         }
 
-        .story-thread-kicker strong {
-            display: block;
-            color: var(--text-bright);
+        .story-intro-text blockquote {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: 20px;
-            margin-bottom: 10px;
+            font-size: clamp(18px, 2vw, 24px);
+            font-weight: 500;
+            color: var(--text);
+            line-height: 1.45;
+            border-left: 3px solid var(--accent);
+            padding-left: 20px;
+            max-width: 42ch;
         }
 
-        .story-thread-rail {
-            position: relative;
-            min-height: 760px;
-            padding-left: 12px;
-        }
-
-        .story-thread-svg {
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 220px;
-            height: 100%;
-            overflow: visible;
-        }
-
-        .story-thread-path,
-        .story-thread-branch {
-            fill: none;
-            stroke: var(--accent);
-            stroke-width: 2;
-            stroke-linecap: round;
-            stroke-dasharray: 1200;
-            stroke-dashoffset: 1200;
-            transition: stroke-dashoffset 0.8s ease-out;
-        }
-
-        .story-thread-node {
-            fill: rgba(6, 10, 18, 0.95);
-            stroke: var(--accent);
-            stroke-width: 2;
-            opacity: 0;
-            transition: opacity 0.3s ease-out;
-        }
-
-        .slide.active[data-slide="1"] .story-thread-path,
-        .slide.active[data-slide="1"] .story-thread-branch {
-            stroke-dashoffset: 0;
-        }
-
-        .slide.active[data-slide="1"] .story-thread-node {
-            opacity: 1;
-        }
-
-        .story-thread-cards {
-            margin-left: 104px;
+        .story-highlight {
             display: grid;
-            gap: 18px;
-            align-content: start;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin-bottom: 16px;
         }
 
-        .story-thread-card {
+        .story-highlight-card {
             position: relative;
-            padding: 22px 24px 22px 34px;
+            padding: 18px 22px;
             opacity: 0;
-            transform: translateY(18px);
-            transition: opacity 0.46s ease-out, transform 0.46s ease-out;
+            transform: translateY(16px);
+            transition: opacity 0.4s ease-out, transform 0.4s ease-out, background 0.25s ease, box-shadow 0.25s ease, border-left-width 0.25s ease;
             transition-delay: var(--card-delay, 0s);
+            border-left: 3px solid var(--card-accent, var(--accent));
+            cursor: default;
         }
 
-        .story-thread-card::before {
-            content: '';
-            position: absolute;
-            left: -32px;
-            top: 34px;
-            width: 32px;
-            height: 1px;
-            border-top: 1px dashed rgba(139, 214, 255, 0.5);
-        }
-
-        .story-thread-card::after {
-            content: '';
-            position: absolute;
-            left: -40px;
-            top: 28px;
-            width: 12px;
-            height: 12px;
-            border-radius: 999px;
-            background: rgba(6, 10, 18, 0.95);
-            border: 2px solid var(--accent);
-            box-shadow: 0 0 0 8px rgba(139, 214, 255, 0.06);
-        }
-
-        .slide.active[data-slide="1"] .story-thread-card {
+        .slide.active[data-slide="1"] .story-highlight-card {
             opacity: 1;
             transform: translateY(0);
         }
 
-        .story-timestamp {
+        .story-highlight-card:hover {
+            background: rgba(255, 255, 255, 0.06);
+            border-left-width: 4px;
+            box-shadow: 0 6px 28px rgba(0, 0, 0, 0.2), inset 0 0 0 1px rgba(148, 163, 184, 0.1);
+        }
+
+        .story-highlight-card h3 {
+            font-size: clamp(15px, 1.5vw, 19px);
+            margin-bottom: 4px;
+            color: var(--text-bright);
+        }
+
+        .story-highlight-card p {
+            color: var(--text-dim);
+            line-height: 1.45;
+            font-size: 14px;
+        }
+
+        .story-tag-cloud {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            margin-bottom: 16px;
+            opacity: 0;
+            transition: opacity 0.5s ease-out 0.5s;
+        }
+
+        .slide.active[data-slide="1"] .story-tag-cloud {
+            opacity: 1;
+        }
+
+        .story-tag {
             display: inline-flex;
             align-items: center;
-            padding: 6px 10px;
+            padding: 5px 14px;
             border-radius: 999px;
-            font-size: 11px;
-            letter-spacing: 1.1px;
-            text-transform: uppercase;
-            color: var(--accent);
-            background: rgba(83, 179, 248, 0.1);
-            border: 1px solid rgba(83, 179, 248, 0.18);
-            font-family: 'JetBrains Mono', monospace;
-            margin-bottom: 12px;
-        }
-
-        .story-thread-card h3 {
-            margin-bottom: 8px;
-        }
-
-        .story-thread-card p {
+            font-size: 12px;
+            letter-spacing: 0.4px;
             color: var(--text-dim);
-            line-height: 1.56;
-            font-size: 16px;
+            background: rgba(83, 179, 248, 0.06);
+            border: 1px solid rgba(148, 163, 184, 0.14);
+            font-family: 'Instrument Sans', sans-serif;
         }
 
-        .story-thread-footer {
-            margin-left: 104px;
+        .story-kicker {
+            text-align: center;
             color: var(--accent-warm);
             font-family: 'JetBrains Mono', monospace;
             letter-spacing: 0.8px;
             text-transform: uppercase;
             font-size: 12px;
+            opacity: 0;
+            transition: opacity 0.5s ease-out 0.7s;
+        }
+
+        .slide.active[data-slide="1"] .story-kicker {
             opacity: 0.9;
         }
 
         .editorial-callout-shell {
             display: grid;
             grid-template-columns: repeat(12, minmax(0, 1fr));
-            gap: 18px;
-            margin-top: 10px;
+            gap: 12px;
+            margin-top: 6px;
         }
 
         .editorial-callout-block {
             display: grid;
-            gap: 14px;
-            padding: 28px;
-            min-height: 220px;
+            gap: 10px;
+            padding: 22px;
             clip-path: inset(0 100% 0 0 round 18px);
             opacity: 0;
             transform: translateY(12px);
@@ -2970,23 +2937,23 @@
 
         .editorial-stat {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: clamp(42px, 7vw, 88px);
+            font-size: clamp(36px, 5vw, 64px);
             line-height: 0.92;
             letter-spacing: -0.06em;
             color: var(--accent);
         }
 
         .editorial-callout-block h3 {
-            font-size: clamp(24px, 2.8vw, 40px);
-            line-height: 1.05;
+            font-size: clamp(17px, 2vw, 24px);
+            line-height: 1.15;
             margin: 0;
         }
 
         .editorial-copy {
             color: var(--text-dim);
-            font-size: clamp(16px, 1.7vw, 20px);
-            line-height: 1.55;
-            max-width: 30ch;
+            font-size: clamp(14px, 1.4vw, 17px);
+            line-height: 1.5;
+            max-width: 36ch;
         }
 
         .editorial-accent-rule {
@@ -3020,14 +2987,14 @@
 
         .editorial-side-list {
             display: grid;
-            gap: 14px;
+            gap: 10px;
         }
 
         .editorial-side-item {
             display: grid;
-            gap: 10px;
-            padding: 18px 20px;
-            border-radius: 18px;
+            gap: 6px;
+            padding: 14px 16px;
+            border-radius: 14px;
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(148, 163, 184, 0.12);
         }
@@ -3035,7 +3002,7 @@
         .editorial-side-item strong {
             color: var(--text-bright);
             font-family: 'Space Grotesk', sans-serif;
-            font-size: 24px;
+            font-size: 19px;
         }
 
         .orbital-diagram {
@@ -3203,11 +3170,9 @@
         .assistant-constellation {
             position: relative;
             overflow: hidden;
-            padding: 34px;
-            border-radius: 30px;
+            border-radius: 24px;
             background: linear-gradient(160deg, rgba(10, 18, 30, 0.96) 0%, rgba(6, 10, 18, 0.96) 100%);
             border: 1px solid rgba(139, 214, 255, 0.12);
-            min-height: 620px;
         }
 
         .assistant-constellation-bg {
@@ -3222,120 +3187,107 @@
             opacity: 0.8;
         }
 
-        .assistant-constellation-grid {
+        .assistant-card-list {
             position: relative;
             z-index: 1;
             display: grid;
-            grid-template-columns: minmax(320px, 1fr) minmax(320px, 0.96fr);
-            gap: 28px;
+            gap: 2px;
+        }
+
+        .assistant-card {
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            gap: 24px;
             align-items: center;
-            min-height: 540px;
+            padding: 28px 32px;
+            background: rgba(255, 255, 255, 0.02);
+            border-bottom: 1px solid rgba(148, 163, 184, 0.08);
+            cursor: pointer;
+            transition: background 0.25s ease, box-shadow 0.25s ease;
         }
 
-        .assistant-node-cluster {
+        .assistant-card:last-child {
+            border-bottom: none;
+        }
+
+        .assistant-card:hover,
+        .assistant-card:focus-visible,
+        .assistant-card.is-active {
+            background: rgba(255, 255, 255, 0.06);
+            box-shadow: inset 0 0 0 1px rgba(139, 214, 255, 0.18), 0 8px 32px rgba(83, 179, 248, 0.1);
+        }
+
+        .assistant-card:hover .assistant-card-orb,
+        .assistant-card:focus-visible .assistant-card-orb,
+        .assistant-card.is-active .assistant-card-orb {
+            border-color: rgba(139, 214, 255, 0.4);
+            box-shadow: 0 0 24px rgba(139, 214, 255, 0.15), 0 16px 40px rgba(1, 5, 11, 0.28);
+            transform: scale(1.06);
+        }
+
+        .assistant-card-orb {
             position: relative;
-            min-height: 360px;
-        }
-
-        .assistant-orb {
-            position: absolute;
-            width: 118px;
-            height: 118px;
+            width: 88px;
+            height: 88px;
             border-radius: 999px;
             display: grid;
             place-items: center;
             background: rgba(10, 18, 30, 0.92);
             border: 1px solid rgba(148, 163, 184, 0.18);
-            box-shadow: 0 24px 60px rgba(1, 5, 11, 0.28);
-            cursor: pointer;
-            transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+            box-shadow: 0 16px 40px rgba(1, 5, 11, 0.28);
+            flex-shrink: 0;
+            transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
         }
 
-        .assistant-orb::before {
+        .assistant-card-orb::before {
             content: '';
             position: absolute;
-            inset: -20px;
+            inset: -16px;
             border-radius: 999px;
             background: radial-gradient(circle, var(--halo) 0%, rgba(255, 255, 255, 0) 70%);
-            opacity: 0.48;
+            opacity: 0.5;
             z-index: -1;
         }
 
-        .assistant-orb[data-assistant="chatgpt"] {
-            left: 10%;
-            top: 18%;
-            --halo: rgba(16, 163, 127, 0.32);
-            animation: logoDriftA 6s ease-in-out infinite;
-        }
-
-        .assistant-orb[data-assistant="claude"] {
-            left: 42%;
-            top: 6%;
-            --halo: rgba(167, 139, 250, 0.28);
-            animation: logoDriftB 7s ease-in-out infinite;
-        }
-
-        .assistant-orb[data-assistant="gemini"] {
-            left: 58%;
-            top: 54%;
-            --halo: rgba(83, 179, 248, 0.28);
-            animation: logoDriftC 8s ease-in-out infinite;
-        }
-
-        .assistant-orb img {
-            width: 66px;
-            height: 66px;
+        .assistant-card-orb img {
+            width: 52px;
+            height: 52px;
             object-fit: contain;
         }
 
-        .assistant-orb:hover,
-        .assistant-orb:focus-visible,
-        .assistant-orb.is-active {
-            transform: scale(1.06);
-            border-color: rgba(139, 214, 255, 0.34);
-            box-shadow: 0 26px 68px rgba(83, 179, 248, 0.16);
+        .assistant-card[data-assistant="chatgpt"] .assistant-card-orb {
+            --halo: rgba(16, 163, 127, 0.36);
+            animation: logoDriftA 6s ease-in-out infinite;
         }
 
-        .assistant-panel-list {
-            display: grid;
-            gap: 14px;
-            align-content: center;
+        .assistant-card[data-assistant="claude"] .assistant-card-orb {
+            --halo: rgba(167, 139, 250, 0.32);
+            animation: logoDriftB 7s ease-in-out infinite;
         }
 
-        .assistant-panel {
-            display: grid;
-            gap: 10px;
-            padding: 18px 20px;
-            border-radius: 20px;
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(148, 163, 184, 0.12);
-            opacity: 0.86;
-            transform: translateX(0);
-            transition: opacity 0.28s ease, transform 0.28s ease, border-color 0.28s ease, background 0.28s ease;
+        .assistant-card[data-assistant="gemini"] .assistant-card-orb {
+            --halo: rgba(83, 179, 248, 0.32);
+            animation: logoDriftC 8s ease-in-out infinite;
         }
 
-        .assistant-panel.is-active {
-            opacity: 1;
-            transform: translateX(8px);
-            border-color: rgba(139, 214, 255, 0.24);
-            background: rgba(255, 255, 255, 0.06);
+        .assistant-card-body h3 {
+            font-size: clamp(20px, 2vw, 26px);
+            margin-bottom: 2px;
         }
 
-        .assistant-panel-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 12px;
+        .assistant-card-body .tool-label {
+            margin-bottom: 6px;
         }
 
-        .assistant-panel .tool-label {
-            margin-bottom: 0;
-        }
-
-        .assistant-panel p {
+        .assistant-card-body p {
             color: var(--text-dim);
-            line-height: 1.55;
-            font-size: 16px;
+            line-height: 1.45;
+            font-size: 15px;
+            max-width: 48ch;
+        }
+
+        .assistant-card-badge {
+            align-self: start;
         }
 
         .specialist-carousel {
@@ -3500,12 +3452,12 @@
 
         .safety-shield {
             display: grid;
-            gap: 14px;
+            gap: 8px;
             justify-items: center;
-            align-content: start;
+            align-content: center;
             text-align: center;
             min-height: 268px;
-            padding: 28px 24px;
+            padding: 56px 32px;
             clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
             border: 1px solid rgba(139, 214, 255, 0.14);
             background: linear-gradient(180deg, rgba(10, 18, 30, 0.92) 0%, rgba(6, 10, 18, 0.96) 100%);
@@ -3529,9 +3481,9 @@
         }
 
         .safety-shield .safety-icon {
-            width: 82px;
-            height: 82px;
-            border-radius: 26px;
+            width: 56px;
+            height: 56px;
+            border-radius: 18px;
             overflow: hidden;
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(139, 214, 255, 0.14);
@@ -3543,13 +3495,14 @@
         }
 
         .safety-shield h3 {
-            font-size: 21px;
+            font-size: 17px;
+            line-height: 1.2;
         }
 
         .safety-shield p {
             color: var(--text-dim);
-            line-height: 1.52;
-            font-size: 15px;
+            line-height: 1.4;
+            font-size: 13px;
         }
 
         .callback-montage {
@@ -3662,10 +3615,59 @@
             margin-bottom: 0;
         }
 
+        .story-tag,
+        .editorial-callout-block,
+        .specialist-nav-btn,
+        .specialist-dot,
+        .prompt-asset-card,
+        .callback-cta-card {
+            transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease, filter 0.18s ease;
+        }
+
+        .story-tag:hover,
+        .story-tag:focus-visible,
+        .editorial-callout-block:hover,
+        .editorial-callout-block:focus-within,
+        .specialist-nav-btn:hover,
+        .specialist-nav-btn:focus-visible,
+        .specialist-dot:hover,
+        .specialist-dot:focus-visible,
+        .prompt-asset-card:hover,
+        .prompt-asset-card:focus-within,
+        .callback-cta-card:hover,
+        .callback-cta-card:focus-within {
+            transform: var(--hover-lift);
+            border-color: rgba(139, 214, 255, 0.28);
+            box-shadow: 0 18px 40px rgba(5, 11, 22, 0.32), 0 0 0 1px rgba(139, 214, 255, 0.14);
+            filter: brightness(1.02);
+        }
+
         @media (max-width: 1180px) {
-            .story-thread-layout,
-            .assistant-constellation-grid {
+            .story-intro-layout {
                 grid-template-columns: 1fr;
+                justify-items: center;
+                text-align: center;
+            }
+
+            .story-intro-text blockquote {
+                border-left: none;
+                padding-left: 0;
+                border-top: 3px solid var(--accent);
+                padding-top: 16px;
+            }
+
+            .story-highlight {
+                grid-template-columns: 1fr;
+            }
+
+            .assistant-card {
+                grid-template-columns: auto 1fr;
+                gap: 18px;
+            }
+
+            .assistant-card-badge {
+                grid-column: 1 / -1;
+                justify-self: start;
             }
 
             .editorial-callout-block[data-span="wide"],
@@ -3712,24 +3714,6 @@
                 order: -1;
             }
 
-            .story-thread-rail {
-                min-height: 0;
-                padding-left: 0;
-            }
-
-            .story-thread-svg {
-                display: none;
-            }
-
-            .story-thread-cards,
-            .story-thread-footer {
-                margin-left: 0;
-            }
-
-            .story-thread-card::before,
-            .story-thread-card::after {
-                display: none;
-            }
 
             .orbital-diagram {
                 width: 100%;
@@ -3817,22 +3801,25 @@
         }
 
         @media (max-width: 640px) {
-            .assistant-constellation {
-                padding: 22px 18px;
+            .assistant-card {
+                grid-template-columns: auto 1fr;
+                gap: 14px;
+                padding: 20px 18px;
             }
 
-            .assistant-node-cluster {
-                min-height: 300px;
+            .assistant-card-orb {
+                width: 64px;
+                height: 64px;
             }
 
-            .assistant-orb {
-                width: 96px;
-                height: 96px;
+            .assistant-card-orb img {
+                width: 38px;
+                height: 38px;
             }
 
-            .assistant-orb img {
-                width: 54px;
-                height: 54px;
+            .assistant-card-badge {
+                grid-column: 1 / -1;
+                justify-self: start;
             }
 
             .specialist-carousel-track {
@@ -3864,14 +3851,17 @@
             }
 
             .slide[data-slide="0"] .title-content>*,
-            .story-thread-photo,
-            .story-thread-card,
+            .story-intro-photo,
+            .story-intro-text,
+            .story-highlight-card,
+            .story-tag-cloud,
+            .story-kicker,
             .editorial-callout-block,
             .editorial-source,
             .orbital-core,
             .orbital-ring,
             .orbital-node,
-            .assistant-panel,
+            .assistant-card,
             .use-case-cluster,
             .callback-cta-card,
             .safety-shield {
@@ -3880,18 +3870,12 @@
                 clip-path: inset(0 0 0 0 round 18px) !important;
             }
 
-            .story-thread-path,
-            .story-thread-branch {
-                stroke-dashoffset: 0 !important;
-            }
-
-            .story-thread-node,
             .editorial-accent-rule {
                 opacity: 1 !important;
                 width: 100% !important;
             }
 
-            .assistant-orb,
+            .assistant-card-orb,
             .safety-shield,
             .montage-fragment,
             .specialist-progress-bar {
@@ -3917,8 +3901,8 @@
                     <div class="title-content hero-vortex-copy">
                         <div class="slide-number">Presentation</div>
                         <h1>THE AI <span class="gradient-text">BREAKDOWN</span></h1>
-                        <p class="subtitle" style="max-width: 28ch;">Real Tools for Real Life</p>
-                        <p style="color: var(--text-muted); font-size: clamp(14px, 1.6vw, 18px); line-height: 1.5; max-width: 36ch; margin-top: 8px;">A practical guide to what AI can actually do for you</p>
+                        <p class="subtitle" style="max-width: 28ch; font-size: clamp(22px, 2.8vw, 34px);">Real Tools for Real Life</p>
+                        <p style="color: var(--text-dim); font-size: clamp(16px, 1.8vw, 22px); line-height: 1.5; max-width: 36ch; margin-top: 10px;">A practical guide to what AI can actually do for you</p>
                         <div>
                             <div class="title-badge">
                                 Presented by Adam Gurski &bull; Updated March 28, 2026
@@ -3926,7 +3910,7 @@
                         </div>
                         <p class="anim anim-5"
                             style="margin-top: 34px; font-size: 14px; color: var(--text-dim); font-family: 'JetBrains Mono', monospace;">
-                            Use ← → arrow keys or buttons below to navigate
+                            Use left/right arrow keys or buttons below to navigate
                         </p>
                     </div>
                     <div class="title-art-stack">
@@ -3946,71 +3930,54 @@
             <div class="slide-inner">
                 <div class="slide-number">01 / My Story</div>
                 <h2 style="margin-bottom: 8px;">Why I&rsquo;m Standing Up Here</h2>
-                <p class="subtitle" style="margin-bottom: 20px; max-width: 54ch;">I&rsquo;m not a developer or a tech executive. Three years ago I had never built a website. AI turned the blank page into a thread I could follow — and let me learn faster than I ever thought possible.</p>
 
-                <div class="story-thread-layout">
-                    <div class="story-thread-stage">
-                        <div class="story-thread-photo">
-                            <div class="story-photo-ring">
-                                <div class="photo-glow-wrap">
-                                    <img id="introKidPhoto"
-                                        src="assets/images/516605461_10235383877351500_957627053519839274_n.jpg"
-                                        alt="Young Adam Gurski"
-                                        onerror="this.onerror=null; this.parentElement.innerHTML='<div style=\'width:148px;height:148px;border-radius:50%;background:linear-gradient(135deg,#3b82f6,#53b3f8);display:flex;align-items:center;justify-content:center;font-size:48px;color:#fff;font-weight:700;position:relative;z-index:1;border:3px solid var(--bg-base)\'>AG</div>';">
-                                </div>
-                                <div class="photo-caption-tag">Same person &bull; New capabilities</div>
-                            </div>
-                            <div class="story-thread-kicker glass">
-                                <strong>The point of this deck</strong>
-                                AI did not replace the work. It made the next step legible enough that I could keep moving.
+                <div class="story-intro-layout story-thread-layout">
+                    <div class="story-intro-photo">
+                        <div class="story-photo-ring">
+                            <div class="photo-glow-wrap">
+                                <img id="introKidPhoto"
+                                    src="assets/images/516605461_10235383877351500_957627053519839274_n.jpg"
+                                    alt="Young Adam Gurski"
+                                    onerror="this.onerror=null; this.parentElement.innerHTML='<div style=\'width:148px;height:148px;border-radius:50%;background:linear-gradient(135deg,#3b82f6,#53b3f8);display:flex;align-items:center;justify-content:center;font-size:48px;color:#fff;font-weight:700;position:relative;z-index:1;border:3px solid var(--bg-base)\'>AG</div>';">
                             </div>
                         </div>
                     </div>
-
-                    <div class="story-thread-rail">
-                        <svg class="story-thread-svg" viewBox="0 0 220 760" aria-hidden="true">
-                            <path class="story-thread-path" d="M62 54 L62 676" />
-                            <path class="story-thread-branch" d="M62 148 L150 148" />
-                            <path class="story-thread-branch" d="M62 282 L174 282" />
-                            <path class="story-thread-branch" d="M62 430 L150 430" />
-                            <path class="story-thread-branch" d="M62 574 L182 574" />
-                            <circle class="story-thread-node" cx="62" cy="148" r="7"></circle>
-                            <circle class="story-thread-node" cx="62" cy="282" r="7"></circle>
-                            <circle class="story-thread-node" cx="62" cy="430" r="7"></circle>
-                            <circle class="story-thread-node" cx="62" cy="574" r="7"></circle>
-                        </svg>
-
-                        <div class="story-thread-cards">
-                            <div class="glass story-thread-card" style="--card-delay: 0.12s;">
-                                <div class="story-timestamp">2023</div>
-                                <h3>I made a video</h3>
-                                <p>Not because I suddenly became technical, but because AI finally gave me a way to draft,
-                                    revise, and ship without waiting for permission.</p>
-                            </div>
-                            <div class="glass story-thread-card" style="--card-delay: 0.24s;">
-                                <div class="story-timestamp">2024</div>
-                                <h3>I built a workflow</h3>
-                                <p>I could connect tools, automate repeat work, and stop treating every new idea like a
-                                    multi-month obstacle course.</p>
-                            </div>
-                            <div class="glass story-thread-card" style="--card-delay: 0.36s;">
-                                <div class="story-timestamp">2025</div>
-                                <h3>I started a business</h3>
-                                <p>AI helped with research, planning, writing, and iteration fast enough that momentum finally
-                                    beat hesitation.</p>
-                            </div>
-                            <div class="glass story-thread-card" style="--card-delay: 0.48s;">
-                                <div class="story-timestamp">2026</div>
-                                <h3>I designed logos</h3>
-                                <p>That still would have sounded impossible to the earlier version of me. But you can learn
-                                    this much this fast when the feedback loop stops punishing you for not knowing where to
-                                    start.</p>
-                            </div>
-                        </div>
-
-                        <div class="story-thread-footer">The throughline: curiosity plus AI beats waiting to feel ready.</div>
+                    <div class="story-intro-text">
+                        <p style="display:none;">Three years ago, I had never built a website.</p>
+                        <blockquote>Three years ago I had never built a website. AI didn&rsquo;t make me technical - it made the next step visible enough to take.</blockquote>
                     </div>
                 </div>
+
+                <div class="story-highlight">
+                    <div class="glass story-highlight-card" style="--card-delay: 0.1s; --card-accent: #10b981;">
+                        <h3>I made a video</h3>
+                        <p>Created a video used as a visual for Grammy Award winner Fatboy Slim. That was the first time AI made a big creative project feel reachable.</p>
+                    </div>
+                    <div class="glass story-highlight-card" style="--card-delay: 0.2s; --card-accent: #8BD6FF;">
+                        <h3>I built a workflow</h3>
+                        <p>Designed and shipped several live sites for businesses - starting from zero web experience.</p>
+                    </div>
+                    <div class="glass story-highlight-card" style="--card-delay: 0.3s; --card-accent: #D7A65A;">
+                        <h3>I started a business</h3>
+                        <p>Research, branding, planning, launch - AI made the iteration loop fast enough that momentum won.</p>
+                    </div>
+                    <div class="glass story-highlight-card" style="--card-delay: 0.4s; --card-accent: #a78bfa;">
+                        <h3>I designed logos</h3>
+                        <p>That still would have sounded impossible to the earlier version of me, but you can learn this much this fast when the feedback loop stops punishing you for not knowing where to start.</p>
+                    </div>
+                </div>
+
+                <div class="story-tag-cloud">
+                    <span class="story-tag">Video production</span>
+                    <span class="story-tag">Music creation</span>
+                    <span class="story-tag">Photo editing</span>
+                    <span class="story-tag">Logo design</span>
+                    <span class="story-tag">Web development</span>
+                    <span class="story-tag">Business strategy</span>
+                    <span class="story-tag">Workflow automation</span>
+                </div>
+
+                <div class="story-kicker">None of this required a degree, a team, or permission. Just curiosity.</div>
             </div>
         </div>
 
@@ -4018,7 +3985,7 @@
         <div class="slide" data-slide="2">
             <div class="slide-inner">
                 <div class="slide-number anim anim-1">02 / Science Proof</div>
-                <h2 class="anim anim-2" style="margin-bottom: 8px;">AI is already producing Nobel-caliber results</h2>
+                <h2 class="anim anim-2" style="margin-bottom: 8px;">AI is accelerating Nobel-scale discovery</h2>
                 <p class="subtitle anim anim-3" style="margin-bottom: 20px; max-width: 42ch;">If AI can decode proteins, discover new materials, and accelerate weather prediction, it deserves a serious look in everyday work too.</p>
                 <div class="science-timeline anim anim-4">
                     <div class="timeline-axis"></div>
@@ -4033,7 +4000,7 @@
                         </div>
                         <div class="node-bottom">
                             <div class="node-title">AlphaFold</div>
-                            <p>Hassabis and Jumper proved AI could crack a decades-old protein-structure problem at scientific scale — earning them the Nobel Prize.</p>
+                            <p>Hassabis and Jumper proved AI could crack a decades-old protein-structure problem at scientific scale - earning them the Nobel Prize.</p>
                             <div class="node-note">Protein prediction went from bottleneck to platform.</div>
                         </div>
                     </div>
@@ -4048,7 +4015,7 @@
                         </div>
                         <div class="node-bottom">
                             <div class="node-title">2.2 million</div>
-                            <p>GNoME proposed 2.2 million candidate crystals, including hundreds of thousands of stable new materials — a search space that would take humans generations.</p>
+                            <p>GNoME proposed 2.2 million candidate crystals, including hundreds of thousands of stable new materials - a search space that would take humans generations.</p>
                             <div class="node-note">Scale that humans cannot brute-force alone.</div>
                         </div>
                     </div>
@@ -4064,7 +4031,7 @@
                         <div class="node-bottom">
                             <div class="node-title">Faster</div>
                             <p>Drug design, astronomy, and weather modeling are all shrinking the gap between raw complexity and usable answers.</p>
-                            <div class="node-note">The pattern is speed plus scale — not just hype.</div>
+                            <div class="node-note">The pattern is speed plus scale - not just hype.</div>
                         </div>
                     </div>
                 </div>
@@ -4075,8 +4042,8 @@
         <div class="slide" data-slide="3">
             <div class="slide-inner">
                 <div class="slide-number">03 / Education Proof</div>
-                <h2 style="margin-bottom: 8px;">What the research actually shows</h2>
-                <p class="subtitle" style="margin-bottom: 20px; max-width: 46ch;">The evidence does not say "AI is magic." It says outcomes improve when the tool, the method, and the human behind them are aligned.</p>
+                <h2 style="margin-bottom: 4px;">What the research actually shows</h2>
+                <p class="subtitle" style="margin-bottom: 10px; max-width: 52ch;">The evidence doesn&rsquo;t say &ldquo;AI is magic.&rdquo; It says outcomes improve when the tool, the method, and the human are aligned.</p>
                 <div class="editorial-callout-shell editorial-callout-shell-education">
                     <article class="glass editorial-callout-block" data-span="wide" style="--delay: 0.05s;">
                         <div class="editorial-kicker">Meta-analysis signal</div>
@@ -4092,7 +4059,7 @@
                             <div class="editorial-side-item">
                                 <div class="editorial-kicker">Harvard physics trial</div>
                                 <strong>4.5 vs 3.5</strong>
-                                <p>The Harvard physics trial showed a pedagogically tuned AI tutor outperforming the same students’
+                                <p>The Harvard physics trial showed a pedagogically tuned AI tutor outperforming the same students'
                                     classroom condition on post-test mastery.</p>
                             </div>
                             <div class="editorial-side-item">
@@ -4104,14 +4071,10 @@
                         </div>
                         <div class="editorial-source">Source: Harvard and Stanford tutoring studies.</div>
                     </article>
-                    <article class="glass editorial-callout-block" data-span="full" style="--delay: 0.22s;">
+                    <article class="glass editorial-callout-block" data-span="full" style="--delay: 0.22s; padding-top: 16px; padding-bottom: 16px;">
                         <div class="editorial-kicker">Operational takeaway</div>
                         <h3>structured use helps. unstructured use can backfire.</h3>
-                        <div class="editorial-accent-rule"></div>
-                        <p class="editorial-copy" style="max-width: 62ch;">Prompting, tutoring, and workflow gains are strongest
-                            when the activity is clearly staged and the human still owns the judgment. Remove the productive
-                            struggle entirely, and later performance can sag.</p>
-                        <div class="editorial-source">Technique is part of the outcome.</div>
+                        <p class="editorial-copy" style="max-width: 72ch;">Gains are strongest when the activity is clearly staged and the human still owns the judgment.</p>
                     </article>
                 </div>
             </div>
@@ -4139,7 +4102,7 @@
                         <button class="orbital-node orbital-node--green" style="--x: 128px; --y: -184px; --delay: 0.42s; --node-accent: rgba(16, 185, 129, 0.7);" type="button">
                             <div class="orbital-step">Start here</div>
                             <h3>General chat</h3>
-                            <p>Brainstorm, write, plan, summarize — ask "where do I even begin?" and get moving.</p>
+                            <p>Brainstorm, write, plan, summarize - ask "where do I even begin?" and get moving.</p>
                         </button>
                         <button class="orbital-node orbital-node--blue" style="--x: 202px; --y: -22px; --delay: 0.52s; --node-accent: rgba(139, 214, 255, 0.7);" type="button">
                             <div class="orbital-step">Add leverage</div>
@@ -4166,55 +4129,45 @@
             <div class="slide-inner">
                 <div class="slide-number">05 / Core Assistants</div>
                 <h2 style="margin-bottom: 8px;">Meet the Big Three</h2>
-                <p class="subtitle" style="margin-bottom: 20px; max-width: 40ch;">The three general-purpose assistants most people will reach for first — each with a different strength.</p>
+                <p class="subtitle" style="margin-bottom: 20px; max-width: 40ch;">The three general-purpose assistants most people will reach for first - each with a different strength.</p>
                 <div class="assistant-constellation">
                     <div class="assistant-constellation-bg" id="assistantConstellationLayer" aria-hidden="true"></div>
-                    <div class="assistant-constellation-grid">
-                        <div class="assistant-node-cluster">
-                            <button class="assistant-orb is-active" type="button" data-assistant="chatgpt" aria-label="Highlight ChatGPT">
+                    <div class="assistant-card-list">
+                        <div class="assistant-card is-active" data-assistant="chatgpt" role="button" tabindex="0" aria-label="Highlight ChatGPT" aria-pressed="true">
+                            <div class="assistant-card-orb">
                                 <img src="assets/logos/chatgpt.svg" alt="ChatGPT logo">
-                            </button>
-                            <button class="assistant-orb" type="button" data-assistant="claude" aria-label="Highlight Claude">
-                                <img src="assets/logos/claude.svg" alt="Claude logo">
-                            </button>
-                            <button class="assistant-orb" type="button" data-assistant="gemini" aria-label="Highlight Gemini">
-                                <img src="assets/logos/gemini.svg" alt="Gemini logo">
-                            </button>
+                            </div>
+                            <div class="assistant-card-body">
+                                <h3>ChatGPT</h3>
+                                <div class="tool-label">OpenAI &middot; GPT-5 family</div>
+                                <p>Writing, coding, data analysis, multimodal work, and general-purpose problem solving.</p>
+                                <p style="margin-top:4px;font-size:12px;color:var(--text-muted);font-family:'JetBrains Mono',monospace;">Free &bull; Plus $20/mo &bull; Pro $200/mo</p>
+                            </div>
+                            <span class="badge badge-green assistant-card-badge">The All-Rounder</span>
                         </div>
-                        <div class="assistant-panel-list">
-                            <article class="assistant-panel is-active" data-assistant-panel="chatgpt">
-                                <div class="assistant-panel-header">
-                                    <div>
-                                        <h3>ChatGPT</h3>
-                                        <div class="tool-label">OpenAI &middot; GPT-5 family</div>
-                                    </div>
-                                    <span class="badge badge-green">The All-Rounder</span>
-                                </div>
-                                <p>Strong for writing, coding, data analysis, multimodal work, and general-purpose problem solving.</p>
-                                <p style="margin-top:2px;font-size:13px;color:var(--text-dim);font-family:'JetBrains Mono',monospace;">Free plan available &bull; Plus $20/mo &bull; Pro $200/mo</p>
-                            </article>
-                            <article class="assistant-panel" data-assistant-panel="claude">
-                                <div class="assistant-panel-header">
-                                    <div>
-                                        <h3>Claude</h3>
-                                        <div class="tool-label">Anthropic &middot; Claude Sonnet 4.6</div>
-                                    </div>
-                                    <span class="badge badge-purple">The Writer / Coder</span>
-                                </div>
-                                <p>Excellent for long-form writing, careful reasoning, coding, and structured professional work.</p>
-                                <p style="margin-top:2px;font-size:13px;color:var(--text-dim);font-family:'JetBrains Mono',monospace;">Free plan available &bull; Pro $20/mo &bull; higher-tier plans available</p>
-                            </article>
-                            <article class="assistant-panel" data-assistant-panel="gemini">
-                                <div class="assistant-panel-header">
-                                    <div>
-                                        <h3>Gemini</h3>
-                                        <div class="tool-label">Google &middot; Gemini</div>
-                                    </div>
-                                    <span class="badge badge-blue">The Integrator</span>
-                                </div>
-                                <p>Strong for Google ecosystem workflows, long-context tasks, multimodal assistance, and Search-connected answers.</p>
-                                <p style="margin-top:2px;font-size:13px;color:var(--text-dim);font-family:'JetBrains Mono',monospace;">Free tier available &bull; Google AI plans available</p>
-                            </article>
+                        <div class="assistant-card" data-assistant="claude" role="button" tabindex="0" aria-label="Highlight Claude" aria-pressed="false">
+                            <div class="assistant-card-orb">
+                                <img src="assets/logos/claude.svg" alt="Claude logo">
+                            </div>
+                            <div class="assistant-card-body">
+                                <h3>Claude</h3>
+                                <div class="tool-label">Anthropic &middot; Claude Sonnet 4.6</div>
+                                <p>Long-form writing, careful reasoning, coding, and structured professional work.</p>
+                                <p style="margin-top:4px;font-size:12px;color:var(--text-muted);font-family:'JetBrains Mono',monospace;">Free &bull; Pro $20/mo &bull; higher tiers available</p>
+                            </div>
+                            <span class="badge badge-purple assistant-card-badge">The Writer / Coder</span>
+                        </div>
+                        <div class="assistant-card" data-assistant="gemini" role="button" tabindex="0" aria-label="Highlight Gemini" aria-pressed="false">
+                            <div class="assistant-card-orb">
+                                <img src="assets/logos/gemini.svg" alt="Gemini logo">
+                            </div>
+                            <div class="assistant-card-body">
+                                <h3>Gemini</h3>
+                                <div class="tool-label">Google &middot; Gemini</div>
+                                <p>Google ecosystem workflows, long-context tasks, multimodal assistance, and Search-connected answers.</p>
+                                <p style="margin-top:4px;font-size:12px;color:var(--text-muted);font-family:'JetBrains Mono',monospace;">Free tier &bull; Google AI plans available</p>
+                            </div>
+                            <span class="badge badge-blue assistant-card-badge">The Integrator</span>
                         </div>
                     </div>
                 </div>
@@ -4246,7 +4199,7 @@
                 <div class="slide-number">07 / Applications</div>
                 <h2 style="margin-bottom: 8px;">Where this actually saves you time</h2>
                 <p class="subtitle" style="margin-bottom: 20px; max-width: 44ch;">You do not need to learn every tool. Pick the first place AI can take something off your plate and try it this week.</p>
-                <div class="use-case-groups anim anim-4">
+                <div class="use-case-groups use-case-scene-grid anim anim-4">
                     <div class="glass use-case-cluster">
                         <div class="cluster-label">Local business</div>
                         <p class="cluster-intro">Move faster on customer-facing work you already understand.</p>
@@ -4318,9 +4271,9 @@
                         <span class="prompt-mode-pill">Teach mode</span>
                         <span class="prompt-mode-pill">Operator mode</span>
                     </div>
-                    <div class="prompt-focus-readout">Teach mode spotlight: <strong id="promptTeachFocus">Role</strong></div>
+                    <div class="prompt-focus-readout prompt-stack-position">Teach mode spotlight: <strong id="promptTeachFocus">Role</strong></div>
                 </div>
-                <div class="anim anim-4 prompt-formula-grid prompt-framework-strip">
+                <div class="anim anim-4 prompt-formula-grid prompt-framework-strip prompt-stack-formulas">
                     <div class="glass formula-block" data-prompt-part="role">
                         <div class="formula-icon">01</div>
                         <div>
@@ -4350,7 +4303,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="prompt-example prompt-stage-panel anim anim-5">
+                <div class="prompt-example prompt-stage-panel prompt-card-stack anim anim-5">
                     <div class="prompt-stage-toolbar">
                         <div class="prompt-heading">LIVE SPECIMEN</div>
                         <div class="prompt-focus-readout">Operator mode: full packet stays live for the demo.</div>
@@ -4383,7 +4336,7 @@
                     <div class="prompt-run-guide" id="promptRunGuide">Quick run: open a fresh chat, add only listed
                         inputs, paste the copied packet, and run.</div>
                     <div class="prompt-asset-gallery" id="promptAssetGallery" style="display:none;"></div>
-                    <div class="prompt-copy-status" id="promptCopyStatus" aria-live="polite"></div>
+                    <div class="prompt-copy-status prompt-copy-check" id="promptCopyStatus" aria-live="polite"></div>
                 </div>
             </div>
         </div>
@@ -4423,7 +4376,7 @@
                     </div>
                     <div class="glass safety-shield" style="--ripple-order: 5; --pulse-delay: 5;">
                         <div class="safety-icon"><img src="assets/images/generated/safety-ethics-logos-v2/deepfakes_misuse_logo-02-01.png" alt="Deepfakes and misuse icon" class="safety-icon-image"></div>
-                        <h3>Don’t normalize misuse</h3>
+                        <h3>Don't normalize misuse</h3>
                         <p>Deception, impersonation, and careless misinformation scale just as fast as the good stuff. How you use it is a choice.</p>
                     </div>
                 </div>
@@ -4463,7 +4416,7 @@
                             <a href="https://chatgpt.com" target="_blank" class="glass link-card tonight-card">
                                 <div class="link-icon"><img src="assets/logos/chatgpt.svg" alt="ChatGPT logo" class="brand-logo link-logo"></div>
                                 <div style="text-align:left;">
-                                    <div class="link-label">Solve one real problem</div>
+                                    <div class="link-label">Start one practical conversation</div>
                                     <div class="link-url">ChatGPT &middot; bring a task you already care about and work through it</div>
                                 </div>
                             </a>
@@ -4471,8 +4424,8 @@
                         <div class="glass contact-panel secondary-contact-panel">
                             <h3>Questions? Let's connect.</h3>
                             <div class="contact-bar">
-                                <div class="contact-item"><span>📧</span> <a class="contact-link" href="mailto:Adam88gur@gmail.com">Adam88gur@gmail.com</a></div>
-                                <div class="contact-item"><span>📸</span> <a class="contact-link" href="https://www.instagram.com/gingerbot5000/" target="_blank" rel="noopener noreferrer">@Gingerbot5000</a></div>
+                                <div class="contact-item"><span>Email</span> <a class="contact-link" href="mailto:Adam88gur@gmail.com">Adam88gur@gmail.com</a></div>
+                                <div class="contact-item"><span>Instagram</span> <a class="contact-link" href="https://www.instagram.com/gingerbot5000/" target="_blank" rel="noopener noreferrer">@Gingerbot5000</a></div>
                             </div>
                             <p class="contact-note">Tonight's goal: one useful first win. Everything else follows from that.</p>
                         </div>
@@ -4485,15 +4438,15 @@
     <!-- ===== NAVIGATION BAR ===== -->
     <div class="nav-bar">
         <div class="nav-group nav-left">
-            <a class="nav-btn nav-back-btn" href="/">â†© Back</a>
-            <button class="nav-btn" id="prevBtn" disabled>â† Prev</button>
+            <a class="nav-btn nav-back-btn" href="/">Back</a>
+            <button class="nav-btn" id="prevBtn" disabled>Prev</button>
         </div>
         <div class="nav-group nav-center">
             <div class="dots" id="dots"></div>
             <span class="nav-indicator" id="navIndicator">1 / 11</span>
         </div>
         <div class="nav-group nav-right">
-            <button class="nav-btn" id="nextBtn">Next â†’</button>
+            <button class="nav-btn" id="nextBtn">Next</button>
         </div>
     </div>
     <script src="assets/data/ai101-demo-prompt-catalog.js"></script>
@@ -4635,12 +4588,12 @@
         function updateNavButtons() {
             const compact = compactNavQuery.matches;
             const isLastSlide = current === totalSlides - 1;
-            if (navBackBtn) navBackBtn.textContent = compact ? '↩' : '↩ Back';
+            if (navBackBtn) navBackBtn.textContent = 'Back';
             if (prevBtn) {
-                prevBtn.textContent = compact ? '←' : '← Prev';
+                prevBtn.textContent = 'Prev';
                 prevBtn.disabled = current === 0;
             }
-            if (nextBtn) nextBtn.textContent = isLastSlide ? (compact ? 'Done' : 'Finish') : (compact ? '→' : 'Next →');
+            if (nextBtn) nextBtn.textContent = isLastSlide ? (compact ? 'Done' : 'Finish') : 'Next';
         }
 
         function updateDeckUI() {
@@ -4948,6 +4901,11 @@
 
         function setAssistantAttractor(key) {
             assistantAttractorKey = key;
+            document.querySelectorAll('.assistant-card').forEach((card) => {
+                const isActive = card.getAttribute('data-assistant') === key;
+                card.classList.toggle('is-active', isActive);
+                card.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+            });
             document.querySelectorAll('.assistant-orb').forEach((orb) => {
                 orb.classList.toggle('is-active', orb.getAttribute('data-assistant') === key);
             });
@@ -4957,6 +4915,18 @@
         }
 
         function bindAssistantConstellation() {
+            document.querySelectorAll('.assistant-card').forEach((card) => {
+                const key = card.getAttribute('data-assistant');
+                if (!key) return;
+                card.addEventListener('mouseenter', () => setAssistantAttractor(key));
+                card.addEventListener('focus', () => setAssistantAttractor(key));
+                card.addEventListener('click', () => setAssistantAttractor(key));
+                card.addEventListener('keydown', (event) => {
+                    if (event.key !== 'Enter' && event.key !== ' ') return;
+                    event.preventDefault();
+                    setAssistantAttractor(key);
+                });
+            });
             document.querySelectorAll('.assistant-orb').forEach((orb) => {
                 const key = orb.getAttribute('data-assistant');
                 orb.addEventListener('mouseenter', () => setAssistantAttractor(key));
@@ -5051,7 +5021,9 @@
                 p.draw = () => {
                     if (!active) return;
                     p.clear();
-                    const attractor = getAttractorCenter(container, `.assistant-orb[data-assistant="${assistantAttractorKey}"]`);
+                    const cardAttractorSelector = `.assistant-card[data-assistant="${assistantAttractorKey}"] .assistant-card-orb`;
+                    const orbAttractorSelector = `.assistant-orb[data-assistant="${assistantAttractorKey}"]`;
+                    const attractor = getAttractorCenter(container, document.querySelector(cardAttractorSelector) ? cardAttractorSelector : orbAttractorSelector);
                     particles.forEach((particle) => {
                         particle.vx += p.random(-0.015, 0.015);
                         particle.vy += p.random(-0.015, 0.015);
@@ -5093,7 +5065,7 @@
                             <div class="tool-label">${escapeHtml(item.label)}</div>
                             <h3>${escapeHtml(item.name)}</h3>
                             <p>${escapeHtml(item.description)}</p>
-                            <a class="specialist-card-link" href="${item.href}" target="_blank" rel="noopener noreferrer">Visit ${escapeHtml(item.name)} →</a>
+                            <a class="specialist-card-link" href="${item.href}" target="_blank" rel="noopener noreferrer">Visit ${escapeHtml(item.name)}</a>
                         </div>
                     </article>`;
             }).join('');
