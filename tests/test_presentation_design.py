@@ -99,6 +99,9 @@ class PresentationDesignTests(unittest.TestCase):
         )
 
     def test_tool_and_prompt_slides_get_desktop_fit_guards(self):
+        desktop_block_start = INDEX_HTML.rfind('@media (min-width: 769px)')
+        self.assertGreater(desktop_block_start, INDEX_HTML.rfind('@media (max-width: 640px)'))
+        desktop_block = INDEX_HTML[desktop_block_start:]
         for marker in (
             '.slide[data-slide="4"] .slide-inner,',
             '.slide[data-slide="8"] .slide-inner {',
@@ -115,7 +118,7 @@ class PresentationDesignTests(unittest.TestCase):
             '.slide[data-slide="8"] .prompt-example {',
             'padding: 10px 12px;',
         ):
-            self.assertIn(marker, INDEX_HTML)
+            self.assertIn(marker, desktop_block)
 
     def test_deck_expands_to_guided_workshop_story(self):
         slide_ids = re.findall(r'<div class="slide(?: active)?" data-slide="(\d+)">', INDEX_HTML)
