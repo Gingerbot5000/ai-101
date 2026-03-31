@@ -405,6 +405,16 @@ class PresentationDesignTests(unittest.TestCase):
         self.assertIn("document.querySelectorAll('.assistant-card')", INDEX_HTML)
         self.assertIn('.assistant-card[data-assistant="${assistantAttractorKey}"] .assistant-card-orb', INDEX_HTML)
 
+    def test_deck_space_navigation_skips_focused_interactive_controls(self):
+        self.assertRegex(
+            INDEX_HTML,
+            r"card\.addEventListener\('keydown', \(event\) => \{\s*if \(event\.key !== 'Enter' && event\.key !== ' '\) return;\s*event\.preventDefault\(\);\s*setAssistantAttractor\(key\);\s*\}\);",
+        )
+        self.assertRegex(
+            INDEX_HTML,
+            r"document\.addEventListener\('keydown', \(event\) => \{\s*const target = event\.target;\s*if \(target instanceof Element && target\.closest\('a, button, input, textarea, select, label, \[contenteditable=\"true\"\], \[role=\"button\"\], \[role=\"link\"\]'\)\) return;\s*if \(event\.key === 'ArrowRight' \|\| event\.key === ' '\) \{ event\.preventDefault\(\); goTo\(current \+ 1\); \}",
+        )
+
     def test_specialist_and_prompt_interactions_get_new_shells(self):
         self.assertIn("specialist-carousel-track", INDEX_HTML)
         self.assertIn("specialist-progress-bar", INDEX_HTML)
