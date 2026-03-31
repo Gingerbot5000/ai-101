@@ -44,6 +44,26 @@ class PresentationDesignTests(unittest.TestCase):
             r"\.gradient-text \{[\s\S]*?background: var\(--hero-rainbow\);[\s\S]*?\}",
         )
 
+    def test_story_and_evidence_slides_get_density_fit_rules(self):
+        for marker in (
+            '.slide[data-slide="0"] {',
+            'padding-top: 16px;',
+            '.slide[data-slide="1"] .slide-inner {',
+            'max-width: 1380px;',
+            '.story-intro-layout {',
+            'gap: 24px;',
+            '.story-highlight-card {',
+            'padding: 16px 18px;',
+            '.science-timeline {',
+            'margin-top: 20px;',
+            '.node-bottom {',
+            'padding: 20px 18px;',
+            '.editorial-callout-shell {',
+            '.editorial-callout-block {',
+            'padding: 18px;',
+        ):
+            self.assertIn(marker, INDEX_HTML)
+
     def test_deck_expands_to_guided_workshop_story(self):
         slide_ids = re.findall(r'<div class="slide(?: active)?" data-slide="(\d+)">', INDEX_HTML)
         self.assertEqual([str(i) for i in range(11)], slide_ids)
