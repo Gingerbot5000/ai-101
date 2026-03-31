@@ -217,6 +217,44 @@ class PresentationDesignTests(unittest.TestCase):
             r"\.slide\[data-slide=\"8\"\] \.prompt-asset-preview\s*\{[^}]*height: clamp\(54px, 7vh, 72px\);[^}]*\}",
         )
 
+    def test_safety_close_and_mobile_rules_preserve_stage_fit(self):
+        self.assertRegex(
+            INDEX_HTML,
+            r"\.slide\[data-slide=\"9\"\] \.slide-inner,\s*\.slide\[data-slide=\"10\"\] \.slide-inner \{[^}]*grid-template-rows: auto auto minmax\(0, 1fr\);[^}]*\}",
+        )
+        self.assertRegex(
+            INDEX_HTML,
+            r"\.safety-shield-grid \{[^}]*gap: 12px;[^}]*\}",
+        )
+        self.assertRegex(
+            INDEX_HTML,
+            r"\.safety-shield \{[^}]*min-height: 216px;[^}]*padding: 42px 24px;[^}]*gap: 6px;[^}]*\}",
+        )
+        self.assertRegex(
+            INDEX_HTML,
+            r"\.safety-shield \.safety-icon \{[^}]*width: 48px;[^}]*height: 48px;[^}]*\}",
+        )
+        self.assertRegex(
+            INDEX_HTML,
+            r"\.callback-montage \{[^}]*min-height: 560px;[^}]*padding: 24px;[^}]*border-radius: 28px;[^}]*\}",
+        )
+        self.assertRegex(
+            INDEX_HTML,
+            r"\.callback-cta-card \{[^}]*width: min\(980px, 100%\);[^}]*gap: 18px;[^}]*padding: 24px 26px;[^}]*\}",
+        )
+        self.assertRegex(
+            INDEX_HTML,
+            r"\.callback-cta-card \.cta-grid \{[^}]*gap: 14px;[^}]*\}",
+        )
+        self.assertRegex(
+            INDEX_HTML,
+            r"\.link-card\.tonight-card \{[^}]*min-height: 0;[^}]*\}",
+        )
+        self.assertRegex(
+            INDEX_HTML,
+            r"@media \(max-width: 1180px\) \{[\s\S]*?\.slide \{[^}]*overflow-y: auto;[^}]*\}[\s\S]*?\.slide-inner \{[^}]*max-height: none;[^}]*height: auto;[^}]*\}[\s\S]*?\}",
+        )
+
     def test_deck_expands_to_guided_workshop_story(self):
         slide_ids = re.findall(r'<div class="slide(?: active)?" data-slide="(\d+)">', INDEX_HTML)
         self.assertEqual([str(i) for i in range(11)], slide_ids)
