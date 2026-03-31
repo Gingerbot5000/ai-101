@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The AI Breakdown â€” Real Tools for Real Life</title>
-    <meta name="description" content="Demystifying AI for our community â€” A presentation by Adam Gurski">
+    <title>The AI Breakdown â€" Real Tools for Real Life</title>
+    <meta name="description" content="Demystifying AI for our community â€" A presentation by Adam Gurski">
     <link rel="icon"
         href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23060a12'/%3E%3Cpath d='M15 18h15c10 0 16 5 16 14s-6 14-16 14H15V18zm11 8v12h4c5 0 8-2 8-6s-3-6-8-6h-4z' fill='%23f5f7fb'/%3E%3Cpath d='M48 18h6L38 46h-6l16-28z' fill='%238bd6ff'/%3E%3C/svg%3E">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -3056,8 +3056,9 @@
             display: grid;
             place-items: center;
             text-align: center;
-            background: radial-gradient(circle at 30% 25%, rgba(139, 214, 255, 0.18), rgba(6, 10, 18, 0.92) 70%);
-            border: 1px solid rgba(139, 214, 255, 0.34);
+            background: radial-gradient(circle at 30% 25%, rgba(139, 214, 255, 0.22), rgba(83, 179, 248, 0.08) 40%, rgba(6, 10, 18, 0.92) 70%);
+            border: 2px solid rgba(139, 214, 255, 0.42);
+            box-shadow: 0 0 40px rgba(139, 214, 255, 0.18), 0 0 80px rgba(83, 179, 248, 0.08), inset 0 0 30px rgba(139, 214, 255, 0.06);
             color: var(--text-bright);
             font-family: 'Space Grotesk', sans-serif;
             font-size: 34px;
@@ -3099,25 +3100,41 @@
         .orbital-ring[data-ring="1"] {
             width: 196px;
             height: 196px;
-            opacity: 0.3;
+            opacity: 0.35;
+            border-color: rgba(16, 185, 129, 0.3);
+            box-shadow: 0 0 18px rgba(16, 185, 129, 0.08);
+            animation: ringRotate 24s linear infinite;
         }
 
         .orbital-ring[data-ring="2"] {
             width: 300px;
             height: 300px;
-            opacity: 0.22;
+            opacity: 0.28;
+            border-color: rgba(139, 214, 255, 0.22);
+            box-shadow: 0 0 22px rgba(139, 214, 255, 0.06);
+            animation: ringRotate 32s linear infinite reverse;
         }
 
         .orbital-ring[data-ring="3"] {
             width: 424px;
             height: 424px;
-            opacity: 0.16;
+            opacity: 0.22;
+            border-color: rgba(167, 139, 250, 0.2);
+            box-shadow: 0 0 26px rgba(167, 139, 250, 0.06);
+            animation: ringRotate 40s linear infinite;
         }
 
         .orbital-ring[data-ring="4"] {
             width: 540px;
             height: 540px;
-            opacity: 0.1;
+            opacity: 0.16;
+            border-color: rgba(245, 158, 11, 0.16);
+            box-shadow: 0 0 30px rgba(245, 158, 11, 0.04);
+            animation: ringRotate 48s linear infinite reverse;
+        }
+
+        @keyframes ringRotate {
+            100% { transform: rotate(360deg); }
         }
 
         .orbital-node {
@@ -3143,11 +3160,16 @@
             transform: translate3d(var(--x), var(--y), 0) scale(1);
         }
 
+        .orbital-node--green { border-color: rgba(16, 185, 129, 0.22); }
+        .orbital-node--blue { border-color: rgba(139, 214, 255, 0.22); }
+        .orbital-node--purple { border-color: rgba(167, 139, 250, 0.22); }
+        .orbital-node--amber { border-color: rgba(245, 158, 11, 0.18); }
+
         .orbital-node:hover,
         .orbital-node:focus-visible {
             transform: translate3d(var(--x), var(--y), 0) scale(1.05);
-            border-color: rgba(139, 214, 255, 0.3);
-            box-shadow: 0 20px 48px rgba(83, 179, 248, 0.18);
+            border-color: var(--node-accent, rgba(139, 214, 255, 0.4));
+            box-shadow: 0 20px 48px rgba(83, 179, 248, 0.18), 0 0 24px var(--node-accent, rgba(139, 214, 255, 0.12));
         }
 
         .orbital-node .orbital-step {
@@ -3155,7 +3177,7 @@
             font-size: 11px;
             text-transform: uppercase;
             letter-spacing: 1.1px;
-            color: var(--accent);
+            color: var(--node-accent, var(--accent));
             margin-bottom: 10px;
         }
 
@@ -3469,255 +3491,6 @@
             opacity: 0;
         }
 
-        .use-case-scene-grid {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 18px;
-            margin-top: 8px;
-        }
-
-        .use-case-scene-card {
-            display: grid;
-            grid-template-rows: 40% 60%;
-            min-height: 440px;
-            padding: 0;
-            overflow: hidden;
-            opacity: 0;
-            transform: translateY(28px);
-            transition: opacity 0.5s ease-out, transform 0.5s ease-out, box-shadow 0.25s ease;
-            transition-delay: var(--delay, 0s);
-        }
-
-        .slide.active[data-slide="7"] .use-case-scene-card {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .use-case-scene-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 28px 68px rgba(1, 5, 11, 0.34);
-        }
-
-        .use-case-scene-media {
-            position: relative;
-            overflow: hidden;
-        }
-
-        .use-case-scene-media img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-
-        .use-case-scene-body {
-            display: grid;
-            gap: 14px;
-            padding: 22px 24px 24px;
-            align-content: start;
-        }
-
-        .use-case-scene-eyebrow {
-            color: var(--accent);
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 12px;
-            letter-spacing: 1.1px;
-            text-transform: uppercase;
-        }
-
-        .use-case-scene-body p {
-            color: var(--text-dim);
-            line-height: 1.55;
-        }
-
-        .use-case-sublist {
-            display: grid;
-            gap: 10px;
-        }
-
-        .use-case-subitem {
-            display: grid;
-            grid-template-columns: 30px 1fr;
-            gap: 10px;
-            align-items: center;
-        }
-
-        .use-case-subicon {
-            width: 30px;
-            height: 30px;
-            border-radius: 999px;
-            overflow: hidden;
-            border: 1px solid rgba(139, 214, 255, 0.12);
-            background: rgba(255, 255, 255, 0.04);
-        }
-
-        .use-case-subicon img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .prompt-stack-shell {
-            position: relative;
-            display: grid;
-            grid-template-columns: minmax(280px, 0.72fr) minmax(360px, 1.28fr);
-            gap: 26px;
-            align-items: start;
-            margin-top: 8px;
-        }
-
-        .prompt-stack-formulas {
-            position: relative;
-            display: grid;
-            gap: 10px;
-            align-content: start;
-            opacity: 0;
-            transform: translateX(-24px);
-            transition: opacity 0.46s ease-out, transform 0.46s ease-out;
-        }
-
-        .slide.active[data-slide="8"] .prompt-stack-formulas {
-            opacity: 1;
-            transform: translateX(0);
-        }
-
-        .prompt-stack-formulas::after {
-            content: '';
-            position: absolute;
-            top: 48px;
-            right: -18px;
-            bottom: 48px;
-            border-right: 1px dotted rgba(139, 214, 255, 0.4);
-        }
-
-        .prompt-card-stack {
-            position: relative;
-            display: grid;
-            gap: 12px;
-            opacity: 0;
-            transform: translateX(24px);
-            transition: opacity 0.46s ease-out, transform 0.46s ease-out;
-        }
-
-        .slide.active[data-slide="8"] .prompt-card-stack {
-            opacity: 1;
-            transform: translateX(0);
-        }
-
-        .prompt-stack-position {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 12px;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            color: var(--accent-warm);
-        }
-
-        .prompt-stack-cards {
-            position: relative;
-            min-height: 436px;
-        }
-
-        .prompt-stack-card {
-            position: absolute;
-            inset: 0;
-            border-radius: 22px;
-            background: linear-gradient(180deg, rgba(8, 14, 24, 0.97) 0%, rgba(6, 10, 18, 0.98) 100%);
-            border: 1px solid rgba(139, 214, 255, 0.16);
-            box-shadow: 0 24px 68px rgba(1, 5, 11, 0.34);
-            padding: 22px;
-            transition: transform 0.42s ease, opacity 0.42s ease, box-shadow 0.25s ease;
-        }
-
-        .prompt-stack-card.is-active {
-            z-index: 4;
-            opacity: 1;
-            transform: translate3d(0, 0, 0) rotate(0deg);
-        }
-
-        .prompt-stack-card.is-stack-1 {
-            z-index: 3;
-            opacity: 0.76;
-            transform: translate3d(16px, 14px, 0) rotate(1.8deg);
-        }
-
-        .prompt-stack-card.is-stack-2 {
-            z-index: 2;
-            opacity: 0.56;
-            transform: translate3d(28px, 26px, 0) rotate(-1.6deg);
-        }
-
-        .prompt-stack-card.is-stack-3 {
-            z-index: 1;
-            opacity: 0.36;
-            transform: translate3d(40px, 38px, 0) rotate(2.2deg);
-        }
-
-        .prompt-card-stack.is-transitioning-next .prompt-stack-card.is-active {
-            transform: translate3d(72px, 0, 0) rotate(8deg);
-            opacity: 0;
-        }
-
-        .prompt-card-stack.is-transitioning-prev .prompt-stack-card.is-active {
-            transform: translate3d(-72px, 0, 0) rotate(-8deg);
-            opacity: 0;
-        }
-
-        .prompt-stack-card .prompt-legend {
-            margin-bottom: 12px;
-        }
-
-        .prompt-stack-card .prompt-controls {
-            margin-top: 12px;
-        }
-
-        .prompt-stack-card .prompt-text {
-            min-height: 136px;
-            max-height: 220px;
-            font-size: 14px;
-            line-height: 1.7;
-        }
-
-        .prompt-stack-preview-title {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 20px;
-            color: var(--text-bright);
-        }
-
-        .prompt-stack-preview-meta {
-            color: var(--text-muted);
-            font-size: 12px;
-            font-family: 'JetBrains Mono', monospace;
-            letter-spacing: 0.8px;
-            text-transform: uppercase;
-        }
-
-        .prompt-copy-btn {
-            position: relative;
-            padding-right: 34px;
-        }
-
-        .prompt-copy-label {
-            transition: opacity 0.2s ease;
-        }
-
-        .prompt-copy-check {
-            position: absolute;
-            right: 12px;
-            top: 50%;
-            transform: translateY(-50%) scale(0.5);
-            opacity: 0;
-            transition: transform 0.22s ease, opacity 0.22s ease;
-        }
-
-        .prompt-copy-btn.copied .prompt-copy-label {
-            opacity: 0.35;
-        }
-
-        .prompt-copy-btn.copied .prompt-copy-check {
-            opacity: 1;
-            transform: translateY(-50%) scale(1);
-        }
-
         .safety-shield-grid {
             display: grid;
             grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -3891,13 +3664,8 @@
 
         @media (max-width: 1180px) {
             .story-thread-layout,
-            .assistant-constellation-grid,
-            .prompt-stack-shell {
+            .assistant-constellation-grid {
                 grid-template-columns: 1fr;
-            }
-
-            .prompt-stack-formulas::after {
-                display: none;
             }
 
             .editorial-callout-block[data-span="wide"],
@@ -3917,7 +3685,7 @@
                 padding: 30px 26px;
             }
 
-            .use-case-scene-grid,
+            .use-case-groups,
             .safety-shield-grid {
                 grid-template-columns: 1fr;
             }
@@ -4071,10 +3839,6 @@
                 min-height: 420px;
             }
 
-            .prompt-stack-cards {
-                min-height: 500px;
-            }
-
             .callback-cta-card {
                 padding: 22px 18px;
             }
@@ -4108,9 +3872,7 @@
             .orbital-ring,
             .orbital-node,
             .assistant-panel,
-            .prompt-stack-formulas,
-            .prompt-card-stack,
-            .use-case-scene-card,
+            .use-case-cluster,
             .callback-cta-card,
             .safety-shield {
                 opacity: 1 !important;
@@ -4155,8 +3917,8 @@
                     <div class="title-content hero-vortex-copy">
                         <div class="slide-number">Presentation</div>
                         <h1>THE AI <span class="gradient-text">BREAKDOWN</span></h1>
-                        <p class="subtitle" style="max-width: 16ch;">Real Tools for Real Life —
-                            Demystifying AI for our community</p>
+                        <p class="subtitle" style="max-width: 28ch;">Real Tools for Real Life</p>
+                        <p style="color: var(--text-muted); font-size: clamp(14px, 1.6vw, 18px); line-height: 1.5; max-width: 36ch; margin-top: 8px;">A practical guide to what AI can actually do for you</p>
                         <div>
                             <div class="title-badge">
                                 Presented by Adam Gurski &bull; Updated March 28, 2026
@@ -4174,11 +3936,6 @@
                                 alt="Cosmic QR code artwork"
                                 onerror="this.onerror=null;this.src='assets/images/color-burst-laptop.jpg';">
                         </div>
-                        <div class="glass" style="padding:18px 20px; text-align:left; max-width:360px;">
-                            <span class="badge badge-blue" style="margin-bottom: 12px;">Live demo keynote</span>
-                            <p style="color:var(--text-dim); line-height:1.58;">11 slides. One clear goal: show how ordinary
-                                people can actually use AI tonight, not someday.</p>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -4189,9 +3946,7 @@
             <div class="slide-inner">
                 <div class="slide-number">01 / My Story</div>
                 <h2 style="margin-bottom: 8px;">Why I&rsquo;m Standing Up Here</h2>
-                <p class="subtitle" style="margin-bottom: 20px; max-width: 54ch;">I&rsquo;m not a developer or a tech
-                    executive. Three years ago, I had never built a website. Then AI turned the blank page into a thread I
-                    could actually follow and made it possible to learn this much this fast.</p>
+                <p class="subtitle" style="margin-bottom: 20px; max-width: 54ch;">I&rsquo;m not a developer or a tech executive. Three years ago I had never built a website. AI turned the blank page into a thread I could follow — and let me learn faster than I ever thought possible.</p>
 
                 <div class="story-thread-layout">
                     <div class="story-thread-stage">
@@ -4262,45 +4017,56 @@
         <!-- ===== SLIDE 3: SCIENCE PROOF ===== -->
         <div class="slide" data-slide="2">
             <div class="slide-inner">
-                <div class="slide-number">02 / Science Proof</div>
-                <h2 style="margin-bottom: 8px;">AI is accelerating Nobel-scale discovery</h2>
-                <p class="subtitle" style="margin-bottom: 20px; max-width: 44ch;">If AI can help decode proteins,
-                    discover materials, and speed up weather prediction, it is worth taking seriously in daily work too.</p>
-                <div class="editorial-callout-shell editorial-callout-shell-science">
-                    <article class="glass editorial-callout-block" data-span="wide" style="--delay: 0.05s;">
-                        <div class="editorial-kicker">Chemistry Nobel 2024</div>
-                        <div class="editorial-stat">AlphaFold</div>
-                        <div class="editorial-accent-rule"></div>
-                        <h3>Protein prediction moved from bottleneck to platform.</h3>
-                        <p class="editorial-copy">Demis Hassabis and John Jumper showed that AI could solve a decades-old
-                            protein-structure challenge at scientific scale.</p>
-                        <div class="editorial-source">Source: Nobel Prize in Chemistry 2024 coverage and AlphaFold reporting.</div>
-                    </article>
-                    <article class="glass editorial-callout-block" data-span="tall" style="--delay: 0.14s;">
-                        <div class="editorial-side-list">
-                            <div class="editorial-side-item">
-                                <div class="editorial-kicker">Materials discovery</div>
-                                <strong>2.2 million</strong>
-                                <p>Candidate crystals proposed by AI systems such as GNoME, including hundreds of thousands of
-                                    stable materials worth investigating.</p>
-                            </div>
-                            <div class="editorial-side-item">
-                                <div class="editorial-kicker">From lab to forecast</div>
-                                <strong>Faster</strong>
-                                <p>AI-assisted drug design, astronomy analysis, and weather models keep collapsing the time from
-                                    raw complexity to usable answers.</p>
-                            </div>
+                <div class="slide-number anim anim-1">02 / Science Proof</div>
+                <h2 class="anim anim-2" style="margin-bottom: 8px;">AI is already producing Nobel-caliber results</h2>
+                <p class="subtitle anim anim-3" style="margin-bottom: 20px; max-width: 42ch;">If AI can decode proteins, discover new materials, and accelerate weather prediction, it deserves a serious look in everyday work too.</p>
+                <div class="science-timeline anim anim-4">
+                    <div class="timeline-axis"></div>
+
+                    <div class="timeline-node" style="--node-color: #06b6d4;">
+                        <div class="node-top">
+                            <div class="node-badge">CHEMISTRY NOBEL 2024</div>
                         </div>
-                        <div class="editorial-source">Source: DeepMind materials reports and broad AI-for-science coverage.</div>
-                    </article>
-                    <article class="glass editorial-callout-block" data-span="full" style="--delay: 0.22s;">
-                        <div class="editorial-kicker">The pattern</div>
-                        <h3>Speed plus scale, not just hype.</h3>
-                        <div class="editorial-accent-rule"></div>
-                        <p class="editorial-copy" style="max-width: 62ch;">Once AI can search spaces too large for humans to hold,
-                            entire fields stop asking “is this possible?” and start asking “how fast can we verify the next batch?”</p>
-                        <div class="editorial-source">Source citations appear last so the stage read stays clean but accountable.</div>
-                    </article>
+                        <div class="node-graphic">
+                            <div class="core-glow"></div>
+                            <div id="p5-box-1" class="p5-canvas-container"></div>
+                        </div>
+                        <div class="node-bottom">
+                            <div class="node-title">AlphaFold</div>
+                            <p>Hassabis and Jumper proved AI could crack a decades-old protein-structure problem at scientific scale — earning them the Nobel Prize.</p>
+                            <div class="node-note">Protein prediction went from bottleneck to platform.</div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-node" style="--node-color: #8b5cf6;">
+                        <div class="node-top">
+                            <div class="node-badge">MATERIALS DISCOVERY</div>
+                        </div>
+                        <div class="node-graphic">
+                            <div class="core-glow"></div>
+                            <div id="p5-box-2" class="p5-canvas-container"></div>
+                        </div>
+                        <div class="node-bottom">
+                            <div class="node-title">2.2 million</div>
+                            <p>GNoME proposed 2.2 million candidate crystals, including hundreds of thousands of stable new materials — a search space that would take humans generations.</p>
+                            <div class="node-note">Scale that humans cannot brute-force alone.</div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-node" style="--node-color: #f59e0b;">
+                        <div class="node-top">
+                            <div class="node-badge">FROM LAB TO FORECAST</div>
+                        </div>
+                        <div class="node-graphic">
+                            <div class="core-glow"></div>
+                            <div id="p5-box-3" class="p5-canvas-container"></div>
+                        </div>
+                        <div class="node-bottom">
+                            <div class="node-title">Faster</div>
+                            <p>Drug design, astronomy, and weather modeling are all shrinking the gap between raw complexity and usable answers.</p>
+                            <div class="node-note">The pattern is speed plus scale — not just hype.</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -4309,9 +4075,8 @@
         <div class="slide" data-slide="3">
             <div class="slide-inner">
                 <div class="slide-number">03 / Education Proof</div>
-                <h2 style="margin-bottom: 8px;">What the evidence actually says</h2>
-                <p class="subtitle" style="margin-bottom: 20px; max-width: 46ch;">The best research does not say “AI is
-                    magic.” It says outcomes improve when the tool, the method, and the human setup are aligned.</p>
+                <h2 style="margin-bottom: 8px;">What the research actually shows</h2>
+                <p class="subtitle" style="margin-bottom: 20px; max-width: 46ch;">The evidence does not say "AI is magic." It says outcomes improve when the tool, the method, and the human behind them are aligned.</p>
                 <div class="editorial-callout-shell editorial-callout-shell-education">
                     <article class="glass editorial-callout-block" data-span="wide" style="--delay: 0.05s;">
                         <div class="editorial-kicker">Meta-analysis signal</div>
@@ -4356,10 +4121,8 @@
         <div class="slide" data-slide="4">
             <div class="slide-inner">
                 <div class="slide-number">04 / Overview</div>
-                <h2 style="margin-bottom: 8px;">A simple map of the tool landscape</h2>
-                <p class="subtitle" style="margin-bottom: 20px; max-width: 42ch;">Think of AI as a spectrum. Start broad
-                    when you need help thinking. Move narrower when the job demands research, grounding, or specialized
-                    reasoning.</p>
+                <h2 style="margin-bottom: 8px;">The AI tool landscape at a glance</h2>
+                <p class="subtitle" style="margin-bottom: 20px; max-width: 42ch;">Start broad when you need help thinking. Move narrower when the job demands research, grounding, or specialized reasoning.</p>
                 <div class="spectrum-shell">
                     <div class="spectrum-header">
                         <span class="badge badge-blue">Broad assistants</span>
@@ -4373,25 +4136,25 @@
                             <div class="orbital-ring" data-ring="4" style="--delay: 0.34s;"></div>
                         </div>
                         <div class="orbital-core">AI</div>
-                        <button class="orbital-node" style="--x: 128px; --y: -184px; --delay: 0.42s;" type="button">
+                        <button class="orbital-node orbital-node--green" style="--x: 128px; --y: -184px; --delay: 0.42s; --node-accent: rgba(16, 185, 129, 0.7);" type="button">
                             <div class="orbital-step">Start here</div>
                             <h3>General chat</h3>
-                            <p>Brainstorm, write, plan, summarize, and ask “where do I even begin?” questions.</p>
+                            <p>Brainstorm, write, plan, summarize — ask "where do I even begin?" and get moving.</p>
                         </button>
-                        <button class="orbital-node" style="--x: 202px; --y: -22px; --delay: 0.52s;" type="button">
+                        <button class="orbital-node orbital-node--blue" style="--x: 202px; --y: -22px; --delay: 0.52s; --node-accent: rgba(139, 214, 255, 0.7);" type="button">
                             <div class="orbital-step">Add leverage</div>
                             <h3>Creative and coding</h3>
-                            <p>Generate visuals, iterate on code, and produce first drafts faster than blank-page work.</p>
+                            <p>Generate visuals, iterate on code, and ship first drafts faster than blank-page work.</p>
                         </button>
-                        <button class="orbital-node" style="--x: -236px; --y: 46px; --delay: 0.62s;" type="button">
+                        <button class="orbital-node orbital-node--purple" style="--x: -236px; --y: 46px; --delay: 0.62s; --node-accent: rgba(167, 139, 250, 0.7);" type="button">
                             <div class="orbital-step">Tighter focus</div>
                             <h3>Research and source work</h3>
-                            <p>Use tools built for citations, documents, and context windows when accuracy matters.</p>
+                            <p>Tools built for citations, documents, and long context when accuracy is non-negotiable.</p>
                         </button>
-                        <button class="orbital-node" style="--x: -116px; --y: 186px; --delay: 0.72s;" type="button">
+                        <button class="orbital-node orbital-node--amber" style="--x: -116px; --y: 186px; --delay: 0.72s; --node-accent: rgba(245, 158, 11, 0.7);" type="button">
                             <div class="orbital-step">Narrow specialist</div>
                             <h3>Reasoning and private analysis</h3>
-                            <p>Bring in specialist models when you need deeper problem-solving or grounded internal data work.</p>
+                            <p>Specialist models for deep problem-solving or grounded work on internal data.</p>
                         </button>
                     </div>
                 </div>
@@ -4403,8 +4166,7 @@
             <div class="slide-inner">
                 <div class="slide-number">05 / Core Assistants</div>
                 <h2 style="margin-bottom: 8px;">Meet the Big Three</h2>
-                <p class="subtitle" style="margin-bottom: 20px; max-width: 40ch;">Three leading general-purpose AI
-                    assistants available today.</p>
+                <p class="subtitle" style="margin-bottom: 20px; max-width: 40ch;">The three general-purpose assistants most people will reach for first — each with a different strength.</p>
                 <div class="assistant-constellation">
                     <div class="assistant-constellation-bg" id="assistantConstellationLayer" aria-hidden="true"></div>
                     <div class="assistant-constellation-grid">
@@ -4464,8 +4226,7 @@
             <div class="slide-inner">
                 <div class="slide-number">06 / Specialists</div>
                 <h2 style="margin-bottom: 8px;">When the job gets narrower</h2>
-                <p class="subtitle" style="margin-bottom: 16px; max-width: 38ch;">Focused tools for research, grounded
-                    documents, and reasoning-heavy work.</p>
+                <p class="subtitle" style="margin-bottom: 16px; max-width: 38ch;">Specialized tools for research, citation-grounded documents, and reasoning-heavy analysis.</p>
                 <div class="specialist-carousel">
                     <div class="specialist-carousel-track" id="specialistCarouselTrack"></div>
                     <div class="specialist-carousel-controls">
@@ -4483,90 +4244,65 @@
         <div class="slide" data-slide="7">
             <div class="slide-inner">
                 <div class="slide-number">07 / Applications</div>
-                <h2 style="margin-bottom: 8px;">Where this gets useful fast</h2>
-                <p class="subtitle" style="margin-bottom: 20px; max-width: 44ch;">The point is not to learn every tool.
-                    The point is to spot the first place AI can save you time, unblock you, or help you make something real.</p>
-                <div class="use-case-scene-grid">
-                    <article class="glass use-case-scene-card" style="--delay: 0.06s;">
-                        <div class="use-case-scene-media">
-                            <img src="assets/images/generated/practical-use-cases/hospitality-01.png" alt="Hospitality scene">
-                        </div>
-                        <div class="use-case-scene-body">
-                            <div class="use-case-scene-eyebrow">Local business</div>
-                            <h3>Customer-facing work gets easier to ship.</h3>
-                            <p>Use AI to move faster on customer-facing work you already understand.</p>
-                            <div class="use-case-sublist">
-                                <div class="use-case-subitem">
-                                    <div class="use-case-subicon"><img src="assets/images/generated/practical-use-cases-logos-v1/hospitality_logo-01.png" alt="Hospitality icon"></div>
-                                    <div><strong>Hospitality and retail</strong><br>Draft guest replies, create offers, and turn rough ideas into usable marketing copy.</div>
-                                </div>
-                                <div class="use-case-subitem">
-                                    <div class="use-case-subicon"><img src="assets/images/generated/practical-use-cases-logos-v1/trades_logo-01.png" alt="Trades icon"></div>
-                                    <div><strong>Trades and services</strong><br>Estimate materials, draft bids, and troubleshoot with photos before you burn time on the wrong lead.</div>
-                                </div>
+                <h2 style="margin-bottom: 8px;">Where this actually saves you time</h2>
+                <p class="subtitle" style="margin-bottom: 20px; max-width: 44ch;">You do not need to learn every tool. Pick the first place AI can take something off your plate and try it this week.</p>
+                <div class="use-case-groups anim anim-4">
+                    <div class="glass use-case-cluster">
+                        <div class="cluster-label">Local business</div>
+                        <p class="cluster-intro">Move faster on customer-facing work you already understand.</p>
+                        <div class="cluster-list">
+                            <div class="cluster-point">
+                                <div class="use-icon"><img src="assets/images/generated/practical-use-cases-logos-v1/hospitality_logo-01.png" alt="Hospitality logo" class="use-icon-image"></div>
+                                <div><h3>Hospitality and retail</h3><p>Draft guest replies, write seasonal offers, and turn rough notes into polished marketing copy.</p></div>
+                            </div>
+                            <div class="cluster-point">
+                                <div class="use-icon"><img src="assets/images/generated/practical-use-cases-logos-v1/trades_logo-01.png" alt="Trades logo" class="use-icon-image"></div>
+                                <div><h3>Trades and services</h3><p>Estimate materials, draft bids, and troubleshoot with photos before you chase the wrong lead.</p></div>
                             </div>
                         </div>
-                    </article>
-                    <article class="glass use-case-scene-card" style="--delay: 0.14s;">
-                        <div class="use-case-scene-media">
-                            <img src="assets/images/generated/practical-use-cases/libraries-01.png" alt="Library research scene">
-                        </div>
-                        <div class="use-case-scene-body">
-                            <div class="use-case-scene-eyebrow">Learning and research</div>
-                            <h3>Reading compression without losing the plot.</h3>
-                            <p>Use AI to compress reading time and surface the next right question.</p>
-                            <div class="use-case-sublist">
-                                <div class="use-case-subitem">
-                                    <div class="use-case-subicon"><img src="assets/images/generated/practical-use-cases-logos-v1/libraries_logo-01.png" alt="Libraries icon"></div>
-                                    <div><strong>Study and synthesis</strong><br>Summarize documents, build reading lists, and turn dense sources into clean briefings.</div>
-                                </div>
-                                <div class="use-case-subitem">
-                                    <div class="use-case-subicon"><img src="assets/images/generated/practical-use-cases-logos-v1/education_logo-01.png" alt="Education icon"></div>
-                                    <div><strong>Tutoring support</strong><br>Create study guides, practice explanations, and break hard material into staged learning steps.</div>
-                                </div>
+                    </div>
+                    <div class="glass use-case-cluster">
+                        <div class="cluster-label">Learning and research</div>
+                        <p class="cluster-intro">Compress reading time and surface the next question worth asking.</p>
+                        <div class="cluster-list">
+                            <div class="cluster-point">
+                                <div class="use-icon"><img src="assets/images/generated/practical-use-cases-logos-v1/libraries_logo-01.png" alt="Libraries logo" class="use-icon-image"></div>
+                                <div><h3>Study and synthesis</h3><p>Summarize long documents, build reading lists, and turn dense sources into clean briefings.</p></div>
+                            </div>
+                            <div class="cluster-point">
+                                <div class="use-icon"><img src="assets/images/generated/practical-use-cases-logos-v1/education_logo-01.png" alt="Education logo" class="use-icon-image"></div>
+                                <div><h3>Tutoring support</h3><p>Create study guides, rehearse explanations, and break hard material into staged learning steps.</p></div>
                             </div>
                         </div>
-                    </article>
-                    <article class="glass use-case-scene-card" style="--delay: 0.22s;">
-                        <div class="use-case-scene-media">
-                            <img src="assets/images/generated/practical-use-cases/job_seekers-01.png" alt="Job search scene">
-                        </div>
-                        <div class="use-case-scene-body">
-                            <div class="use-case-scene-eyebrow">Career and work</div>
-                            <h3>Preparation gets sharper before you ever hit send.</h3>
-                            <p>Use AI to sharpen communication, preparation, and follow-through.</p>
-                            <div class="use-case-sublist">
-                                <div class="use-case-subitem">
-                                    <div class="use-case-subicon"><img src="assets/images/generated/practical-use-cases-logos-v1/job_seekers_logo-01.png" alt="Job seekers icon"></div>
-                                    <div><strong>Job search</strong><br>Tailor resumes, practice interviews, and research companies without starting from a blank page each time.</div>
-                                </div>
-                                <div class="use-case-subitem">
-                                    <div class="use-case-subicon"><img src="assets/images/generated/practical-use-cases-logos-v1/legal_logo-01.png" alt="Knowledge work icon"></div>
-                                    <div><strong>Knowledge work</strong><br>Review documents, draft correspondence, and summarize long threads into next actions.</div>
-                                </div>
+                    </div>
+                    <div class="glass use-case-cluster">
+                        <div class="cluster-label">Career and work</div>
+                        <p class="cluster-intro">Sharpen communication, preparation, and follow-through before you hit send.</p>
+                        <div class="cluster-list">
+                            <div class="cluster-point">
+                                <div class="use-icon"><img src="assets/images/generated/practical-use-cases-logos-v1/job_seekers_logo-01.png" alt="Job seekers logo" class="use-icon-image"></div>
+                                <div><h3>Job search</h3><p>Tailor resumes, rehearse interviews, and research companies without starting from a blank page every time.</p></div>
+                            </div>
+                            <div class="cluster-point">
+                                <div class="use-icon"><img src="assets/images/generated/practical-use-cases-logos-v1/legal_logo-01.png" alt="Legal logo" class="use-icon-image"></div>
+                                <div><h3>Knowledge work</h3><p>Review documents, draft correspondence, and distill long threads into clear next actions.</p></div>
                             </div>
                         </div>
-                    </article>
-                    <article class="glass use-case-scene-card" style="--delay: 0.3s;">
-                        <div class="use-case-scene-media">
-                            <img src="assets/images/generated/practical-use-cases/real_estate-01.png" alt="Independent project scene">
-                        </div>
-                        <div class="use-case-scene-body">
-                            <div class="use-case-scene-eyebrow">Personal projects</div>
-                            <h3>Curiosity turns into something tangible.</h3>
-                            <p>Use AI to turn curiosity into finished experiments instead of abandoned tabs.</p>
-                            <div class="use-case-sublist">
-                                <div class="use-case-subitem">
-                                    <div class="use-case-subicon"><img src="assets/images/generated/practical-use-cases-logos-v1/local_news_logo-01.png" alt="Local news icon"></div>
-                                    <div><strong>Independent research</strong><br>Track local issues, compare sources, and turn scattered notes into a clear point of view.</div>
-                                </div>
-                                <div class="use-case-subitem">
-                                    <div class="use-case-subicon"><img src="assets/images/generated/practical-use-cases-logos-v1/real_estate_logo-01.png" alt="Build for yourself icon"></div>
-                                    <div><strong>Build-for-yourself projects</strong><br>Draft plans, create visuals, and prototype ideas that would have felt out of reach before.</div>
-                                </div>
+                    </div>
+                    <div class="glass use-case-cluster">
+                        <div class="cluster-label">Personal projects</div>
+                        <p class="cluster-intro">Turn curiosity into finished experiments instead of abandoned browser tabs.</p>
+                        <div class="cluster-list">
+                            <div class="cluster-point">
+                                <div class="use-icon"><img src="assets/images/generated/practical-use-cases-logos-v1/local_news_logo-01.png" alt="Local news logo" class="use-icon-image"></div>
+                                <div><h3>Independent research</h3><p>Track local issues, compare sources, and turn scattered notes into a clear point of view.</p></div>
+                            </div>
+                            <div class="cluster-point">
+                                <div class="use-icon"><img src="assets/images/generated/practical-use-cases-logos-v1/real_estate_logo-01.png" alt="Real estate logo" class="use-icon-image"></div>
+                                <div><h3>Build-for-yourself projects</h3><p>Draft plans, create visuals, and prototype ideas that felt out of reach before.</p></div>
                             </div>
                         </div>
-                    </article>
+                    </div>
                 </div>
             </div>
         </div>
@@ -4574,56 +4310,80 @@
         <!-- ===== SLIDE 9: PROMPT LAB ===== -->
         <div class="slide" data-slide="8">
             <div class="slide-inner">
-                <div class="slide-number">08 / Prompt Lab</div>
-                <h2 style="margin-bottom: 8px;">Prompt Lab</h2>
-                <p class="subtitle" style="margin-bottom: 12px; max-width: 46ch;">The workshop payoff: technique changes
-                    output. The framework stays visible while the live specimen behaves like a deck you can actually drive on stage.</p>
-                <div class="prompt-mode-row">
+                <div class="slide-number anim anim-1">08 / Prompt Lab</div>
+                <h2 class="anim anim-2" style="margin-bottom: 8px;">Prompt Lab</h2>
+                <p class="subtitle anim anim-3" style="margin-bottom: 12px; max-width: 46ch;">Technique changes output. The RTCF framework keeps your prompts structured while the live specimen panel lets you test real examples on stage.</p>
+                <div class="prompt-mode-row anim anim-4">
                     <div class="prompt-mode-pills">
                         <span class="prompt-mode-pill">Teach mode</span>
                         <span class="prompt-mode-pill">Operator mode</span>
                     </div>
                     <div class="prompt-focus-readout">Teach mode spotlight: <strong id="promptTeachFocus">Role</strong></div>
                 </div>
-                <div class="prompt-stack-shell">
-                    <div class="prompt-stack-formulas prompt-formula-grid prompt-framework-strip">
-                        <div class="glass formula-block" data-prompt-part="role">
-                            <div class="formula-icon">01</div>
-                            <div>
-                                <div class="formula-label" style="color: #9fc7ff;">Role</div>
-                                <div class="formula-text" id="promptRoleBoxText">Tell the AI who to be and what expertise to borrow.</div>
-                            </div>
-                        </div>
-                        <div class="glass formula-block" data-prompt-part="task">
-                            <div class="formula-icon">02</div>
-                            <div>
-                                <div class="formula-label" style="color: #34d399;">Task</div>
-                                <div class="formula-text" id="promptTaskBoxText">State exactly what you need it to do for you right now.</div>
-                            </div>
-                        </div>
-                        <div class="glass formula-block" data-prompt-part="context">
-                            <div class="formula-icon">03</div>
-                            <div>
-                                <div class="formula-label" style="color: #fbbf24;">Context</div>
-                                <div class="formula-text" id="promptContextBoxText">Supply the facts, constraints, and audience so it does not guess badly.</div>
-                            </div>
-                        </div>
-                        <div class="glass formula-block" data-prompt-part="format">
-                            <div class="formula-icon">04</div>
-                            <div>
-                                <div class="formula-label" style="color: #ff9b80;">Format</div>
-                                <div class="formula-text" id="promptFormatBoxText">Ask for the shape of answer you want to receive back.</div>
-                            </div>
+                <div class="anim anim-4 prompt-formula-grid prompt-framework-strip">
+                    <div class="glass formula-block" data-prompt-part="role">
+                        <div class="formula-icon">01</div>
+                        <div>
+                            <div class="formula-label" style="color: #9fc7ff;">Role</div>
+                            <div class="formula-text" id="promptRoleBoxText">Tell the AI who to be and what expertise to bring.</div>
                         </div>
                     </div>
-                    <div class="prompt-card-stack prompt-stage-panel">
-                        <div class="prompt-stage-toolbar">
-                            <div class="prompt-heading">LIVE SPECIMEN</div>
-                            <div class="prompt-focus-readout">Operator mode: full packet stays live for the demo. <span class="prompt-stack-position" id="promptStackPosition">1 / 10</span></div>
+                    <div class="glass formula-block" data-prompt-part="task">
+                        <div class="formula-icon">02</div>
+                        <div>
+                            <div class="formula-label" style="color: #34d399;">Task</div>
+                            <div class="formula-text" id="promptTaskBoxText">State exactly what you need done right now.</div>
                         </div>
-                        <div class="prompt-stack-cards" id="promptStackCards"></div>
-                        <div class="prompt-copy-status" id="promptCopyStatus" aria-live="polite"></div>
                     </div>
+                    <div class="glass formula-block" data-prompt-part="context">
+                        <div class="formula-icon">03</div>
+                        <div>
+                            <div class="formula-label" style="color: #fbbf24;">Context</div>
+                            <div class="formula-text" id="promptContextBoxText">Supply the facts, constraints, and audience so it does not guess.</div>
+                        </div>
+                    </div>
+                    <div class="glass formula-block" data-prompt-part="format">
+                        <div class="formula-icon">04</div>
+                        <div>
+                            <div class="formula-label" style="color: #ff9b80;">Format</div>
+                            <div class="formula-text" id="promptFormatBoxText">Describe the shape of answer you want back.</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="prompt-example prompt-stage-panel anim anim-5">
+                    <div class="prompt-stage-toolbar">
+                        <div class="prompt-heading">LIVE SPECIMEN</div>
+                        <div class="prompt-focus-readout">Operator mode: full packet stays live for the demo.</div>
+                    </div>
+                    <div class="prompt-meta-row">
+                        <div class="prompt-chips">
+                            <span class="prompt-chip" id="promptCategory">Deep Research</span>
+                            <span class="prompt-chip platform-chip" id="promptPlatform">
+                                <img class="platform-logo" id="promptPlatformLogo" src="assets/logos/chatgpt.svg"
+                                    alt="ChatGPT logo">
+                                <span id="promptPlatformLabel">ChatGPT</span>
+                            </span>
+                            <span class="prompt-chip prompt-chip-counter" id="promptCounter">1 / 9</span>
+                        </div>
+                    </div>
+                    <div class="prompt-legend">
+                        <span class="prompt-role" data-prompt-part="role">Role</span>
+                        <span class="prompt-task" data-prompt-part="task">Task</span>
+                        <span class="prompt-context" data-prompt-part="context">Context</span>
+                        <span class="prompt-format" data-prompt-part="format">Format</span>
+                    </div>
+                    <div class="prompt-text" id="promptText" aria-live="polite"></div>
+                    <div class="prompt-controls">
+                        <button class="prompt-control-btn" id="promptPrevBtn" type="button">&larr; Prev Prompt</button>
+                        <button class="prompt-control-btn" id="promptCopyPacketBtn" type="button">Copy Demo Packet</button>
+                        <button class="prompt-control-btn" id="promptNextBtn" type="button">Next Prompt &rarr;</button>
+                    </div>
+                    <div class="prompt-data-hint" id="promptDataHint">One click copies a run packet with only the
+                        prompt and inputs required for the selected demo.</div>
+                    <div class="prompt-run-guide" id="promptRunGuide">Quick run: open a fresh chat, add only listed
+                        inputs, paste the copied packet, and run.</div>
+                    <div class="prompt-asset-gallery" id="promptAssetGallery" style="display:none;"></div>
+                    <div class="prompt-copy-status" id="promptCopyStatus" aria-live="polite"></div>
                 </div>
             </div>
         </div>
@@ -4632,39 +4392,39 @@
         <div class="slide" data-slide="9">
             <div class="slide-inner">
                 <div class="slide-number">09 / Safety</div>
-                <h2 style="margin-bottom: 8px;">Use it boldly, use it responsibly</h2>
-                <p class="subtitle" style="margin-bottom: 20px; max-width: 42ch;">A good AI workflow keeps momentum high
+                <h2 style="margin-bottom: 8px;">Move fast, stay honest</h2>
+                <p class="subtitle" style="margin-bottom: 20px; max-width: 42ch;">A strong AI workflow keeps momentum high
                     without pretending the tool is infallible.</p>
                 <div class="safety-shield-grid">
                     <div class="glass safety-shield" style="--ripple-order: 2; --pulse-delay: 1;">
                         <div class="safety-icon"><img src="assets/images/generated/safety-ethics-logos-v2/privacy_first_logo-02-01.png" alt="Privacy First icon" class="safety-icon-image"></div>
                         <h3>Protect sensitive data</h3>
-                        <p>Do not paste passwords, SSNs, or confidential records into consumer chat tools. Business and API products often have different privacy defaults.</p>
+                        <p>Never paste passwords, SSNs, or confidential records into consumer chat tools. Business and API tiers often carry different privacy guarantees.</p>
                     </div>
                     <div class="glass safety-shield" style="--ripple-order: 1; --pulse-delay: 0;">
                         <div class="safety-icon"><img src="assets/images/generated/safety-ethics-logos-v2/verify_everything_logo-02-01.png" alt="Verify Everything icon" class="safety-icon-image"></div>
                         <h3>Verify important claims</h3>
-                        <p>Dates, statistics, citations, and legal or medical guidance still need human checking before you trust them.</p>
+                        <p>Dates, statistics, citations, and any legal or medical guidance still need a human check before you act on them.</p>
                     </div>
                     <div class="glass safety-shield" style="--ripple-order: 2; --pulse-delay: 2;">
                         <div class="safety-icon"><img src="assets/images/generated/safety-ethics-logos-v2/disclose_ai_use_logo-02-01.png" alt="Disclose AI Use icon" class="safety-icon-image"></div>
                         <h3>Disclose meaningful AI help</h3>
-                        <p>Be honest when AI shaped work you are presenting professionally, academically, or publicly. Trust is worth keeping.</p>
+                        <p>Be upfront when AI shaped work you are presenting professionally, academically, or publicly. Credibility compounds.</p>
                     </div>
                     <div class="glass safety-shield" style="--ripple-order: 3; --pulse-delay: 3;">
                         <div class="safety-icon"><img src="assets/images/generated/safety-ethics-logos-v2/think_critically_logo-02-01.png" alt="Think critically icon" class="safety-icon-image"></div>
-                        <h3>Human review is a feature</h3>
-                        <p>Use AI to accelerate thinking, not replace it. The strongest results still come from human judgment plus AI leverage.</p>
+                        <h3>Your judgment is the feature</h3>
+                        <p>Use AI to accelerate thinking, not replace it. The best results come from human judgment amplified by AI leverage.</p>
                     </div>
                     <div class="glass safety-shield" style="--ripple-order: 4; --pulse-delay: 4;">
                         <div class="safety-icon"><img src="assets/images/generated/safety-ethics-logos-v2/ownership_ip_logo-02-01.png" alt="Ownership and IP icon" class="safety-icon-image"></div>
                         <h3>Respect ownership and IP</h3>
-                        <p>Know what content you are allowed to reuse, remix, or publish. Fast output is not the same as clean rights.</p>
+                        <p>Know what you are allowed to reuse, remix, or publish. Fast output does not equal clean rights.</p>
                     </div>
                     <div class="glass safety-shield" style="--ripple-order: 5; --pulse-delay: 5;">
                         <div class="safety-icon"><img src="assets/images/generated/safety-ethics-logos-v2/deepfakes_misuse_logo-02-01.png" alt="Deepfakes and misuse icon" class="safety-icon-image"></div>
                         <h3>Don’t normalize misuse</h3>
-                        <p>Deception, impersonation, and lazy misinformation scale just as fast as the good stuff. That part is a choice.</p>
+                        <p>Deception, impersonation, and careless misinformation scale just as fast as the good stuff. How you use it is a choice.</p>
                     </div>
                 </div>
             </div>
@@ -4676,7 +4436,7 @@
                 <div class="callback-montage">
                     <div class="montage-fragment" data-fragment="title">THE AI<br>BREAKDOWN</div>
                     <div class="montage-fragment" data-fragment="orbit"></div>
-                    <div class="montage-fragment" data-fragment="quote">“Technique changes output.”</div>
+                    <div class="montage-fragment" data-fragment="quote">"Technique changes output."</div>
                     <div class="montage-fragment" data-fragment="logo"></div>
                     <div class="montage-fragment" data-fragment="shield"></div>
                     <div class="montage-fragment" data-fragment="prompt"></div>
@@ -4684,27 +4444,27 @@
                     <div class="glass callback-cta-card">
                         <div class="slide-number">10 / Tonight</div>
                         <h2 style="margin-bottom: 8px;">Try one thing tonight</h2>
-                        <p class="subtitle">You do not need a giant system to start. Pick one useful first win and let that change what feels possible next.</p>
+                        <p class="subtitle">You don't need a grand plan. Pick one useful first win and let momentum show you what's possible next.</p>
                         <div class="cta-grid">
                             <a href="https://perplexity.ai" target="_blank" class="glass link-card tonight-card">
                                 <div class="link-icon"><img src="assets/logos/perplexity.svg" alt="Perplexity logo" class="brand-logo link-logo"></div>
                                 <div style="text-align:left;">
                                     <div class="link-label">Ask one research question</div>
-                                    <div class="link-url">Perplexity &middot; get citations instead of ten blue links</div>
+                                    <div class="link-url">Perplexity &middot; sourced answers instead of ten blue links</div>
                                 </div>
                             </a>
                             <a href="https://notebooklm.google.com" target="_blank" class="glass link-card tonight-card">
                                 <div class="link-icon"><img src="assets/logos/notebooklm.svg" alt="NotebookLM logo" class="brand-logo link-logo"></div>
                                 <div style="text-align:left;">
                                     <div class="link-label">Upload one document</div>
-                                    <div class="link-url">NotebookLM &middot; turn your own material into a briefing</div>
+                                    <div class="link-url">NotebookLM &middot; turn your own files into an interactive briefing</div>
                                 </div>
                             </a>
                             <a href="https://chatgpt.com" target="_blank" class="glass link-card tonight-card">
                                 <div class="link-icon"><img src="assets/logos/chatgpt.svg" alt="ChatGPT logo" class="brand-logo link-logo"></div>
                                 <div style="text-align:left;">
-                                    <div class="link-label">Start one practical conversation</div>
-                                    <div class="link-url">ChatGPT &middot; ask for help on a real task you already care about</div>
+                                    <div class="link-label">Solve one real problem</div>
+                                    <div class="link-url">ChatGPT &middot; bring a task you already care about and work through it</div>
                                 </div>
                             </a>
                         </div>
@@ -4714,7 +4474,7 @@
                                 <div class="contact-item"><span>📧</span> <a class="contact-link" href="mailto:Adam88gur@gmail.com">Adam88gur@gmail.com</a></div>
                                 <div class="contact-item"><span>📸</span> <a class="contact-link" href="https://www.instagram.com/gingerbot5000/" target="_blank" rel="noopener noreferrer">@Gingerbot5000</a></div>
                             </div>
-                            <p class="contact-note">Contact stays secondary. Tonight&apos;s goal is one useful first win.</p>
+                            <p class="contact-note">Tonight's goal: one useful first win. Everything else follows from that.</p>
                         </div>
                     </div>
                 </div>
@@ -4759,12 +4519,40 @@
         let assistantConstellationSketch = null;
         let assistantAttractorKey = 'chatgpt';
         let promptIndex = 0;
-        let promptAnimating = false;
+
+        const promptText = document.getElementById('promptText');
+        const promptCategory = document.getElementById('promptCategory');
+        const promptPlatform = document.getElementById('promptPlatform');
+        const promptPlatformLogo = document.getElementById('promptPlatformLogo');
+        const promptPlatformLabel = document.getElementById('promptPlatformLabel');
+        const promptCounter = document.getElementById('promptCounter');
+        const promptPrevBtn = document.getElementById('promptPrevBtn');
+        const promptNextBtn = document.getElementById('promptNextBtn');
+        const promptCopyPacketBtn = document.getElementById('promptCopyPacketBtn');
+        const promptDataHint = document.getElementById('promptDataHint');
+        const promptRunGuide = document.getElementById('promptRunGuide');
+        const promptAssetGallery = document.getElementById('promptAssetGallery');
+        const promptCopyStatus = document.getElementById('promptCopyStatus');
+        const promptRoleBoxText = document.getElementById('promptRoleBoxText');
+        const promptTaskBoxText = document.getElementById('promptTaskBoxText');
+        const promptContextBoxText = document.getElementById('promptContextBoxText');
+        const promptFormatBoxText = document.getElementById('promptFormatBoxText');
+        const promptTeachFocus = document.getElementById('promptTeachFocus');
+        const promptFormulaBlocks = document.querySelectorAll('.formula-block[data-prompt-part]');
+        const promptLegendItems = document.querySelectorAll('.prompt-legend [data-prompt-part]');
 
         const promptFocusOrder = ['role', 'task', 'context', 'format'];
         const promptLibrary = Array.isArray(window.ai101DemoPromptCatalog)
-            ? window.ai101DemoPromptCatalog.slice(0, 10)
+            ? window.ai101DemoPromptCatalog.slice()
             : [];
+
+        const promptTypeLabels = {
+            text_only: 'Text Only',
+            search_backed: 'Search Backed',
+            mock_data: 'Mock Data',
+            image_edit_single: 'Image Edit (Single Image)',
+            animation_start_end: 'Animation (Start + End Frame)'
+        };
 
         const specialistItems = [
             {
@@ -4949,113 +4737,213 @@
         }
         function setPromptFocus(part) {
             const activePart = promptFocusOrder.includes(part) ? part : promptFocusOrder[0];
-            document.querySelectorAll('.formula-block[data-prompt-part]').forEach((block) => {
+            promptFormulaBlocks.forEach((block) => {
                 block.classList.toggle('prompt-focus-active', block.getAttribute('data-prompt-part') === activePart);
             });
-            document.querySelectorAll('.prompt-legend [data-prompt-part]').forEach((item) => {
+            promptLegendItems.forEach((item) => {
                 item.classList.toggle('prompt-focus-active', item.getAttribute('data-prompt-part') === activePart);
             });
-            const focusTarget = document.getElementById('promptTeachFocus');
-            if (focusTarget) focusTarget.textContent = activePart.charAt(0).toUpperCase() + activePart.slice(1);
+            if (promptTeachFocus) {
+                promptTeachFocus.textContent = activePart.charAt(0).toUpperCase() + activePart.slice(1);
+            }
         }
 
-        function buildPromptActiveCard(item, index) {
-            const position = (index + 1) + ' / ' + promptLibrary.length;
-            const packetHint = Array.isArray(item.requiredAssets) && item.requiredAssets.length
-                ? item.requiredAssets.length + ' attachment' + (item.requiredAssets.length === 1 ? '' : 's') + ' required'
-                : Array.isArray(item.searchQueries) && item.searchQueries.length
-                    ? item.searchQueries.length + ' live search quer' + (item.searchQueries.length === 1 ? 'y' : 'ies')
-                    : typeof item.mockData === 'string' && item.mockData.trim()
-                        ? 'offline mock input included'
-                        : 'prompt text only';
-            return `
-                <article class="prompt-stack-card prompt-example is-active">
-                    <div class="prompt-meta-row">
-                        <div class="prompt-chips">
-                            <span class="prompt-chip">${escapeHtml(item.category)}</span>
-                            <span class="prompt-chip platform-chip"><img class="platform-logo" src="${escapeHtml(getPlatformLogo(item.platform))}" alt="${escapeHtml(item.platform)} logo"><span>${escapeHtml(item.platform)}</span></span>
-                            <span class="prompt-chip prompt-chip-counter">${position}</span>
-                        </div>
-                    </div>
-                    <div class="prompt-legend">
-                        <span class="prompt-role" data-prompt-part="role">Role</span>
-                        <span class="prompt-task" data-prompt-part="task">Task</span>
-                        <span class="prompt-context" data-prompt-part="context">Context</span>
-                        <span class="prompt-format" data-prompt-part="format">Format</span>
-                    </div>
-                    <div class="prompt-text" id="promptText" aria-live="polite">
-                        <span class="prompt-role">${escapeHtml(item.role)}</span>
-                        <span class="prompt-task"> ${escapeHtml(item.task)}</span>
-                        <span class="prompt-context"> ${escapeHtml(item.context)}</span>
-                        <span class="prompt-format"> ${escapeHtml(item.format)}</span>
-                    </div>
-                    <div class="prompt-controls">
-                        <button class="prompt-control-btn" id="promptPrevBtn" type="button">← Prev Prompt</button>
-                        <button class="prompt-control-btn prompt-copy-btn" id="promptCopyPacketBtn" type="button"><span class="prompt-copy-label">Copy Demo Packet</span><span class="prompt-copy-check">✓</span></button>
-                        <button class="prompt-control-btn" id="promptNextBtn" type="button">Next Prompt →</button>
-                    </div>
-                    <div class="prompt-data-hint">Demo packet includes: ${escapeHtml(packetHint)}.</div>
-                    <div class="prompt-run-guide">Quick run: open a fresh chat, load only the listed inputs, paste the packet, and run.</div>
-                </article>`;
+        function getPromptTypeLabel(promptType) {
+            return promptTypeLabels[promptType] || 'Text Only';
         }
 
-        function buildPromptPreviewCard(item, stackClass) {
-            return `
-                <article class="prompt-stack-card ${stackClass}">
-                    <div class="prompt-stack-preview-meta">${escapeHtml(item.category)} · ${escapeHtml(item.platform)}</div>
-                    <div class="prompt-stack-preview-title">${escapeHtml(item.title || item.task)}</div>
-                </article>`;
+        function toAssetUrl(assetPath) {
+            const normalized = String(assetPath || '').replace(/\\/g, '/');
+            const marker = '/04_projects/ai-101/';
+            const markerIndex = normalized.toLowerCase().indexOf(marker.toLowerCase());
+            if (markerIndex >= 0) return normalized.slice(markerIndex + marker.length);
+            if (/^https?:\/\//i.test(normalized)) return normalized;
+            if (normalized.startsWith('/')) return normalized.replace(/^\/+/, '');
+            return normalized;
         }
 
-        function attachPromptControls() {
-            const prev = document.getElementById('promptPrevBtn');
-            const next = document.getElementById('promptNextBtn');
-            const copy = document.getElementById('promptCopyPacketBtn');
-            if (prev) prev.addEventListener('click', () => stepPrompt(-1));
-            if (next) next.addEventListener('click', () => stepPrompt(1));
-            if (copy) copy.addEventListener('click', () => copyCurrentPromptPacket());
+        function getAssetFilename(assetPath) {
+            const normalized = String(assetPath || '').replace(/\\/g, '/');
+            const parts = normalized.split('/').filter(Boolean);
+            return parts.length ? parts[parts.length - 1] : 'attachment';
         }
 
-        function renderPromptStack() {
-            const stackCards = document.getElementById('promptStackCards');
-            if (!stackCards || !promptLibrary.length) return;
-            const item = promptLibrary[promptIndex];
-            const nextOne = promptLibrary[(promptIndex + 1) % promptLibrary.length];
-            const nextTwo = promptLibrary[(promptIndex + 2) % promptLibrary.length];
-            const nextThree = promptLibrary[(promptIndex + 3) % promptLibrary.length];
-            stackCards.innerHTML = [
-                buildPromptPreviewCard(nextThree, 'is-stack-3'),
-                buildPromptPreviewCard(nextTwo, 'is-stack-2'),
-                buildPromptPreviewCard(nextOne, 'is-stack-1'),
-                buildPromptActiveCard(item, promptIndex)
-            ].join('');
-            const promptStackPosition = document.getElementById('promptStackPosition');
-            if (promptStackPosition) promptStackPosition.textContent = (promptIndex + 1) + ' / ' + promptLibrary.length;
-            const roleBox = document.getElementById('promptRoleBoxText');
-            const taskBox = document.getElementById('promptTaskBoxText');
-            const contextBox = document.getElementById('promptContextBoxText');
-            const formatBox = document.getElementById('promptFormatBoxText');
-            if (roleBox) roleBox.textContent = item.role;
-            if (taskBox) taskBox.textContent = item.task;
-            if (contextBox) contextBox.textContent = item.context;
-            if (formatBox) formatBox.textContent = item.format;
-            setPromptFocus(promptFocusOrder[promptIndex % promptFocusOrder.length]);
-            attachPromptControls();
+        function buildRunGuideSummary(item) {
+            const platformName = item.platform || 'your preferred assistant';
+            const extras = [];
+            if (Array.isArray(item.requiredAssets) && item.requiredAssets.length) {
+                extras.push('upload REQUIRED ATTACHMENTS (use preview cards for image copy/download)');
+            }
+            if (Array.isArray(item.searchQueries) && item.searchQueries.length) {
+                extras.push('run LIVE SEARCH INPUTS and paste sourced findings with dates');
+            }
+            if (typeof item.mockData === 'string' && item.mockData.trim()) {
+                extras.push('paste OFFLINE MOCK INPUTS');
+            }
+            if (!extras.length) {
+                return 'Quick run: open a fresh chat in ' + platformName + ', paste PROMPT TO PASTE, and run. Copy Demo Packet includes prompt text only.';
+            }
+            return 'Quick run: open a fresh chat in ' + platformName + ', ' + extras.join('; ') + ', then paste PROMPT TO PASTE and run. Copy Demo Packet includes prompt text plus listed input blocks only.';
+        }
+
+        function updatePromptRunGuide(item) {
+            if (!promptRunGuide || !item) return;
+            promptRunGuide.textContent = buildRunGuideSummary(item);
+        }
+
+        function updatePromptPacketHint(item) {
+            if (!promptDataHint || !item) return;
+            const details = [getPromptTypeLabel(item.promptType)];
+            if (Array.isArray(item.requiredAssets) && item.requiredAssets.length) {
+                details.push(item.requiredAssets.length + ' attachment' + (item.requiredAssets.length === 1 ? '' : 's'));
+            }
+            if (Array.isArray(item.searchQueries) && item.searchQueries.length) {
+                details.push(item.searchQueries.length + ' live search quer' + (item.searchQueries.length === 1 ? 'y' : 'ies'));
+            }
+            if (typeof item.mockData === 'string' && item.mockData.trim()) {
+                details.push('offline mock input included');
+            }
+            if (item.optionalKreaStarter) {
+                details.push('optional Krea starter prompt');
+            }
+            promptDataHint.textContent = 'Demo packet includes: ' + details.join(', ') + '.';
+        }
+
+        async function copyImageToClipboard(assetUrl) {
+            if (!navigator.clipboard || typeof window.ClipboardItem === 'undefined') {
+                throw new Error('Clipboard image copy is not supported in this browser context.');
+            }
+            const response = await fetch(assetUrl, { cache: 'no-store' });
+            if (!response.ok) throw new Error('Image file could not be loaded.');
+            const blob = await response.blob();
+            if (!blob.type || !blob.type.startsWith('image/')) throw new Error('Attachment is not a valid image payload.');
+            const item = new ClipboardItem({ [blob.type]: blob });
+            await navigator.clipboard.write([item]);
+        }
+
+        function triggerBlobDownload(blob, filename) {
+            const objectUrl = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = objectUrl;
+            link.download = filename || 'attachment';
+            link.style.display = 'none';
+            document.body.appendChild(link);
+            link.click();
+            setTimeout(() => { URL.revokeObjectURL(objectUrl); link.remove(); }, 0);
+        }
+
+        function downloadBlobViaXHR(assetUrl) {
+            return new Promise((resolve, reject) => {
+                const xhr = new XMLHttpRequest();
+                xhr.open('GET', assetUrl, true);
+                xhr.responseType = 'blob';
+                xhr.onload = () => {
+                    if ((xhr.status >= 200 && xhr.status < 300) || xhr.status === 0) {
+                        if (xhr.response instanceof Blob && xhr.response.size > 0) { resolve(xhr.response); return; }
+                    }
+                    reject(new Error('XHR image download failed.'));
+                };
+                xhr.onerror = () => reject(new Error('XHR network error.'));
+                xhr.onabort = () => reject(new Error('XHR aborted.'));
+                xhr.send();
+            });
+        }
+
+        async function downloadAssetFile(assetUrl, fileName, imageEl) {
+            let blob = null;
+            try {
+                const response = await fetch(assetUrl, { cache: 'no-store' });
+                if (!response.ok) throw new Error('Attachment could not be downloaded.');
+                blob = await response.blob();
+                if (!(blob instanceof Blob) || blob.size === 0) throw new Error('Fetch returned empty image payload.');
+            } catch (fetchErr) {
+                try { blob = await downloadBlobViaXHR(assetUrl); } catch (xhrErr) {
+                    if (imageEl) { try { if (typeof imageEl.decode === 'function') await imageEl.decode(); } catch (e) {} }
+                    if (imageEl && imageEl.complete && imageEl.naturalWidth > 0 && imageEl.naturalHeight > 0) {
+                        const canvas = document.createElement('canvas');
+                        canvas.width = imageEl.naturalWidth; canvas.height = imageEl.naturalHeight;
+                        const context2d = canvas.getContext('2d');
+                        if (!context2d) throw xhrErr;
+                        context2d.drawImage(imageEl, 0, 0);
+                        const exportType = /\.png$/i.test(fileName || '') ? 'image/png' : 'image/jpeg';
+                        blob = await new Promise((resolve, reject) => { canvas.toBlob((b) => { if (!b) { reject(new Error('Image export failed.')); return; } resolve(b); }, exportType, 0.92); });
+                    } else { throw xhrErr; }
+                }
+            }
+            triggerBlobDownload(blob, fileName);
+        }
+
+        function renderPromptAssetGallery(promptItem) {
+            if (!promptAssetGallery) return;
+            const assets = Array.isArray(promptItem && promptItem.requiredAssets) ? promptItem.requiredAssets : [];
+            if (!assets.length) { promptAssetGallery.style.display = 'none'; promptAssetGallery.innerHTML = ''; return; }
+            const galleryHtml = ['<div class="prompt-asset-header">Attachment Preview</div><div class="prompt-asset-list">'];
+            assets.forEach((assetPath, idx) => {
+                const assetUrl = toAssetUrl(assetPath);
+                const assetHref = encodeURI(assetUrl);
+                const fileName = getAssetFilename(assetPath);
+                galleryHtml.push(
+                    '<div class="prompt-asset-card"><img class="prompt-asset-preview" src="' + escapeHtml(assetHref) + '" alt="Attachment preview ' + (idx + 1) + '" loading="lazy"><div class="prompt-asset-body"><div class="prompt-asset-name">' + escapeHtml(fileName) + '</div><div class="prompt-asset-actions"><button class="prompt-control-btn" type="button" data-action="copy-image" data-asset-url="' + escapeHtml(assetHref) + '">Copy Image</button><button class="prompt-control-btn prompt-link-btn" type="button" data-action="download-image" data-asset-url="' + escapeHtml(assetHref) + '" data-file-name="' + escapeHtml(fileName) + '">Download</button></div></div></div>'
+                );
+            });
+            galleryHtml.push('</div>');
+            promptAssetGallery.innerHTML = galleryHtml.join('');
+            promptAssetGallery.style.display = 'block';
+            promptAssetGallery.querySelectorAll('[data-action="copy-image"]').forEach((button) => {
+                button.addEventListener('click', async (event) => {
+                    event.stopPropagation(); const trigger = event.currentTarget;
+                    const url = trigger.getAttribute('data-asset-url') || ''; if (!url) return;
+                    const originalLabel = trigger.textContent; trigger.disabled = true; trigger.textContent = 'Copying...';
+                    try { await copyImageToClipboard(url); if (promptCopyStatus) promptCopyStatus.textContent = 'Image copied. Paste directly into chat.'; }
+                    catch (err) { if (promptCopyStatus) promptCopyStatus.textContent = 'Image copy is unavailable here. Use Download instead.'; }
+                    finally { trigger.disabled = false; trigger.textContent = originalLabel; }
+                });
+            });
+            promptAssetGallery.querySelectorAll('[data-action="download-image"]').forEach((button) => {
+                button.addEventListener('click', async (event) => {
+                    event.stopPropagation(); event.preventDefault(); const trigger = event.currentTarget;
+                    const url = trigger.getAttribute('data-asset-url') || '';
+                    const fileName = trigger.getAttribute('data-file-name') || 'attachment'; if (!url) return;
+                    const originalLabel = trigger.textContent; trigger.disabled = true; trigger.textContent = 'Saving...';
+                    try { const card = trigger.closest('.prompt-asset-card'); const imageEl = card ? card.querySelector('.prompt-asset-preview') : null; await downloadAssetFile(url, fileName, imageEl); if (promptCopyStatus) promptCopyStatus.textContent = 'Image downloaded.'; }
+                    catch (err) { if (promptCopyStatus) promptCopyStatus.textContent = 'Download failed in this browser context.'; }
+                    finally { trigger.disabled = false; trigger.textContent = originalLabel; }
+                });
+            });
+        }
+
+        function renderPrompt(index) {
+            if (!promptText || !promptCategory || !promptCounter) return;
+            const item = promptLibrary[index];
+            if (!item) return;
+            promptCategory.textContent = item.category;
+            if (promptPlatformLabel) promptPlatformLabel.textContent = item.platform;
+            if (promptPlatformLogo) {
+                const logoPath = getPlatformLogo(item.platform);
+                if (logoPath) { promptPlatformLogo.src = logoPath; promptPlatformLogo.alt = item.platform + ' logo'; promptPlatformLogo.style.display = 'block'; }
+                else { promptPlatformLogo.removeAttribute('src'); promptPlatformLogo.removeAttribute('alt'); promptPlatformLogo.style.display = 'none'; }
+            }
+            promptCounter.textContent = (index + 1) + ' / ' + promptLibrary.length;
+            promptText.innerHTML =
+                '<span class="prompt-role">' + escapeHtml(item.role) + '</span> ' +
+                '<span class="prompt-task">' + escapeHtml(item.task) + '</span> ' +
+                '<span class="prompt-context">' + escapeHtml(item.context) + '</span> ' +
+                '<span class="prompt-format">' + escapeHtml(item.format) + '</span>';
+            if (promptRoleBoxText) promptRoleBoxText.textContent = item.role;
+            if (promptTaskBoxText) promptTaskBoxText.textContent = item.task;
+            if (promptContextBoxText) promptContextBoxText.textContent = item.context;
+            if (promptFormatBoxText) promptFormatBoxText.textContent = item.format;
+            setPromptFocus(promptFocusOrder[index % promptFocusOrder.length]);
+            updatePromptPacketHint(item);
+            updatePromptRunGuide(item);
+            renderPromptAssetGallery(item);
+            if (promptCopyStatus) promptCopyStatus.textContent = '';
         }
 
         function stepPrompt(delta) {
-            if (!promptLibrary.length || promptAnimating) return;
-            const stack = document.querySelector('.prompt-card-stack');
-            if (!stack) return;
-            const transitionClass = delta > 0 ? 'is-transitioning-next' : 'is-transitioning-prev';
-            promptAnimating = true;
-            stack.classList.add(transitionClass);
-            window.setTimeout(() => {
-                promptIndex = (promptIndex + delta + promptLibrary.length) % promptLibrary.length;
-                renderPromptStack();
-                stack.classList.remove(transitionClass);
-                promptAnimating = false;
-            }, prefersReducedMotion ? 1 : 220);
+            if (!promptLibrary.length) return;
+            promptIndex = (promptIndex + delta + promptLibrary.length) % promptLibrary.length;
+            renderPrompt(promptIndex);
         }
 
         function setAssistantAttractor(key) {
@@ -5318,7 +5206,7 @@
         bindMediaQueryChange(compactNavQuery, () => updateDeckUI());
         bindMediaQueryChange(reducedMotionQuery, () => {
             prefersReducedMotion = reducedMotionQuery.matches;
-            renderPromptStack();
+            renderPrompt(promptIndex);
             if (current === 5) assistantConstellationSketch?.setActive?.(!prefersReducedMotion);
             if (current === 6) prefersReducedMotion ? stopSpecialistAutoplay() : startSpecialistAutoplay();
             if (current === 0) heroVortexSketch?.setActive?.(!prefersReducedMotion);
@@ -5385,7 +5273,10 @@
         initializeDots();
         bindAssistantConstellation();
         renderSpecialistCarousel();
-        renderPromptStack();
+        renderPrompt(promptIndex);
+        if (promptPrevBtn) promptPrevBtn.addEventListener('click', () => stepPrompt(-1));
+        if (promptNextBtn) promptNextBtn.addEventListener('click', () => stepPrompt(1));
+        if (promptCopyPacketBtn) promptCopyPacketBtn.addEventListener('click', () => copyCurrentPromptPacket());
         updateDeckUI();
         setAssistantAttractor('chatgpt');
         setSlideActivity(0, true, 1);
@@ -5395,6 +5286,77 @@
             setTimeout(syncNavHeight, 250);
             setTimeout(syncNavHeight, 900);
         }, { once: true });
+
+        // ===== P5.js Generative Math Creatures (Science slide) =====
+        const initP5Creatures = () => {
+            // Creature 1: Helix/Serpent (AlphaFold - Cyan)
+            new p5((p) => {
+                let t = 0;
+                p.setup = () => { p.createCanvas(100, 100); p.noFill(); }
+                p.draw = () => {
+                    p.clear(); p.translate(50, 50); p.strokeWeight(1.5); p.stroke('rgba(6, 182, 212, 0.9)');
+                    p.beginShape();
+                    for (let i = 0; i <= 40; i++) {
+                        let angle = i * 0.2 + t;
+                        let radius = 15 + p.sin(i * 0.5 - t * 2) * 12;
+                        let x = p.cos(angle) * radius; let y = p.sin(angle) * radius;
+                        p.vertex(x, y);
+                        if (i % 5 === 0) { p.push(); p.strokeWeight(1); p.stroke('rgba(6, 182, 212, 0.4)'); p.ellipse(x, y, 6, 6); p.pop(); }
+                    }
+                    p.endShape(p.CLOSE); t += 0.02;
+                }
+            }, 'p5-box-1');
+
+            // Creature 2: Spiky Crystal (Materials - Purple)
+            new p5((p) => {
+                let t = 0;
+                p.setup = () => { p.createCanvas(100, 100); p.noFill(); }
+                p.draw = () => {
+                    p.clear(); p.translate(50, 50); p.strokeWeight(1.5); p.stroke('rgba(139, 92, 246, 0.9)');
+                    p.beginShape();
+                    for (let i = 0; i <= 100; i++) {
+                        let angle = i * p.TWO_PI / 100;
+                        let r = 24 + 8 * p.sin(angle * 6 + t) + 5 * p.cos(angle * 12 - t * 1.5);
+                        p.vertex(p.cos(angle) * r, p.sin(angle) * r);
+                    }
+                    p.endShape(p.CLOSE);
+                    p.stroke('rgba(139, 92, 246, 0.5)');
+                    p.beginShape();
+                    for (let i = 0; i <= 60; i++) {
+                        let angle = i * p.TWO_PI / 60;
+                        let r = 12 + 4 * p.sin(angle * 4 - t * 2.5);
+                        p.vertex(p.cos(angle) * r, p.sin(angle) * r);
+                    }
+                    p.endShape(p.CLOSE); t += 0.03;
+                }
+            }, 'p5-box-2');
+
+            // Creature 3: Jellyfish Flow (Forecast - Amber)
+            new p5((p) => {
+                let t = 0;
+                p.setup = () => { p.createCanvas(100, 100); p.noFill(); }
+                p.draw = () => {
+                    p.clear(); p.translate(50, 50); p.strokeWeight(1.2); p.stroke('rgba(245, 158, 11, 0.7)');
+                    for (let j = 0; j < 4; j++) {
+                        p.beginShape();
+                        for (let i = 0; i <= 60; i++) {
+                            let angle = i * p.TWO_PI / 60;
+                            let offset = j * 0.8;
+                            let r = 10 + j * 7 + 8 * p.sin(angle * 3 + t + offset) * p.cos(angle * 2 - t);
+                            p.vertex(p.cos(angle) * r, p.sin(angle) * r);
+                        }
+                        p.endShape(p.CLOSE);
+                    }
+                    t += 0.02;
+                }
+            }, 'p5-box-3');
+        };
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => { if (window.p5) initP5Creatures(); }, 100);
+        });
+        if (document.readyState !== 'loading') {
+            setTimeout(() => { if (window.p5) initP5Creatures(); }, 100);
+        }
     </script>
 </body>
 
