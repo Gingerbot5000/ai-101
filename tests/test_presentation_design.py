@@ -224,7 +224,7 @@ class PresentationDesignTests(unittest.TestCase):
         )
         self.assertRegex(
             INDEX_HTML,
-            r"\.safety-shield-grid \{[^}]*gap: 12px;[^}]*\}",
+            r"\.safety-shield-grid \{[^}]*display: grid;[^}]*grid-template-columns: repeat\(3, minmax\(0, 1fr\)\);[^}]*gap: 12px;[^}]*\}",
         )
         self.assertRegex(
             INDEX_HTML,
