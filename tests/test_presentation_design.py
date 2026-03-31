@@ -252,7 +252,7 @@ class PresentationDesignTests(unittest.TestCase):
         )
         self.assertRegex(
             INDEX_HTML,
-            r"@media \(max-width: 1180px\) \{[\s\S]*?\.slide \{[^}]*overflow-y: auto;[^}]*align-items: flex-start;[^}]*\}[\s\S]*?\.slide-inner \{[^}]*max-height: none;[^}]*height: auto;[^}]*\}[\s\S]*?\}",
+            r"@media \(max-width: 1180px\) \{\s*\.slide \{\s*overflow-y: auto;\s*align-items: flex-start;\s*\}\s*\.slide-inner \{\s*max-height: none;\s*height: auto;\s*\}\s*\.slide\[data-slide=\"9\"\] \.slide-inner,\s*\.slide\[data-slide=\"10\"\] \.slide-inner \{\s*grid-template-rows: auto auto minmax\(0, 1fr\);\s*\}",
         )
 
     def test_deck_expands_to_guided_workshop_story(self):
@@ -335,16 +335,18 @@ class PresentationDesignTests(unittest.TestCase):
             INDEX_HTML,
         )
         self.assertIn('animation: heroFadeUp 0.32s ease-out both;', INDEX_HTML)
-        self.assertIn(
-            '.slide[data-slide="0"].hero-sequence-active .title-content > :nth-child(4)',
-            INDEX_HTML,
-        )
-        self.assertIn('animation-delay: 2s;', INDEX_HTML)
-        self.assertIn(
-            '.slide[data-slide="0"].hero-sequence-active .title-content > :nth-child(5)',
-            INDEX_HTML,
-        )
-        self.assertIn('animation-delay: 2.3s;', INDEX_HTML)
+        for nth_child, delay in (
+            (1, "0.4s"),
+            (2, "1.5s"),
+            (3, "2s"),
+            (4, "2.15s"),
+            (5, "2.3s"),
+            (6, "2.45s"),
+        ):
+            self.assertRegex(
+                INDEX_HTML,
+                rf'\.slide\[data-slide="0"\]\.hero-sequence-active \.title-content > :nth-child\({nth_child}\) \{{\s*animation-delay: {re.escape(delay)};\s*\}}',
+            )
 
     def test_inactive_slides_stay_out_of_hit_testing_and_stack_below_active(self):
         self.assertRegex(
