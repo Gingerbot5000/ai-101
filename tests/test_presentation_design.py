@@ -22,18 +22,19 @@ class PresentationDesignTests(unittest.TestCase):
 
     def test_presentation_fit_tokens_lock_desktop_stage_frame(self):
         for marker in (
-            "--deck-max-width:",
-            "--slide-frame-max-height:",
-            "--slide-padding-x:",
-            "--slide-padding-top:",
-            "--slide-padding-bottom:",
-            "--hero-rainbow:",
-            "--hover-lift:",
+            "--deck-max-width: 1440px;",
+            "--slide-frame-max-height: calc(var(--viewport-height) - var(--nav-height) - 44px);",
+            "--slide-padding-x: clamp(28px, 3vw, 44px);",
+            "--slide-padding-top: clamp(18px, 2vh, 28px);",
+            "--slide-padding-bottom: calc(var(--nav-height) + clamp(14px, 2vh, 20px));",
+            "--hero-rainbow: linear-gradient(135deg, #ffffff 0%, #8bd6ff 38%, #d7a65a 72%, #c084fc 100%);",
+            "--hover-lift: translate3d(0, -4px, 0);",
         ):
             self.assertIn(marker, INDEX_HTML)
         self.assertIn(".slide {", INDEX_HTML)
         self.assertIn("padding: var(--slide-padding-top) var(--slide-padding-x) var(--slide-padding-bottom);", INDEX_HTML)
         self.assertIn("overflow: hidden;", INDEX_HTML)
+        self.assertIn(".slide-inner {", INDEX_HTML)
         self.assertIn("max-height: var(--slide-frame-max-height);", INDEX_HTML)
         self.assertIn("height: var(--slide-frame-max-height);", INDEX_HTML)
         self.assertIn(".gradient-text {", INDEX_HTML)
@@ -100,9 +101,11 @@ class PresentationDesignTests(unittest.TestCase):
             ".story-tag:hover",
             ".story-tag:focus-visible",
             ".editorial-callout-block:hover",
+            ".editorial-callout-block:focus-within",
             ".specialist-nav-btn:hover",
             ".specialist-nav-btn:focus-visible",
             ".specialist-dot:hover",
+            ".specialist-dot:focus-visible",
             ".prompt-asset-card:hover",
             ".prompt-asset-card:focus-within",
             ".callback-cta-card:hover",
