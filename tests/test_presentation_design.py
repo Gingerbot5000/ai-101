@@ -31,8 +31,13 @@ class PresentationDesignTests(unittest.TestCase):
             "--hover-lift:",
         ):
             self.assertIn(marker, INDEX_HTML)
+        self.assertIn(".slide {", INDEX_HTML)
+        self.assertIn("padding: var(--slide-padding-top) var(--slide-padding-x) var(--slide-padding-bottom);", INDEX_HTML)
+        self.assertIn("overflow: hidden;", INDEX_HTML)
         self.assertIn("max-height: var(--slide-frame-max-height);", INDEX_HTML)
         self.assertIn("height: var(--slide-frame-max-height);", INDEX_HTML)
+        self.assertIn(".gradient-text {", INDEX_HTML)
+        self.assertIn("background: var(--hero-rainbow);", INDEX_HTML)
 
     def test_deck_expands_to_guided_workshop_story(self):
         slide_ids = re.findall(r'<div class="slide(?: active)?" data-slide="(\d+)">', INDEX_HTML)
@@ -93,12 +98,17 @@ class PresentationDesignTests(unittest.TestCase):
     def test_shared_hover_focus_language_covers_major_components(self):
         for marker in (
             ".story-tag:hover",
+            ".story-tag:focus-visible",
             ".editorial-callout-block:hover",
             ".specialist-nav-btn:hover",
+            ".specialist-nav-btn:focus-visible",
             ".specialist-dot:hover",
             ".prompt-asset-card:hover",
+            ".prompt-asset-card:focus-within",
             ".callback-cta-card:hover",
+            ".callback-cta-card:focus-within",
             "transform: var(--hover-lift);",
+            "transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease, filter 0.18s ease;",
         ):
             self.assertIn(marker, INDEX_HTML)
 
