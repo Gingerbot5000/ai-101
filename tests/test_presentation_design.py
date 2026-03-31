@@ -47,55 +47,55 @@ class PresentationDesignTests(unittest.TestCase):
     def test_story_and_evidence_slides_get_density_fit_rules(self):
         self.assertRegex(
             INDEX_HTML,
-            r"\.slide\[data-slide=\"0\"\]\s*\{[\s\S]*?padding-top: 16px;[\s\S]*?\}",
+            r"\.slide\[data-slide=\"0\"\]\s*\{[^}]*padding-top: 16px;[^}]*\}",
         )
         self.assertRegex(
             INDEX_HTML,
-            r"\.slide\[data-slide=\"1\"\] \.slide-inner\s*\{[\s\S]*?max-width: 1380px;[\s\S]*?\}",
+            r"\.slide\[data-slide=\"1\"\] \.slide-inner\s*\{[^}]*max-width: 1380px;[^}]*\}",
         )
         self.assertRegex(
             INDEX_HTML,
-            r"\.story-intro-layout\s*\{[\s\S]*?gap: 24px;[\s\S]*?margin-bottom: 20px;[\s\S]*?\}",
+            r"\.story-intro-layout\s*\{[^}]*gap: 24px;[^}]*margin-bottom: 20px;[^}]*\}",
         )
         self.assertRegex(
             INDEX_HTML,
-            r"\.story-highlight-card\s*\{[\s\S]*?padding: 16px 18px;[\s\S]*?border-radius: 16px;[\s\S]*?\}",
+            r"\.story-highlight-card\s*\{[^}]*padding: 16px 18px;[^}]*border-radius: 16px;[^}]*\}",
         )
         self.assertRegex(
             INDEX_HTML,
-            r"\.science-timeline\s*\{[\s\S]*?align-items: stretch;[\s\S]*?margin-top: 20px;[\s\S]*?gap: 16px;[\s\S]*?\}",
+            r"\.science-timeline\s*\{[^}]*align-items: stretch;[^}]*margin-top: 20px;[^}]*gap: 16px;[^}]*\}",
         )
         self.assertRegex(
             INDEX_HTML,
-            r"\.node-bottom\s*\{[\s\S]*?padding: 20px 18px;[\s\S]*?max-width: 332px;[\s\S]*?\}",
+            r"\.node-bottom\s*\{[^}]*padding: 20px 18px;[^}]*max-width: 332px;[^}]*\}",
         )
         self.assertRegex(
             INDEX_HTML,
-            r"\.editorial-callout-shell\s*\{[\s\S]*?gap: 10px;[\s\S]*?margin-top: 2px;[\s\S]*?\}",
+            r"\.editorial-callout-shell\s*\{[^}]*gap: 10px;[^}]*margin-top: 2px;[^}]*\}",
         )
         self.assertRegex(
             INDEX_HTML,
-            r"\.editorial-callout-block\s*\{[\s\S]*?padding: 18px;[\s\S]*?gap: 8px;[\s\S]*?\}",
+            r"\.editorial-callout-block\s*\{[^}]*gap: 8px;[^}]*padding: 18px;[^}]*\}",
         )
         self.assertRegex(
             INDEX_HTML,
-            r"\.slide\[data-slide=\"0\"\] \.slide-inner,\s*\.slide\[data-slide=\"1\"\] \.slide-inner,\s*\.slide\[data-slide=\"2\"\] \.slide-inner,\s*\.slide\[data-slide=\"3\"\] \.slide-inner\s*\{[\s\S]*?grid-template-rows: auto auto minmax\(0, 1fr\);[\s\S]*?\}",
+            r"\.slide\[data-slide=\"0\"\] \.slide-inner,\s*\.slide\[data-slide=\"1\"\] \.slide-inner,\s*\.slide\[data-slide=\"2\"\] \.slide-inner,\s*\.slide\[data-slide=\"3\"\] \.slide-inner\s*\{[^}]*grid-template-rows: auto auto minmax\(0, 1fr\);[^}]*\}",
         )
         self.assertRegex(
             INDEX_HTML,
-            r"\.slide\[data-slide=\"0\"\] \.slide-inner\s*\{[\s\S]*?min-height: var\(--slide-frame-max-height\);[\s\S]*?\}",
+            r"\.slide\[data-slide=\"0\"\] \.slide-inner\s*\{[^}]*min-height: var\(--slide-frame-max-height\);[^}]*\}",
         )
         self.assertRegex(
             INDEX_HTML,
-            r"\.hero-vortex-layer\s*\{[\s\S]*?inset: -24px -40px calc\(var\(--nav-height\) \* -1\) -40px;[\s\S]*?\}",
+            r"\.hero-vortex-layer\s*\{[^}]*inset: -24px -40px calc\(var\(--nav-height\) \* -1\) -40px;[^}]*\}",
         )
         self.assertRegex(
             INDEX_HTML,
-            r"\.editorial-stat\s*\{[\s\S]*?font-size: clamp\(32px, 4\.2vw, 54px\);[\s\S]*?\}",
+            r"\.editorial-stat\s*\{[^}]*font-size: clamp\(32px, 4\.2vw, 54px\);[^}]*\}",
         )
         self.assertRegex(
             INDEX_HTML,
-            r"\.editorial-side-item\s*\{[\s\S]*?gap: 5px;[\s\S]*?padding: 12px 14px;[\s\S]*?\}",
+            r"\.editorial-side-item\s*\{[^}]*gap: 5px;[^}]*padding: 12px 14px;[^}]*\}",
         )
 
     def test_deck_expands_to_guided_workshop_story(self):
