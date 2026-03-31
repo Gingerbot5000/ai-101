@@ -63,6 +63,26 @@ class PresentationDesignTests(unittest.TestCase):
             'padding: 18px;',
         ):
             self.assertIn(marker, INDEX_HTML)
+        self.assertRegex(
+            INDEX_HTML,
+            r"\.slide\[data-slide=\"0\"\] \.slide-inner,\s*\.slide\[data-slide=\"1\"\] \.slide-inner,\s*\.slide\[data-slide=\"2\"\] \.slide-inner,\s*\.slide\[data-slide=\"3\"\] \.slide-inner\s*\{[\s\S]*?grid-template-rows: auto auto minmax\(0, 1fr\);[\s\S]*?\}",
+        )
+        self.assertRegex(
+            INDEX_HTML,
+            r"\.slide\[data-slide=\"0\"\] \.slide-inner\s*\{[\s\S]*?min-height: var\(--slide-frame-max-height\);[\s\S]*?\}",
+        )
+        self.assertRegex(
+            INDEX_HTML,
+            r"\.hero-vortex-layer\s*\{[\s\S]*?inset: -24px -40px calc\(var\(--nav-height\) \* -1\) -40px;[\s\S]*?\}",
+        )
+        self.assertRegex(
+            INDEX_HTML,
+            r"\.editorial-stat\s*\{[\s\S]*?font-size: clamp\(32px, 4\.2vw, 54px\);[\s\S]*?\}",
+        )
+        self.assertRegex(
+            INDEX_HTML,
+            r"\.editorial-side-item\s*\{[\s\S]*?gap: 5px;[\s\S]*?padding: 12px 14px;[\s\S]*?\}",
+        )
 
     def test_deck_expands_to_guided_workshop_story(self):
         slide_ids = re.findall(r'<div class="slide(?: active)?" data-slide="(\d+)">', INDEX_HTML)
