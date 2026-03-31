@@ -101,23 +101,15 @@ class PresentationDesignTests(unittest.TestCase):
         self.assertIn("Questions? Let's connect.", INDEX_HTML)
 
     def test_shared_hover_focus_language_covers_major_components(self):
-        for marker in (
-            ".story-tag:hover",
-            ".story-tag:focus-visible",
-            ".editorial-callout-block:hover",
-            ".editorial-callout-block:focus-within",
-            ".specialist-nav-btn:hover",
-            ".specialist-nav-btn:focus-visible",
-            ".specialist-dot:hover",
-            ".specialist-dot:focus-visible",
-            ".prompt-asset-card:hover",
-            ".prompt-asset-card:focus-within",
-            ".callback-cta-card:hover",
-            ".callback-cta-card:focus-within",
-            "transform: var(--hover-lift);",
-            "transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease, filter 0.18s ease;",
-        ):
-            self.assertIn(marker, INDEX_HTML)
+        self.assertRegex(
+            INDEX_HTML,
+            r"\.story-tag,\s*\.editorial-callout-block,\s*\.specialist-nav-btn,\s*\.specialist-dot,\s*\.prompt-asset-card,\s*\.callback-cta-card\s*\{[\s\S]*?"
+            r"transition: transform 0\.18s ease, border-color 0\.18s ease, box-shadow 0\.18s ease, background-color 0\.18s ease, filter 0\.18s ease;[\s\S]*?\}",
+        )
+        self.assertRegex(
+            INDEX_HTML,
+            r"\.story-tag:hover,\s*\.story-tag:focus-visible,\s*\.editorial-callout-block:hover,\s*\.editorial-callout-block:focus-within,\s*\.specialist-nav-btn:hover,\s*\.specialist-nav-btn:focus-visible,\s*\.specialist-dot:hover,\s*\.specialist-dot:focus-visible,\s*\.prompt-asset-card:hover,\s*\.prompt-asset-card:focus-within,\s*\.callback-cta-card:hover,\s*\.callback-cta-card:focus-within\s*\{[\s\S]*?transform: var\(--hover-lift\);[\s\S]*?\}",
+        )
 
     def test_visual_overhaul_uses_cinematic_cross_dissolve(self):
         self.assertIn("scale(0.97)", INDEX_HTML)
