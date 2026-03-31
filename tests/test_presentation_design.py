@@ -45,24 +45,38 @@ class PresentationDesignTests(unittest.TestCase):
         )
 
     def test_story_and_evidence_slides_get_density_fit_rules(self):
-        for marker in (
-            '.slide[data-slide="0"] {',
-            'padding-top: 16px;',
-            '.slide[data-slide="1"] .slide-inner {',
-            'max-width: 1380px;',
-            '.story-intro-layout {',
-            'gap: 24px;',
-            '.story-highlight-card {',
-            'padding: 16px 18px;',
-            '.science-timeline {',
-            'margin-top: 20px;',
-            '.node-bottom {',
-            'padding: 20px 18px;',
-            '.editorial-callout-shell {',
-            '.editorial-callout-block {',
-            'padding: 18px;',
-        ):
-            self.assertIn(marker, INDEX_HTML)
+        self.assertRegex(
+            INDEX_HTML,
+            r"\.slide\[data-slide=\"0\"\]\s*\{[\s\S]*?padding-top: 16px;[\s\S]*?\}",
+        )
+        self.assertRegex(
+            INDEX_HTML,
+            r"\.slide\[data-slide=\"1\"\] \.slide-inner\s*\{[\s\S]*?max-width: 1380px;[\s\S]*?\}",
+        )
+        self.assertRegex(
+            INDEX_HTML,
+            r"\.story-intro-layout\s*\{[\s\S]*?gap: 24px;[\s\S]*?margin-bottom: 20px;[\s\S]*?\}",
+        )
+        self.assertRegex(
+            INDEX_HTML,
+            r"\.story-highlight-card\s*\{[\s\S]*?padding: 16px 18px;[\s\S]*?border-radius: 16px;[\s\S]*?\}",
+        )
+        self.assertRegex(
+            INDEX_HTML,
+            r"\.science-timeline\s*\{[\s\S]*?align-items: stretch;[\s\S]*?margin-top: 20px;[\s\S]*?gap: 16px;[\s\S]*?\}",
+        )
+        self.assertRegex(
+            INDEX_HTML,
+            r"\.node-bottom\s*\{[\s\S]*?padding: 20px 18px;[\s\S]*?max-width: 332px;[\s\S]*?\}",
+        )
+        self.assertRegex(
+            INDEX_HTML,
+            r"\.editorial-callout-shell\s*\{[\s\S]*?gap: 10px;[\s\S]*?margin-top: 2px;[\s\S]*?\}",
+        )
+        self.assertRegex(
+            INDEX_HTML,
+            r"\.editorial-callout-block\s*\{[\s\S]*?padding: 18px;[\s\S]*?gap: 8px;[\s\S]*?\}",
+        )
         self.assertRegex(
             INDEX_HTML,
             r"\.slide\[data-slide=\"0\"\] \.slide-inner,\s*\.slide\[data-slide=\"1\"\] \.slide-inner,\s*\.slide\[data-slide=\"2\"\] \.slide-inner,\s*\.slide\[data-slide=\"3\"\] \.slide-inner\s*\{[\s\S]*?grid-template-rows: auto auto minmax\(0, 1fr\);[\s\S]*?\}",
