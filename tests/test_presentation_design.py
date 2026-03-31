@@ -100,25 +100,122 @@ class PresentationDesignTests(unittest.TestCase):
 
     def test_tool_and_prompt_slides_get_desktop_fit_guards(self):
         desktop_block_start = INDEX_HTML.rfind('@media (min-width: 769px)')
+        desktop_block_end = INDEX_HTML.rfind('@media (prefers-reduced-motion: reduce)')
         self.assertGreater(desktop_block_start, INDEX_HTML.rfind('@media (max-width: 640px)'))
-        desktop_block = INDEX_HTML[desktop_block_start:]
-        for marker in (
-            '.slide[data-slide="4"] .slide-inner,',
-            '.slide[data-slide="8"] .slide-inner {',
-            '.orbital-diagram {',
-            'min-height: 500px;',
-            '.assistant-card {',
-            'padding: 22px 24px;',
-            '.specialist-carousel-track {',
-            'min-height: 320px;',
-            '.specialist-card {',
-            'padding: 28px 30px;',
-            '.use-case-cluster {',
-            'padding: 18px 18px 16px;',
-            '.slide[data-slide="8"] .prompt-example {',
-            'padding: 10px 12px;',
-        ):
-            self.assertIn(marker, desktop_block)
+        self.assertGreater(desktop_block_end, desktop_block_start)
+        desktop_block = INDEX_HTML[desktop_block_start:desktop_block_end]
+        self.assertRegex(
+            desktop_block,
+            r"\.slide\[data-slide=\"4\"\] \.slide-inner,\s*"
+            r"\.slide\[data-slide=\"5\"\] \.slide-inner,\s*"
+            r"\.slide\[data-slide=\"6\"\] \.slide-inner,\s*"
+            r"\.slide\[data-slide=\"7\"\] \.slide-inner,\s*"
+            r"\.slide\[data-slide=\"8\"\] \.slide-inner\s*\{[^}]*"
+            r"grid-template-rows: auto auto minmax\(0, 1fr\);[^}]*\}",
+        )
+        self.assertRegex(
+            desktop_block,
+            r"\.orbital-diagram\s*\{[^}]*width: min\(760px, 100%\);[^}]*"
+            r"min-height: 500px;[^}]*margin: 0 auto;[^}]*\}",
+        )
+        self.assertRegex(
+            desktop_block,
+            r"\.assistant-card\s*\{[^}]*gap: 18px;[^}]*padding: 22px 24px;[^}]*\}",
+        )
+        self.assertRegex(
+            desktop_block,
+            r"\.specialist-card\s*\{[^}]*grid-template-columns: 96px 1fr;[^}]*"
+            r"gap: 18px;[^}]*padding: 28px 30px;[^}]*\}",
+        )
+        self.assertRegex(
+            desktop_block,
+            r"\.use-case-cluster\s*\{[^}]*padding: 18px 18px 16px;[^}]*gap: 8px;[^}]*\}",
+        )
+        self.assertRegex(
+            desktop_block,
+            r"\.slide\[data-slide=\"8\"\] \.prompt-example\s*\{[^}]*margin-top: 6px;[^}]*"
+            r"padding: 10px 12px;[^}]*\}",
+        )
+        self.assertRegex(
+            desktop_block,
+            r"\.assistant-card-list\s*\{[^}]*gap: 1px;[^}]*border-radius: 24px;[^}]*overflow: hidden;[^}]*\}",
+        )
+        self.assertRegex(
+            desktop_block,
+            r"\.assistant-card-orb\s*\{[^}]*width: 76px;[^}]*height: 76px;[^}]*\}",
+        )
+        self.assertRegex(
+            desktop_block,
+            r"\.assistant-card-orb img\s*\{[^}]*width: 44px;[^}]*height: 44px;[^}]*\}",
+        )
+        self.assertRegex(
+            desktop_block,
+            r"\.assistant-card-body p\s*\{[^}]*font-size: 14px;[^}]*line-height: 1\.42;[^}]*\}",
+        )
+        self.assertRegex(
+            desktop_block,
+            r"\.specialist-carousel-track\s*\{[^}]*min-height: 320px;[^}]*\}",
+        )
+        self.assertRegex(
+            desktop_block,
+            r"\.specialist-card-logo\s*\{[^}]*width: 78px;[^}]*height: 78px;[^}]*border-radius: 18px;[^}]*\}",
+        )
+        self.assertRegex(
+            desktop_block,
+            r"\.specialist-card-copy p\s*\{[^}]*font-size: 18px;[^}]*line-height: 1\.5;[^}]*\}",
+        )
+        self.assertRegex(
+            desktop_block,
+            r"\.specialist-carousel-controls\s*\{[^}]*gap: 10px;[^}]*\}",
+        )
+        self.assertRegex(
+            desktop_block,
+            r"\.specialist-nav-btn\s*\{[^}]*min-width: 40px;[^}]*min-height: 40px;[^}]*\}",
+        )
+        self.assertRegex(
+            desktop_block,
+            r"\.use-case-groups\s*\{[^}]*gap: 12px;[^}]*\}",
+        )
+        self.assertRegex(
+            desktop_block,
+            r"\.cluster-list\s*\{[^}]*gap: 6px;[^}]*\}",
+        )
+        self.assertRegex(
+            desktop_block,
+            r"\.cluster-point\s*\{[^}]*grid-template-columns: 44px 1fr;[^}]*gap: 9px;[^}]*padding: 8px 0;[^}]*\}",
+        )
+        self.assertRegex(
+            desktop_block,
+            r"\.cluster-point \.use-icon\s*\{[^}]*width: 44px;[^}]*height: 44px;[^}]*\}",
+        )
+        self.assertRegex(
+            desktop_block,
+            r"\.slide\[data-slide=\"8\"\] \{[^}]*padding: var\(--slide-padding-top\) var\(--slide-padding-x\) var\(--slide-padding-bottom\);[^}]*\}",
+        )
+        self.assertRegex(
+            desktop_block,
+            r"\.slide\[data-slide=\"8\"\] \.slide-inner\s*\{[^}]*max-width: 1320px;[^}]*\}",
+        )
+        self.assertRegex(
+            desktop_block,
+            r"\.slide\[data-slide=\"8\"\] \.prompt-formula-grid\s*\{[^}]*gap: 8px;[^}]*margin-bottom: 6px;[^}]*\}",
+        )
+        self.assertRegex(
+            desktop_block,
+            r"\.slide\[data-slide=\"8\"\] \.formula-block\s*\{[^}]*padding: 8px 10px;[^}]*\}",
+        )
+        self.assertRegex(
+            desktop_block,
+            r"\.slide\[data-slide=\"8\"\] \.prompt-text\s*\{[^}]*min-height: 36px;[^}]*max-height: 92px;[^}]*\}",
+        )
+        self.assertRegex(
+            desktop_block,
+            r"\.slide\[data-slide=\"8\"\] \.prompt-asset-card\s*\{[^}]*width: 168px;[^}]*\}",
+        )
+        self.assertRegex(
+            desktop_block,
+            r"\.slide\[data-slide=\"8\"\] \.prompt-asset-preview\s*\{[^}]*height: clamp\(54px, 7vh, 72px\);[^}]*\}",
+        )
 
     def test_deck_expands_to_guided_workshop_story(self):
         slide_ids = re.findall(r'<div class="slide(?: active)?" data-slide="(\d+)">', INDEX_HTML)
