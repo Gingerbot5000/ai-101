@@ -252,7 +252,7 @@ class PresentationDesignTests(unittest.TestCase):
         )
         self.assertRegex(
             INDEX_HTML,
-            r"@media \(max-width: 1180px\) \{[\s\S]*?\.slide \{[^}]*overflow-y: auto;[^}]*\}[\s\S]*?\.slide-inner \{[^}]*max-height: none;[^}]*height: auto;[^}]*\}[\s\S]*?\}",
+            r"@media \(max-width: 1180px\) \{[\s\S]*?\.slide \{[^}]*overflow-y: auto;[^}]*align-items: flex-start;[^}]*\}[\s\S]*?\.slide-inner \{[^}]*max-height: none;[^}]*height: auto;[^}]*\}[\s\S]*?\}",
         )
 
     def test_deck_expands_to_guided_workshop_story(self):
@@ -328,6 +328,53 @@ class PresentationDesignTests(unittest.TestCase):
         self.assertIn("blur(2px)", INDEX_HTML)
         self.assertIn("0.6s ease-out", INDEX_HTML)
         self.assertIn("@media (prefers-reduced-motion: reduce)", INDEX_HTML)
+
+    def test_hero_slide_reveals_every_intended_copy_layer(self):
+        self.assertIn(
+            '.slide[data-slide="0"].hero-sequence-active .title-content > *',
+            INDEX_HTML,
+        )
+        self.assertIn('animation: heroFadeUp 0.32s ease-out both;', INDEX_HTML)
+        self.assertIn(
+            '.slide[data-slide="0"].hero-sequence-active .title-content > :nth-child(4)',
+            INDEX_HTML,
+        )
+        self.assertIn('animation-delay: 2s;', INDEX_HTML)
+        self.assertIn(
+            '.slide[data-slide="0"].hero-sequence-active .title-content > :nth-child(5)',
+            INDEX_HTML,
+        )
+        self.assertIn('animation-delay: 2.3s;', INDEX_HTML)
+
+    def test_inactive_slides_stay_out_of_hit_testing_and_stack_below_active(self):
+        self.assertRegex(
+            INDEX_HTML,
+            r"\.slide \{[^}]*pointer-events: none;[^}]*z-index: 0;[^}]*\}",
+        )
+        self.assertRegex(
+            INDEX_HTML,
+            r"\.slide\.active \{[^}]*pointer-events: auto;[^}]*z-index: 3;[^}]*\}",
+        )
+        self.assertRegex(
+            INDEX_HTML,
+            r"\.slide\.enter-from-left \{[^}]*z-index: 2;[^}]*\}",
+        )
+        self.assertRegex(
+            INDEX_HTML,
+            r"\.slide\.enter-from-right \{[^}]*z-index: 2;[^}]*\}",
+        )
+        self.assertRegex(
+            INDEX_HTML,
+            r"\.slide\.exit-left \{[^}]*z-index: 2;[^}]*\}",
+        )
+        self.assertRegex(
+            INDEX_HTML,
+            r"\.slide\.exit-right \{[^}]*z-index: 2;[^}]*\}",
+        )
+        self.assertRegex(
+            INDEX_HTML,
+            r"\.slide:not\(\.active\):not\(\.enter-from-left\):not\(\.enter-from-right\):not\(\.exit-left\):not\(\.exit-right\),\s*\.slide:not\(\.active\):not\(\.enter-from-left\):not\(\.enter-from-right\):not\(\.exit-left\):not\(\.exit-right\) \* \{[^}]*pointer-events: none;[^}]*\}",
+        )
 
     def test_visual_overhaul_adds_slide_specific_layout_systems(self):
         for marker in (

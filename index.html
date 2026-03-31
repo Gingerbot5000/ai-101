@@ -140,6 +140,7 @@
             filter: blur(0px);
             transition: opacity 0.6s ease-out, transform 0.6s ease-out, filter 0.6s ease-out;
             pointer-events: none;
+            z-index: 0;
             overflow: hidden;
             touch-action: pan-y;
             scroll-padding-bottom: calc(var(--nav-height) + 24px);
@@ -151,6 +152,7 @@
             transform: translate3d(0, 0, 0) scale(1);
             filter: blur(0px);
             pointer-events: auto;
+            z-index: 3;
         }
 
         .slide.active.enter-from-left,
@@ -161,22 +163,31 @@
 
         .slide.enter-from-left {
             transform: translate3d(-18px, 0, 0) scale(1.03);
+            z-index: 2;
         }
 
         .slide.enter-from-right {
             transform: translate3d(18px, 0, 0) scale(1.03);
+            z-index: 2;
         }
 
         .slide.exit-left {
             opacity: 0;
             transform: translate3d(-18px, 0, 0) scale(0.97);
             filter: blur(2px);
+            z-index: 2;
         }
 
         .slide.exit-right {
             opacity: 0;
             transform: translate3d(18px, 0, 0) scale(0.97);
             filter: blur(2px);
+            z-index: 2;
+        }
+
+        .slide:not(.active):not(.enter-from-left):not(.enter-from-right):not(.exit-left):not(.exit-right),
+        .slide:not(.active):not(.enter-from-left):not(.enter-from-right):not(.exit-left):not(.exit-right) * {
+            pointer-events: none;
         }
 
         .slide-inner {
@@ -2766,6 +2777,34 @@
             transform: translateY(18px);
         }
 
+        .slide[data-slide="0"].hero-sequence-active .title-content > * {
+            animation: heroFadeUp 0.32s ease-out both;
+        }
+
+        .slide[data-slide="0"].hero-sequence-active .title-content > :nth-child(1) {
+            animation-delay: 0.4s;
+        }
+
+        .slide[data-slide="0"].hero-sequence-active .title-content > :nth-child(2) {
+            animation-delay: 1.5s;
+        }
+
+        .slide[data-slide="0"].hero-sequence-active .title-content > :nth-child(3) {
+            animation-delay: 2s;
+        }
+
+        .slide[data-slide="0"].hero-sequence-active .title-content > :nth-child(4) {
+            animation-delay: 2.15s;
+        }
+
+        .slide[data-slide="0"].hero-sequence-active .title-content > :nth-child(5) {
+            animation-delay: 2.3s;
+        }
+
+        .slide[data-slide="0"].hero-sequence-active .title-content > :nth-child(6) {
+            animation-delay: 2.45s;
+        }
+
         .slide[data-slide="0"].hero-sequence-active .slide-number {
             animation: heroFadeUp 0.28s ease-out 0.4s both;
         }
@@ -3681,6 +3720,7 @@
         @media (max-width: 1180px) {
             .slide {
                 overflow-y: auto;
+                align-items: flex-start;
             }
 
             .slide-inner {
