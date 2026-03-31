@@ -98,6 +98,25 @@ class PresentationDesignTests(unittest.TestCase):
             r"\.editorial-side-item\s*\{[^}]*gap: 5px;[^}]*padding: 12px 14px;[^}]*\}",
         )
 
+    def test_tool_and_prompt_slides_get_desktop_fit_guards(self):
+        for marker in (
+            '.slide[data-slide="4"] .slide-inner,',
+            '.slide[data-slide="8"] .slide-inner {',
+            '.orbital-diagram {',
+            'min-height: 500px;',
+            '.assistant-card {',
+            'padding: 22px 24px;',
+            '.specialist-carousel-track {',
+            'min-height: 320px;',
+            '.specialist-card {',
+            'padding: 28px 30px;',
+            '.use-case-cluster {',
+            'padding: 18px 18px 16px;',
+            '.slide[data-slide="8"] .prompt-example {',
+            'padding: 10px 12px;',
+        ):
+            self.assertIn(marker, INDEX_HTML)
+
     def test_deck_expands_to_guided_workshop_story(self):
         slide_ids = re.findall(r'<div class="slide(?: active)?" data-slide="(\d+)">', INDEX_HTML)
         self.assertEqual([str(i) for i in range(11)], slide_ids)
