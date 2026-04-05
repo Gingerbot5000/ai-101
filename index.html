@@ -4,14 +4,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The AI Breakdown â€" Real Tools for Real Life</title>
-    <meta name="description" content="Demystifying AI for our community â€" A presentation by Adam Gurski">
+    <title>The AI Breakdown - Real Tools for Real Life</title>
+    <meta name="description" content="Demystifying AI for our community - A presentation by Adam Gurski">
     <link rel="icon"
         href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23060a12'/%3E%3Cpath d='M15 18h15c10 0 16 5 16 14s-6 14-16 14H15V18zm11 8v12h4c5 0 8-2 8-6s-3-6-8-6h-4z' fill='%23f5f7fb'/%3E%3Cpath d='M48 18h6L38 46h-6l16-28z' fill='%238bd6ff'/%3E%3C/svg%3E">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link
         href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@500;600;700&display=swap"
         rel="stylesheet">
+    <style>
+        .tool-tile-icon {
+            font-size: 34px !important;
+            width: 86px !important;
+            height: 86px !important;
+            border-radius: 20px !important;
+        }
+        .use-card, .link-card {
+            border-left: 4px solid var(--accent) !important;
+            background: linear-gradient(90deg, rgba(139, 214, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%) !important;
+        }
+    </style>
     <style>
         *,
         *::before,
@@ -79,22 +91,32 @@
         .bg-gradient::before {
             content: '';
             position: absolute;
-            inset: 0;
+            inset: -50%;
+            width: 200%;
+            height: 200%;
             background:
-                radial-gradient(ellipse at 16% 10%, rgba(139, 214, 255, 0.12) 0%, transparent 46%),
-                radial-gradient(ellipse at 80% 20%, rgba(58, 107, 163, 0.18) 0%, transparent 42%),
-                radial-gradient(ellipse at 52% 86%, rgba(215, 166, 90, 0.12) 0%, transparent 44%),
+                radial-gradient(ellipse at 30% 20%, rgba(139, 214, 255, 0.15) 0%, transparent 45%),
+                radial-gradient(ellipse at 70% 30%, rgba(58, 107, 163, 0.20) 0%, transparent 45%),
+                radial-gradient(ellipse at 50% 80%, rgba(215, 166, 90, 0.15) 0%, transparent 45%),
                 linear-gradient(180deg, rgba(7, 13, 22, 0.12) 0%, rgba(7, 13, 22, 0) 100%);
-            animation: bgPulse 10s ease-in-out infinite alternate;
+            animation: bgPulse 15s ease-in-out infinite alternate;
+            transform-origin: center center;
         }
 
         @keyframes bgPulse {
             0% {
-                opacity: 0.6;
+                opacity: 0.7;
+                transform: rotate(0deg) scale(1);
+            }
+
+            50% {
+                opacity: 0.9;
+                transform: rotate(10deg) scale(1.05);
             }
 
             100% {
                 opacity: 1;
+                transform: rotate(-10deg) scale(1.1);
             }
         }
 
@@ -131,7 +153,7 @@
             opacity: 0;
             transform: translate3d(0, 0, 0) scale(1.03);
             filter: blur(0px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out, filter 0.6s ease-out;
+            transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), filter 0.7s cubic-bezier(0.16, 1, 0.3, 1);
             pointer-events: none;
             overflow-y: auto;
             touch-action: pan-y;
@@ -180,29 +202,37 @@
 
         /* ===== PRESENTATION SURFACES ===== */
         .glass {
-            background: linear-gradient(180deg, var(--surface-strong) 0%, rgba(9, 15, 25, 0.92) 100%);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            background: linear-gradient(180deg, rgba(12, 20, 33, 0.7) 0%, rgba(9, 15, 25, 0.85) 100%);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
             border: 1px solid var(--surface-border);
+            border-top: 1px solid rgba(255, 255, 255, 0.12);
             border-radius: 18px;
             padding: 30px;
-            box-shadow: 0 22px 60px rgba(1, 5, 11, 0.28);
-            transition: border-color 0.25s ease, box-shadow 0.25s ease;
+            box-shadow: 
+                0 22px 60px rgba(1, 5, 11, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
         }
 
         .glass:hover {
-            box-shadow: 0 26px 64px rgba(1, 5, 11, 0.34);
-            border-color: var(--surface-border-strong);
+            box-shadow: 
+                0 32px 72px rgba(1, 5, 11, 0.55),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1),
+                0 0 20px rgba(139, 214, 255, 0.08);
+            border-color: rgba(139, 214, 255, 0.3);
+            transform: translateY(-4px);
         }
 
         /* ===== TYPOGRAPHY ===== */
         .slide-number {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 13px;
+            font-size: 15px;
             color: var(--accent);
             letter-spacing: 4px;
             text-transform: uppercase;
-            margin-bottom: 12px;
+            margin-bottom: 14px;
             font-weight: 600;
         }
 
@@ -216,7 +246,7 @@
 
         h2 {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: clamp(28px, 3.5vw, 44px);
+            font-size: clamp(32px, 4vw, 52px);
             font-weight: 700;
             line-height: 1.08;
             letter-spacing: -0.045em;
@@ -224,25 +254,36 @@
 
         h3 {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: clamp(18px, 2vw, 26px);
+            font-size: clamp(20px, 2.2vw, 28px);
             font-weight: 600;
             line-height: 1.3;
             letter-spacing: -0.03em;
         }
 
         .subtitle {
-            font-size: clamp(18px, 2.2vw, 28px);
+            font-size: clamp(18px, 1.8vw, 24px);
             color: var(--text-dim);
             font-weight: 400;
             line-height: 1.45;
-            max-width: 32ch;
+            max-width: 48ch;
+        }
+
+        .slide p {
+            font-size: clamp(16px, 1.6vw, 20px);
         }
 
         .gradient-text {
-            background: linear-gradient(135deg, var(--text-bright) 0%, var(--accent) 56%, #b8ebff 100%);
+            background: linear-gradient(135deg, var(--text-bright) 0%, var(--accent) 40%, #ffffff 50%, var(--accent) 60%, #b8ebff 100%);
+            background-size: 200% auto;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            animation: textGlint 6s linear infinite;
+        }
+
+        @keyframes textGlint {
+            0% { background-position: 0% center; }
+            100% { background-position: 200% center; }
         }
 
         .mono {
@@ -456,11 +497,12 @@
             line-height: 1.45;
         }
 
-        .prompt-formula-grid {
+        .prompt-formula-grid,
+        .prompt-stack-formulas {
             display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 8px;
-            margin-bottom: 12px;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 10px;
+            margin-bottom: 14px;
         }
 
         /* ===== SAFETY ITEMS ===== */
@@ -667,7 +709,8 @@
             color: var(--text);
         }
 
-        .prompt-copy-status {
+        .prompt-copy-status,
+        .prompt-copy-check {
             min-height: 16px;
             margin-top: 8px;
             font-size: 11px;
@@ -783,75 +826,76 @@
             font-size: 10px;
         }
 
-        .slide[data-slide="8"] {
+        .slide[data-slide="6"] {
             padding: 20px 40px 62px;
         }
 
-        .slide[data-slide="8"] .slide-number {
+        .slide[data-slide="6"] .slide-number {
             margin-bottom: 6px;
         }
 
-        .slide[data-slide="8"] h2 {
-            margin-bottom: 4px !important;
-            font-size: clamp(24px, 3vw, 36px);
+        .slide[data-slide="6"] h2 {
+            margin-bottom: 6px !important;
+            font-size: clamp(28px, 3.5vw, 44px);
         }
 
-        .slide[data-slide="8"] .subtitle {
-            margin-bottom: 12px !important;
-            font-size: clamp(13px, 1.3vw, 18px);
-            line-height: 1.3;
+        .slide[data-slide="6"] .subtitle {
+            margin-bottom: 14px !important;
+            font-size: clamp(16px, 1.6vw, 20px);
+            line-height: 1.4;
         }
 
-        .slide[data-slide="8"] .prompt-formula-grid {
+        .slide[data-slide="6"] .prompt-formula-grid {
             gap: 6px;
             margin-bottom: 8px;
         }
 
-        .slide[data-slide="8"] .formula-block {
-            gap: 8px;
-            padding: 10px 12px;
+        .slide[data-slide="6"] .formula-block {
+            gap: 10px;
+            padding: 12px 14px;
         }
 
-        .slide[data-slide="8"] .formula-block .formula-icon {
-            width: 30px;
-            height: 30px;
-            font-size: 10px;
-        }
-
-        .slide[data-slide="8"] .formula-block .formula-label {
-            min-width: 52px;
+        .slide[data-slide="6"] .formula-block .formula-icon {
+            width: 32px;
+            height: 32px;
             font-size: 11px;
         }
 
-        .slide[data-slide="8"] .formula-block .formula-text {
+        .slide[data-slide="6"] .formula-block .formula-label {
+            min-width: 58px;
             font-size: 12px;
-            line-height: 1.35;
         }
 
-        .slide[data-slide="8"] .prompt-example {
+        .slide[data-slide="6"] .formula-block .formula-text {
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .slide[data-slide="6"] .prompt-example {
             margin-top: 8px;
             padding: 12px;
         }
 
-        .slide[data-slide="8"] .prompt-meta-row {
+        .slide[data-slide="6"] .prompt-meta-row {
             margin-bottom: 6px;
         }
 
-        .slide[data-slide="8"] .prompt-text {
-            min-height: 40px;
-            max-height: 104px;
+        .slide[data-slide="6"] .prompt-text {
+            min-height: 60px;
+            max-height: 160px;
+            font-size: 13px;
         }
 
-        .slide[data-slide="8"] .prompt-copy-status {
+        .slide[data-slide="6"] .prompt-copy-status {
             margin-top: 6px;
             min-height: 14px;
         }
 
-        .slide[data-slide="8"] .prompt-asset-card {
+        .slide[data-slide="6"] .prompt-asset-card {
             width: 180px;
         }
 
-        .slide[data-slide="8"] .prompt-asset-preview {
+        .slide[data-slide="6"] .prompt-asset-preview {
             height: clamp(58px, 8vh, 78px);
         }
 
@@ -1006,10 +1050,14 @@
             padding: 20px 24px;
             text-decoration: none;
             color: var(--text);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .link-card:hover {
-            border-color: var(--accent);
+            border-color: rgba(139, 214, 255, 0.4);
+            transform: translateY(-4px);
+            box-shadow: 0 16px 32px rgba(1, 5, 11, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.04);
         }
 
         .link-card .link-icon {
@@ -1025,12 +1073,12 @@
         }
 
         .link-card .link-label {
-            font-size: 15px;
+            font-size: 17px;
             font-weight: 600;
         }
 
         .link-card .link-url {
-            font-size: 13px;
+            font-size: 14px;
             color: var(--text-dim);
             font-family: 'JetBrains Mono', monospace;
         }
@@ -1039,17 +1087,17 @@
         @keyframes fadeInUp {
             from {
                 opacity: 0;
-                transform: translateY(20px);
+                transform: translateY(30px) scale(0.98);
             }
 
             to {
                 opacity: 1;
-                transform: translateY(0);
+                transform: translateY(0) scale(1);
             }
         }
 
         .slide.active .anim {
-            animation: fadeInUp 0.5s ease forwards;
+            animation: fadeInUp 0.8s cubic-bezier(0.175, 0.885, 0.32, 1) forwards;
             opacity: 0;
         }
 
@@ -1099,7 +1147,7 @@
                 padding: 14px 10px calc(var(--nav-height) + 56px);
             }
 
-            .slide[data-slide="8"] {
+            .slide[data-slide="6"] {
                 padding: 14px 10px calc(var(--nav-height) + 56px);
             }
 
@@ -1320,11 +1368,11 @@
             }
 
             .prompt-framework-strip,
-            .slide[data-slide="8"] .prompt-formula-grid {
+            .slide[data-slide="6"] .prompt-formula-grid {
                 gap: 4px;
             }
 
-            .slide[data-slide="8"] .formula-block .formula-text {
+            .slide[data-slide="6"] .formula-block .formula-text {
                 display: -webkit-box;
                 -webkit-line-clamp: 3;
                 line-clamp: 3;
@@ -1376,8 +1424,8 @@
 
         .title-hero-grid {
             display: grid;
-            grid-template-columns: minmax(420px, 1.15fr) minmax(300px, 0.85fr);
-            gap: 26px;
+            grid-template-columns: minmax(380px, 1fr) minmax(340px, 1fr);
+            gap: 32px;
             align-items: center;
             text-align: left;
         }
@@ -1390,6 +1438,7 @@
             display: grid;
             gap: 14px;
             justify-items: center;
+            margin-top: 0;
         }
 
         .chamber-poster-card {
@@ -1415,11 +1464,11 @@
         }
 
         .cosmic-qr-hero {
-            width: min(100%, 620px);
-            aspect-ratio: 1 / 1;
+            width: min(100%, 520px);
+            height: auto;
+            max-height: calc(var(--viewport-height) - var(--nav-height) - 100px);
             object-fit: cover;
             object-position: center;
-            max-height: none;
         }
 
         .poster-caption {
@@ -1984,20 +2033,30 @@
             align-content: start;
             padding: 24px;
             min-width: 0;
+            transition: background 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .use-case-cluster:hover {
+            background: rgba(255, 255, 255, 0.06);
+            box-shadow:
+                0 0 20px rgba(139, 214, 255, 0.1),
+                0 8px 32px rgba(0, 0, 0, 0.2),
+                inset 0 0 0 1px rgba(148, 163, 184, 0.15);
         }
 
         .cluster-label {
             color: var(--accent);
             font-family: 'JetBrains Mono', monospace;
-            font-size: 12px;
+            font-size: 14px;
             letter-spacing: 0.7px;
             text-transform: uppercase;
+            margin-bottom: 2px;
         }
 
         .cluster-intro {
             color: var(--text-dim);
-            line-height: 1.42;
-            font-size: 14px;
+            line-height: 1.45;
+            font-size: 17px;
         }
 
         .cluster-list {
@@ -2008,7 +2067,7 @@
         .cluster-point {
             display: grid;
             grid-template-columns: 48px 1fr;
-            gap: 10px;
+            gap: 12px;
             align-items: start;
             padding: 10px 0;
             border-top: 1px solid rgba(148, 163, 184, 0.12);
@@ -2031,7 +2090,7 @@
             width: 48px;
             height: 48px;
             overflow: hidden;
-            border-radius: 16px;
+            border-radius: 12px;
             border: 1px solid rgba(139, 214, 255, 0.10);
             background: rgba(255, 255, 255, 0.03);
         }
@@ -2045,14 +2104,14 @@
         }
 
         .cluster-point h3 {
-            margin-bottom: 2px;
-            font-size: 15px;
+            margin-bottom: 3px;
+            font-size: 18px;
         }
 
         .cluster-point p {
             color: var(--text-dim);
-            font-size: 13px;
-            line-height: 1.38;
+            font-size: 15px;
+            line-height: 1.45;
         }
 
         .prompt-mode-row {
@@ -2083,8 +2142,8 @@
         }
 
         .prompt-framework-strip {
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            margin-bottom: 8px;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            margin-bottom: 10px;
         }
 
         .prompt-framework-strip .formula-block {
@@ -2103,7 +2162,8 @@
             line-height: 1.35;
         }
 
-        .prompt-stage-panel {
+        .prompt-stage-panel,
+        .prompt-card-stack {
             margin-top: 0;
             padding: 16px 16px 14px;
         }
@@ -2117,7 +2177,8 @@
             margin-bottom: 6px;
         }
 
-        .prompt-focus-readout {
+        .prompt-focus-readout,
+        .prompt-stack-position {
             color: var(--text-dim);
             font-family: 'JetBrains Mono', monospace;
             font-size: 11px;
@@ -2149,6 +2210,15 @@
 
         .tonight-card {
             min-height: 150px;
+            transition: background 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .tonight-card:hover {
+            background: rgba(255, 255, 255, 0.06);
+            box-shadow:
+                0 0 20px rgba(139, 214, 255, 0.12),
+                0 8px 32px rgba(0, 0, 0, 0.2),
+                inset 0 0 0 1px rgba(139, 214, 255, 0.2);
         }
 
         .secondary-contact-panel {
@@ -2157,38 +2227,24 @@
             text-align: left;
         }
 
-        .slide[data-slide="6"] .tool-card {
-            padding: 22px;
-        }
-
-        .slide[data-slide="6"] .tool-card .tool-icon {
-            width: 52px;
-            height: 52px;
-            margin-bottom: 14px;
-        }
-
-        .slide[data-slide="6"] .tool-card p {
-            font-size: 15px;
-            line-height: 1.46;
-        }
-
-        .slide[data-slide="1"],
-        .slide[data-slide="3"],
-        .slide[data-slide="6"],
-        .slide[data-slide="7"],
-        .slide[data-slide="8"] {
-            align-items: flex-start;
-            padding-top: 24px;
-        }
+            .slide[data-slide="1"],
+            .slide[data-slide="2"],
+            .slide[data-slide="3"],
+            .slide[data-slide="4"],
+            .slide[data-slide="5"],
+            .slide[data-slide="6"] {
+                align-items: flex-start;
+                padding-top: 24px;
+            }
 
         /* ===== SCIENCE TIMELINE (Slide 3) ===== */
         .science-timeline {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            align-items: start;
             position: relative;
-            margin-top: 60px;
-            gap: 20px;
+            margin-top: 20px;
+            gap: 16px;
             z-index: 10;
         }
 
@@ -2244,8 +2300,8 @@
         }
 
         .node-top {
-            margin-bottom: 30px;
-            height: 40px;
+            margin-bottom: 10px;
+            height: 32px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -2256,12 +2312,12 @@
             background: rgba(4, 10, 18, 0.9);
             border: 1px solid var(--node-color);
             color: var(--text-bright);
-            padding: 8px 18px;
+            padding: 6px 14px;
             border-radius: 20px;
             font-family: 'JetBrains Mono', monospace;
-            font-size: 13px;
+            font-size: 11px;
             font-weight: 600;
-            letter-spacing: 1.5px;
+            letter-spacing: 1.2px;
             text-transform: uppercase;
             box-shadow: 0 0 15px rgba(0,0,0,0.5), 0 0 8px var(--node-color) inset;
             text-shadow: 0 0 5px var(--node-color);
@@ -2269,14 +2325,16 @@
         }
 
         .node-graphic {
-            width: 100px;
-            height: 100px;
+            width: 80px;
+            height: 80px;
             position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 30px;
+            margin-bottom: 10px;
             z-index: 2;
+            overflow: hidden;
+            border-radius: 50%;
         }
 
         .timeline-node:nth-child(2) .node-graphic { animation: floatNode 4s ease-in-out infinite alternate; }
@@ -2333,19 +2391,13 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-top: 1px solid rgba(255, 255, 255, 0.2);
             backdrop-filter: blur(12px);
-            padding: 30px 24px;
-            border-radius: 16px;
+            padding: 16px 14px;
+            border-radius: 14px;
             width: 100%;
-            max-width: 360px;
             box-shadow: 0 10px 40px rgba(0,0,0,0.7), 0 0 10px rgba(0,0,0,0.5) inset;
             transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
             position: relative;
             z-index: 3;
-        }
-
-        /* Stagger the middle node down to look more dynamic */
-        .timeline-node:nth-child(3) .node-bottom {
-            margin-top: 40px;
         }
 
         .node-bottom::before {
@@ -2364,28 +2416,28 @@
 
         .node-title {
             color: var(--text-bright);
-            font-size: 32px;
+            font-size: clamp(20px, 2.4vw, 28px);
             font-family: 'Space Grotesk', sans-serif;
             font-weight: 700;
-            margin-bottom: 14px;
+            margin-bottom: 6px;
             letter-spacing: -0.02em;
             text-shadow: 0 0 20px var(--node-color);
         }
 
         .node-bottom p {
             color: var(--text-dim);
-            font-size: 17px;
-            line-height: 1.6;
-            margin-bottom: 22px;
+            font-size: clamp(13px, 1.3vw, 16px);
+            line-height: 1.45;
+            margin-bottom: 8px;
             text-shadow: 0 1px 3px rgba(0,0,0,0.9);
         }
 
         .node-note {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 14px;
+            font-size: clamp(11px, 1.1vw, 13px);
             color: var(--node-color);
             border-top: 1px solid rgba(255, 255, 255, 0.08);
-            padding-top: 16px;
+            padding-top: 8px;
             letter-spacing: 0.5px;
             font-weight: 600;
         }
@@ -2629,17 +2681,6 @@
             }
         }
 
-        @keyframes orbitalPulse {
-            0%,
-            100% {
-                box-shadow: 0 0 0 0 rgba(139, 214, 255, 0.18);
-            }
-
-            50% {
-                box-shadow: 0 0 0 14px rgba(139, 214, 255, 0);
-            }
-        }
-
         @keyframes logoDriftA {
             0%,
             100% {
@@ -2751,463 +2792,139 @@
             animation: heroFadeUp 0.28s ease-out 2.45s both;
         }
 
-        .story-thread-layout {
+        .story-intro-layout {
             display: grid;
-            grid-template-columns: minmax(300px, 0.72fr) minmax(520px, 1.28fr);
+            grid-template-columns: auto 1fr;
             gap: 32px;
-            align-items: start;
+            align-items: center;
+            margin-bottom: 28px;
         }
 
-        .story-thread-stage {
-            display: grid;
-            gap: 18px;
-            align-content: start;
-        }
-
-        .story-thread-photo {
-            display: grid;
-            gap: 14px;
-            justify-items: start;
+        .story-intro-photo {
             opacity: 0;
-            transform: translateY(-10px);
+            transform: scale(0.9);
             transition: opacity 0.5s ease-out, transform 0.5s ease-out;
         }
 
-        .slide.active[data-slide="1"] .story-thread-photo {
+        .slide.active[data-slide="1"] .story-intro-photo {
             opacity: 1;
-            transform: translateY(0);
+            transform: scale(1);
         }
 
-        .story-thread-photo .story-photo-ring {
-            align-items: flex-start;
+        .story-intro-text {
+            opacity: 0;
+            transform: translateX(-12px);
+            transition: opacity 0.5s ease-out 0.15s, transform 0.5s ease-out 0.15s;
         }
 
-        .story-thread-kicker {
-            max-width: 34ch;
-            padding: 16px 18px;
-            border-radius: 18px;
-            border: 1px solid rgba(139, 214, 255, 0.16);
-            background: rgba(6, 12, 22, 0.62);
-            color: var(--text-dim);
-            line-height: 1.55;
+        .slide.active[data-slide="1"] .story-intro-text {
+            opacity: 1;
+            transform: translateX(0);
         }
 
-        .story-thread-kicker strong {
-            display: block;
-            color: var(--text-bright);
+        .story-intro-text blockquote {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: 20px;
-            margin-bottom: 10px;
+            font-size: clamp(20px, 2.4vw, 28px);
+            font-weight: 500;
+            color: var(--text);
+            line-height: 1.45;
+            border-left: 3px solid var(--accent);
+            padding-left: 24px;
+            max-width: 48ch;
         }
 
-        .story-thread-rail {
-            position: relative;
-            min-height: 760px;
-            padding-left: 12px;
-        }
-
-        .story-thread-svg {
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 220px;
-            height: 100%;
-            overflow: visible;
-        }
-
-        .story-thread-path,
-        .story-thread-branch {
-            fill: none;
-            stroke: var(--accent);
-            stroke-width: 2;
-            stroke-linecap: round;
-            stroke-dasharray: 1200;
-            stroke-dashoffset: 1200;
-            transition: stroke-dashoffset 0.8s ease-out;
-        }
-
-        .story-thread-node {
-            fill: rgba(6, 10, 18, 0.95);
-            stroke: var(--accent);
-            stroke-width: 2;
-            opacity: 0;
-            transition: opacity 0.3s ease-out;
-        }
-
-        .slide.active[data-slide="1"] .story-thread-path,
-        .slide.active[data-slide="1"] .story-thread-branch {
-            stroke-dashoffset: 0;
-        }
-
-        .slide.active[data-slide="1"] .story-thread-node {
-            opacity: 1;
-        }
-
-        .story-thread-cards {
-            margin-left: 104px;
+        .story-highlight {
             display: grid;
-            gap: 18px;
-            align-content: start;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin-bottom: 16px;
         }
 
-        .story-thread-card {
+        .story-highlight-card {
             position: relative;
-            padding: 22px 24px 22px 34px;
+            padding: 18px 22px;
             opacity: 0;
-            transform: translateY(18px);
-            transition: opacity 0.46s ease-out, transform 0.46s ease-out;
+            transform: translateY(16px);
+            transition: opacity 0.4s ease-out, transform 0.4s ease-out, background 0.25s ease, box-shadow 0.25s ease, border-left-width 0.25s ease;
             transition-delay: var(--card-delay, 0s);
+            border-left: 3px solid var(--card-accent, var(--accent));
+            cursor: default;
         }
 
-        .story-thread-card::before {
-            content: '';
-            position: absolute;
-            left: -32px;
-            top: 34px;
-            width: 32px;
-            height: 1px;
-            border-top: 1px dashed rgba(139, 214, 255, 0.5);
-        }
-
-        .story-thread-card::after {
-            content: '';
-            position: absolute;
-            left: -40px;
-            top: 28px;
-            width: 12px;
-            height: 12px;
-            border-radius: 999px;
-            background: rgba(6, 10, 18, 0.95);
-            border: 2px solid var(--accent);
-            box-shadow: 0 0 0 8px rgba(139, 214, 255, 0.06);
-        }
-
-        .slide.active[data-slide="1"] .story-thread-card {
+        .slide.active[data-slide="1"] .story-highlight-card {
             opacity: 1;
             transform: translateY(0);
         }
 
-        .story-timestamp {
-            display: inline-flex;
-            align-items: center;
-            padding: 6px 10px;
-            border-radius: 999px;
-            font-size: 11px;
-            letter-spacing: 1.1px;
-            text-transform: uppercase;
-            color: var(--accent);
-            background: rgba(83, 179, 248, 0.1);
-            border: 1px solid rgba(83, 179, 248, 0.18);
-            font-family: 'JetBrains Mono', monospace;
-            margin-bottom: 12px;
+        .story-highlight-card:hover {
+            background: rgba(255, 255, 255, 0.06);
+            border-left-width: 4px;
+            box-shadow:
+                0 0 20px color-mix(in srgb, var(--card-accent) 25%, transparent),
+                0 8px 32px rgba(0, 0, 0, 0.2),
+                inset 0 0 0 1px color-mix(in srgb, var(--card-accent) 30%, transparent);
         }
 
-        .story-thread-card h3 {
-            margin-bottom: 8px;
+        .story-highlight-card h3 {
+            font-size: clamp(17px, 1.8vw, 22px);
+            margin-bottom: 6px;
+            color: var(--text-bright);
         }
 
-        .story-thread-card p {
+        .story-highlight-card p {
             color: var(--text-dim);
-            line-height: 1.56;
+            line-height: 1.45;
             font-size: 16px;
         }
 
-        .story-thread-footer {
-            margin-left: 104px;
+        .story-tag-cloud {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            margin-bottom: 16px;
+            opacity: 0;
+            transition: opacity 0.5s ease-out 0.5s;
+        }
+
+        .slide.active[data-slide="1"] .story-tag-cloud {
+            opacity: 1;
+        }
+
+        .story-tag {
+            display: inline-flex;
+            align-items: center;
+            padding: 6px 16px;
+            border-radius: 999px;
+            font-size: 14px;
+            letter-spacing: 0.4px;
+            color: var(--text-dim);
+            background: rgba(83, 179, 248, 0.06);
+            border: 1px solid rgba(148, 163, 184, 0.14);
+            font-family: 'Instrument Sans', sans-serif;
+        }
+
+        .story-kicker {
+            text-align: center;
             color: var(--accent-warm);
             font-family: 'JetBrains Mono', monospace;
             letter-spacing: 0.8px;
             text-transform: uppercase;
-            font-size: 12px;
-            opacity: 0.9;
-        }
-
-        .editorial-callout-shell {
-            display: grid;
-            grid-template-columns: repeat(12, minmax(0, 1fr));
-            gap: 18px;
-            margin-top: 10px;
-        }
-
-        .editorial-callout-block {
-            display: grid;
-            gap: 14px;
-            padding: 28px;
-            min-height: 220px;
-            clip-path: inset(0 100% 0 0 round 18px);
-            opacity: 0;
-            transform: translateY(12px);
-            transition: clip-path 0.6s ease-out, opacity 0.6s ease-out, transform 0.6s ease-out;
-            transition-delay: var(--delay, 0s);
-        }
-
-        .editorial-callout-block[data-span="wide"] {
-            grid-column: span 7;
-        }
-
-        .editorial-callout-block[data-span="tall"] {
-            grid-column: span 5;
-        }
-
-        .editorial-callout-block[data-span="full"] {
-            grid-column: span 12;
-        }
-
-        .slide.active[data-slide="2"] .editorial-callout-block,
-        .slide.active[data-slide="3"] .editorial-callout-block {
-            clip-path: inset(0 0% 0 0 round 18px);
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .editorial-kicker {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 12px;
-            letter-spacing: 1.2px;
-            text-transform: uppercase;
-            color: var(--accent);
-        }
-
-        .editorial-stat {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: clamp(42px, 7vw, 88px);
-            line-height: 0.92;
-            letter-spacing: -0.06em;
-            color: var(--accent);
-        }
-
-        .editorial-callout-block h3 {
-            font-size: clamp(24px, 2.8vw, 40px);
-            line-height: 1.05;
-            margin: 0;
-        }
-
-        .editorial-copy {
-            color: var(--text-dim);
-            font-size: clamp(16px, 1.7vw, 20px);
-            line-height: 1.55;
-            max-width: 30ch;
-        }
-
-        .editorial-accent-rule {
-            width: 0%;
-            height: 2px;
-            background: linear-gradient(90deg, var(--accent) 0%, var(--accent-strong) 100%);
-            transition: width 0.4s ease-out;
-            transition-delay: calc(var(--delay, 0s) + 0.08s);
-        }
-
-        .slide.active[data-slide="2"] .editorial-accent-rule,
-        .slide.active[data-slide="3"] .editorial-accent-rule {
-            width: 100%;
-        }
-
-        .editorial-source {
-            color: var(--text-muted);
-            font-size: 12px;
-            letter-spacing: 0.3px;
-            opacity: 0;
-            transform: translateY(10px);
-            transition: opacity 0.32s ease-out, transform 0.32s ease-out;
-            transition-delay: calc(var(--delay, 0s) + 0.22s);
-        }
-
-        .slide.active[data-slide="2"] .editorial-source,
-        .slide.active[data-slide="3"] .editorial-source {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .editorial-side-list {
-            display: grid;
-            gap: 14px;
-        }
-
-        .editorial-side-item {
-            display: grid;
-            gap: 10px;
-            padding: 18px 20px;
-            border-radius: 18px;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(148, 163, 184, 0.12);
-        }
-
-        .editorial-side-item strong {
-            color: var(--text-bright);
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 24px;
-        }
-
-        .orbital-diagram {
-            position: relative;
-            width: min(800px, 100%);
-            min-height: 560px;
-            margin: 8px auto 0;
-            display: grid;
-            place-items: center;
-        }
-
-        .orbital-core {
-            position: relative;
-            z-index: 3;
-            width: 132px;
-            height: 132px;
-            border-radius: 999px;
-            display: grid;
-            place-items: center;
-            text-align: center;
-            background: radial-gradient(circle at 30% 25%, rgba(139, 214, 255, 0.22), rgba(83, 179, 248, 0.08) 40%, rgba(6, 10, 18, 0.92) 70%);
-            border: 2px solid rgba(139, 214, 255, 0.42);
-            box-shadow: 0 0 40px rgba(139, 214, 255, 0.18), 0 0 80px rgba(83, 179, 248, 0.08), inset 0 0 30px rgba(139, 214, 255, 0.06);
-            color: var(--text-bright);
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 34px;
-            letter-spacing: -0.04em;
-            opacity: 0;
-            transform: scale(0.88);
-            transition: opacity 0.42s ease-out, transform 0.42s ease-out;
-            animation: orbitalPulse 4s ease-in-out infinite;
-        }
-
-        .slide.active[data-slide="4"] .orbital-core {
-            opacity: 1;
-            transform: scale(1);
-        }
-
-        .orbital-rings {
-            position: absolute;
-            inset: 0;
-            display: grid;
-            place-items: center;
-            pointer-events: none;
-        }
-
-        .orbital-ring {
-            position: absolute;
-            border-radius: 999px;
-            border: 1px solid rgba(139, 214, 255, 0.18);
-            opacity: 0;
-            transform: scale(0.86);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-            transition-delay: var(--delay, 0s);
-        }
-
-        .slide.active[data-slide="4"] .orbital-ring {
-            opacity: 1;
-            transform: scale(1);
-        }
-
-        .orbital-ring[data-ring="1"] {
-            width: 196px;
-            height: 196px;
-            opacity: 0.35;
-            border-color: rgba(16, 185, 129, 0.3);
-            box-shadow: 0 0 18px rgba(16, 185, 129, 0.08);
-            animation: ringRotate 24s linear infinite;
-        }
-
-        .orbital-ring[data-ring="2"] {
-            width: 300px;
-            height: 300px;
-            opacity: 0.28;
-            border-color: rgba(139, 214, 255, 0.22);
-            box-shadow: 0 0 22px rgba(139, 214, 255, 0.06);
-            animation: ringRotate 32s linear infinite reverse;
-        }
-
-        .orbital-ring[data-ring="3"] {
-            width: 424px;
-            height: 424px;
-            opacity: 0.22;
-            border-color: rgba(167, 139, 250, 0.2);
-            box-shadow: 0 0 26px rgba(167, 139, 250, 0.06);
-            animation: ringRotate 40s linear infinite;
-        }
-
-        .orbital-ring[data-ring="4"] {
-            width: 540px;
-            height: 540px;
-            opacity: 0.16;
-            border-color: rgba(245, 158, 11, 0.16);
-            box-shadow: 0 0 30px rgba(245, 158, 11, 0.04);
-            animation: ringRotate 48s linear infinite reverse;
-        }
-
-        @keyframes ringRotate {
-            100% { transform: rotate(360deg); }
-        }
-
-        .orbital-node {
-            position: absolute;
-            z-index: 4;
-            width: min(196px, 31vw);
-            padding: 18px 18px 16px;
-            border-radius: 22px;
-            appearance: none;
-            background: rgba(8, 14, 24, 0.82);
-            border: 1px solid rgba(139, 214, 255, 0.16);
-            box-shadow: 0 18px 42px rgba(1, 5, 11, 0.24);
-            color: var(--text);
-            text-align: left;
-            opacity: 0;
-            transform: translate3d(var(--x), var(--y), 0) scale(0.86);
-            transition: transform 0.8s cubic-bezier(0.2, 1.05, 0.28, 1), opacity 0.8s ease-out, border-color 0.25s ease, box-shadow 0.25s ease;
-            transition-delay: var(--delay, 0s);
-        }
-
-        .slide.active[data-slide="4"] .orbital-node {
-            opacity: 1;
-            transform: translate3d(var(--x), var(--y), 0) scale(1);
-        }
-
-        .orbital-node--green { border-color: rgba(16, 185, 129, 0.22); }
-        .orbital-node--blue { border-color: rgba(139, 214, 255, 0.22); }
-        .orbital-node--purple { border-color: rgba(167, 139, 250, 0.22); }
-        .orbital-node--amber { border-color: rgba(245, 158, 11, 0.18); }
-
-        .orbital-node:hover,
-        .orbital-node:focus-visible {
-            transform: translate3d(var(--x), var(--y), 0) scale(1.05);
-            border-color: var(--node-accent, rgba(139, 214, 255, 0.4));
-            box-shadow: 0 20px 48px rgba(83, 179, 248, 0.18), 0 0 24px var(--node-accent, rgba(139, 214, 255, 0.12));
-        }
-
-        .orbital-node .orbital-step {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 1.1px;
-            color: var(--node-accent, var(--accent));
-            margin-bottom: 10px;
-        }
-
-        .orbital-node h3 {
-            font-size: 22px;
-            margin-bottom: 8px;
-        }
-
-        .orbital-node p {
-            color: var(--text-dim);
             font-size: 14px;
-            line-height: 1.5;
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.25s ease;
+            opacity: 0;
+            transition: opacity 0.5s ease-out 0.7s;
         }
 
-        .orbital-node:hover p,
-        .orbital-node:focus-visible p {
-            max-height: 96px;
+        .slide.active[data-slide="1"] .story-kicker {
+            opacity: 0.9;
         }
 
         .assistant-constellation {
             position: relative;
             overflow: hidden;
-            padding: 34px;
-            border-radius: 30px;
+            border-radius: 24px;
             background: linear-gradient(160deg, rgba(10, 18, 30, 0.96) 0%, rgba(6, 10, 18, 0.96) 100%);
             border: 1px solid rgba(139, 214, 255, 0.12);
-            min-height: 620px;
         }
 
         .assistant-constellation-bg {
@@ -3222,342 +2939,290 @@
             opacity: 0.8;
         }
 
-        .assistant-constellation-grid {
+        .assistant-card-list {
             position: relative;
             z-index: 1;
             display: grid;
-            grid-template-columns: minmax(320px, 1fr) minmax(320px, 0.96fr);
-            gap: 28px;
+            gap: 2px;
+        }
+
+        .assistant-card {
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            gap: 24px;
             align-items: center;
-            min-height: 540px;
+            padding: 28px 32px;
+            background: rgba(255, 255, 255, 0.02);
+            border-bottom: 1px solid rgba(148, 163, 184, 0.08);
+            border-left: 3px solid var(--card-accent, rgba(148, 163, 184, 0.18));
+            cursor: pointer;
+            transition: background 0.25s ease, box-shadow 0.25s ease, border-left-color 0.25s ease;
         }
 
-        .assistant-node-cluster {
+        .assistant-card:last-child {
+            border-bottom: none;
+        }
+
+        .assistant-card:hover,
+        .assistant-card:focus-visible,
+        .assistant-card.is-active {
+            background: rgba(255, 255, 255, 0.06);
+            box-shadow:
+                0 0 20px color-mix(in srgb, var(--card-accent, #8BD6FF) 25%, transparent),
+                0 8px 32px rgba(0, 0, 0, 0.2),
+                inset 0 0 0 1px color-mix(in srgb, var(--card-accent, #8BD6FF) 30%, transparent);
+        }
+
+        .assistant-card:hover .assistant-card-orb,
+        .assistant-card:focus-visible .assistant-card-orb,
+        .assistant-card.is-active .assistant-card-orb {
+            border-color: color-mix(in srgb, var(--card-accent, #8BD6FF) 50%, transparent);
+            box-shadow: 0 0 24px color-mix(in srgb, var(--card-accent, #8BD6FF) 20%, transparent), 0 16px 40px rgba(1, 5, 11, 0.28);
+            transform: scale(1.06);
+        }
+
+        .assistant-card-orb {
             position: relative;
-            min-height: 360px;
-        }
-
-        .assistant-orb {
-            position: absolute;
-            width: 118px;
-            height: 118px;
+            width: 88px;
+            height: 88px;
             border-radius: 999px;
             display: grid;
             place-items: center;
             background: rgba(10, 18, 30, 0.92);
             border: 1px solid rgba(148, 163, 184, 0.18);
-            box-shadow: 0 24px 60px rgba(1, 5, 11, 0.28);
-            cursor: pointer;
-            transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+            box-shadow: 0 16px 40px rgba(1, 5, 11, 0.28);
+            flex-shrink: 0;
+            transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
         }
 
-        .assistant-orb::before {
+        .assistant-card-orb::before {
             content: '';
             position: absolute;
-            inset: -20px;
+            inset: -16px;
             border-radius: 999px;
             background: radial-gradient(circle, var(--halo) 0%, rgba(255, 255, 255, 0) 70%);
-            opacity: 0.48;
+            opacity: 0.5;
             z-index: -1;
         }
 
-        .assistant-orb[data-assistant="chatgpt"] {
-            left: 10%;
-            top: 18%;
-            --halo: rgba(16, 163, 127, 0.32);
+        .assistant-card-orb img {
+            width: 52px;
+            height: 52px;
+            object-fit: contain;
+        }
+
+        .assistant-card[data-assistant="chatgpt"] .assistant-card-orb {
+            --halo: rgba(16, 163, 127, 0.36);
             animation: logoDriftA 6s ease-in-out infinite;
         }
 
-        .assistant-orb[data-assistant="claude"] {
-            left: 42%;
-            top: 6%;
-            --halo: rgba(167, 139, 250, 0.28);
+        .assistant-card[data-assistant="claude"] .assistant-card-orb {
+            --halo: rgba(167, 139, 250, 0.32);
             animation: logoDriftB 7s ease-in-out infinite;
         }
 
-        .assistant-orb[data-assistant="gemini"] {
-            left: 58%;
-            top: 54%;
-            --halo: rgba(83, 179, 248, 0.28);
+        .assistant-card[data-assistant="gemini"] .assistant-card-orb {
+            --halo: rgba(83, 179, 248, 0.32);
             animation: logoDriftC 8s ease-in-out infinite;
         }
 
-        .assistant-orb img {
-            width: 66px;
-            height: 66px;
-            object-fit: contain;
+        .assistant-card-body h3 {
+            font-size: clamp(20px, 2vw, 26px);
+            margin-bottom: 2px;
         }
 
-        .assistant-orb:hover,
-        .assistant-orb:focus-visible,
-        .assistant-orb.is-active {
-            transform: scale(1.06);
-            border-color: rgba(139, 214, 255, 0.34);
-            box-shadow: 0 26px 68px rgba(83, 179, 248, 0.16);
+        .assistant-card-body .tool-label {
+            margin-bottom: 6px;
         }
 
-        .assistant-panel-list {
+        .assistant-card-body p {
+            color: var(--text-dim);
+            line-height: 1.45;
+            font-size: 15px;
+            max-width: 48ch;
+        }
+
+        .assistant-card-badge {
+            align-self: start;
+        }
+
+        .tool-wall {
             display: grid;
-            gap: 14px;
-            align-content: center;
+            grid-template-columns: repeat(7, minmax(0, 1fr));
+            gap: 20px;
+            max-width: 1520px;
+            margin: 0 auto;
+            padding: 8px 0 0;
         }
 
-        .assistant-panel {
-            display: grid;
+        .tool-tile {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             gap: 10px;
-            padding: 18px 20px;
-            border-radius: 20px;
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(148, 163, 184, 0.12);
-            opacity: 0.86;
-            transform: translateX(0);
-            transition: opacity 0.28s ease, transform 0.28s ease, border-color 0.28s ease, background 0.28s ease;
+            padding: 20px 12px 16px;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            cursor: pointer;
+            transition: background 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+            position: relative;
+            text-align: center;
         }
 
-        .assistant-panel.is-active {
-            opacity: 1;
-            transform: translateX(8px);
-            border-color: rgba(139, 214, 255, 0.24);
+        .tool-tile:hover {
             background: rgba(255, 255, 255, 0.06);
+            box-shadow:
+                0 0 20px rgba(139, 214, 255, 0.15),
+                0 8px 32px rgba(0, 0, 0, 0.2),
+                inset 0 0 0 1px rgba(139, 214, 255, 0.25);
+            transform: translateY(-2px);
         }
 
-        .assistant-panel-header {
+        .tool-tile-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 14px;
+            background: rgba(139, 214, 255, 0.08);
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            gap: 12px;
-        }
-
-        .assistant-panel .tool-label {
-            margin-bottom: 0;
-        }
-
-        .assistant-panel p {
-            color: var(--text-dim);
-            line-height: 1.55;
-            font-size: 16px;
-        }
-
-        .specialist-carousel {
-            display: grid;
-            gap: 18px;
-            margin-top: 8px;
-        }
-
-        .specialist-carousel-track {
-            position: relative;
-            min-height: 380px;
-            overflow: hidden;
-            border-radius: 28px;
-        }
-
-        .specialist-card {
-            position: absolute;
-            inset: 0;
-            display: grid;
-            grid-template-columns: 120px 1fr;
-            gap: 24px;
-            align-items: center;
-            padding: 42px;
-            opacity: 0;
-            pointer-events: none;
-            transform: translateX(80px);
-            transition: opacity 0.4s ease, transform 0.4s ease;
-        }
-
-        .specialist-card.is-before {
-            transform: translateX(-80px);
-        }
-
-        .specialist-card.is-active {
-            opacity: 1;
-            pointer-events: auto;
-            transform: translateX(0);
-        }
-
-        .specialist-card-logo {
-            width: 92px;
-            height: 92px;
-            border-radius: 22px;
-            display: grid;
-            place-items: center;
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-        }
-
-        .specialist-card-logo img {
-            width: 58px;
-            height: 58px;
-            object-fit: contain;
-        }
-
-        .specialist-card-copy {
-            display: grid;
-            gap: 10px;
-        }
-
-        .specialist-card-copy h3 {
-            font-size: clamp(30px, 3vw, 44px);
-        }
-
-        .specialist-card-copy p {
-            font-size: 20px;
-            line-height: 1.55;
-            color: var(--text-dim);
-            max-width: 42ch;
-        }
-
-        .specialist-card-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            margin-top: 6px;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: 700;
+            font-family: 'Space Grotesk', sans-serif;
             color: var(--accent);
-            text-decoration: none;
+            border: 1px solid rgba(139, 214, 255, 0.15);
+        }
+
+        .tool-tile-name {
+            font-size: 14px;
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--text);
+            line-height: 1.3;
+        }
+
+        .tool-tile-category {
+            font-size: 11px;
+            font-family: 'JetBrains Mono', monospace;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-muted);
+        }
+
+        .tool-info-card {
+            position: fixed;
+            z-index: 100;
+            padding: 16px 20px;
+            border-radius: 14px;
+            background: rgba(15, 23, 42, 0.95);
+            border: 1px solid rgba(139, 214, 255, 0.2);
+            box-shadow: 0 0 20px rgba(139, 214, 255, 0.1), 0 16px 48px rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(16px);
+            opacity: 0;
+            transform: translateY(4px);
+            transition: opacity 0.2s ease, transform 0.2s ease;
+            max-width: 340px;
+            pointer-events: none;
+        }
+
+        .tool-info-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .tool-info-card h4 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 18px;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 6px;
+        }
+
+        .tool-info-card p {
+            font-family: 'Instrument Sans', sans-serif;
+            font-size: 15px;
+            color: #AAB7CB;
+            line-height: 1.5;
+            margin-bottom: 10px;
+        }
+
+        .tool-info-card a {
             font-family: 'JetBrains Mono', monospace;
             font-size: 13px;
+            color: #8BD6FF;
+            text-decoration: none;
         }
 
-        .specialist-carousel-controls {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 14px;
-        }
-
-        .specialist-carousel-nav {
-            display: inline-flex;
-            gap: 8px;
-        }
-
-        .specialist-nav-btn {
-            min-width: 44px;
-            min-height: 44px;
-            border-radius: 999px;
-            border: 1px solid rgba(148, 163, 184, 0.18);
-            background: rgba(255, 255, 255, 0.04);
-            color: var(--text);
-            cursor: pointer;
-        }
-
-        .specialist-carousel-dots {
-            display: inline-flex;
-            gap: 8px;
-            align-items: center;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        .specialist-dot {
-            width: 48px;
-            height: 8px;
-            border-radius: 999px;
-            background: rgba(255, 255, 255, 0.08);
-            overflow: hidden;
-            border: 0;
-            cursor: pointer;
-            padding: 0;
-        }
-
-        .specialist-dot.is-current {
-            background: rgba(139, 214, 255, 0.16);
-            box-shadow: inset 0 0 0 1px rgba(139, 214, 255, 0.18);
-        }
-
-        .specialist-progress-bar {
-            width: 100%;
-            height: 100%;
-            transform: scaleX(0);
-            transform-origin: left center;
-            background: linear-gradient(90deg, var(--accent) 0%, var(--accent-strong) 100%);
-            opacity: 0;
-        }
-
-        .specialist-dot.is-active .specialist-progress-bar {
-            transition: transform 4s linear;
-            transform: scaleX(1);
-            opacity: 1;
-        }
-
-        .specialist-dot.is-current .specialist-progress-bar {
-            transition: none;
-            transform: scaleX(0.28);
-            opacity: 0.42;
-        }
-
-        .specialist-dot.is-static .specialist-progress-bar {
-            transition: none;
-            transform: scaleX(0);
-            opacity: 0;
+        .tool-info-card a:hover {
+            text-decoration: underline;
         }
 
         .safety-shield-grid {
             display: grid;
             grid-template-columns: repeat(3, minmax(0, 1fr));
             gap: 18px;
-            margin-top: 8px;
+            margin-top: 16px;
         }
 
         .safety-shield {
-            display: grid;
-            gap: 14px;
-            justify-items: center;
-            align-content: start;
-            text-align: center;
-            min-height: 268px;
-            padding: 28px 24px;
-            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-            border: 1px solid rgba(139, 214, 255, 0.14);
-            background: linear-gradient(180deg, rgba(10, 18, 30, 0.92) 0%, rgba(6, 10, 18, 0.96) 100%);
-            opacity: 0.78;
-            transform: scale(0.94);
-            transition: transform 0.32s ease, opacity 0.32s ease, border-color 0.32s ease, box-shadow 0.32s ease, filter 0.32s ease;
-            animation: shieldBreath 3s ease-in-out infinite;
-            animation-delay: calc(var(--pulse-delay, 0) * 0.22s);
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            padding: 22px 24px;
+            border-radius: 18px;
+            border: 1px solid rgba(148, 163, 184, 0.18);
+            border-top: 1px solid rgba(255, 255, 255, 0.12);
+            background: linear-gradient(180deg, rgba(12, 20, 33, 0.7) 0%, rgba(9, 15, 25, 0.85) 100%);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            box-shadow: 0 22px 60px rgba(1, 5, 11, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            opacity: 0;
+            transform: translateY(16px);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            transition-delay: calc(var(--ripple-order, 0) * 0.12s);
         }
 
-        .slide.active[data-slide="9"] .safety-shield {
+        .slide.active[data-slide="7"] .safety-shield {
             opacity: 1;
-            transform: scale(1);
-            transition-delay: calc(var(--ripple-order, 0) * 0.2s);
+            transform: translateY(0);
         }
 
         .safety-shield:hover {
-            border-color: rgba(139, 214, 255, 0.34);
-            box-shadow: 0 22px 54px rgba(83, 179, 248, 0.14);
-            filter: brightness(1.06);
+            border-color: rgba(139, 214, 255, 0.3);
+            box-shadow: 0 32px 72px rgba(1, 5, 11, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 0 20px rgba(139, 214, 255, 0.08);
+            transform: translateY(-4px);
         }
 
         .safety-shield .safety-icon {
-            width: 82px;
-            height: 82px;
-            border-radius: 26px;
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
             overflow: hidden;
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(139, 214, 255, 0.14);
-            transition: transform 0.25s ease;
-        }
-
-        .safety-shield:hover .safety-icon {
-            transform: scale(1.06);
+            flex-shrink: 0;
         }
 
         .safety-shield h3 {
-            font-size: 21px;
+            font-size: 17px;
+            line-height: 1.25;
+            margin-bottom: 4px;
+            color: var(--text-bright);
         }
 
         .safety-shield p {
             color: var(--text-dim);
-            line-height: 1.52;
-            font-size: 15px;
+            line-height: 1.45;
+            font-size: 14px;
         }
 
         .callback-montage {
             position: relative;
-            min-height: 680px;
+            min-height: calc(var(--viewport-height) - var(--nav-height) - 80px);
             overflow: hidden;
-            border-radius: 32px;
-            padding: 36px;
+            border-radius: 24px;
+            padding: 32px;
             border: 1px solid rgba(139, 214, 255, 0.12);
             background: linear-gradient(180deg, rgba(7, 12, 21, 0.94) 0%, rgba(6, 10, 18, 0.98) 100%);
             display: grid;
@@ -3639,16 +3304,18 @@
             position: relative;
             z-index: 1;
             width: min(1080px, 100%);
+            max-width: 100%;
             display: grid;
             gap: 22px;
             padding: 30px;
             text-align: center;
+            overflow: hidden;
             opacity: 0;
             transform: scale(0.9);
             transition: opacity 0.4s ease-out 0.3s, transform 0.4s ease-out 0.3s;
         }
 
-        .slide.active[data-slide="10"] .callback-cta-card {
+        .slide.active[data-slide="8"] .callback-cta-card {
             opacity: 1;
             transform: scale(1);
         }
@@ -3656,21 +3323,51 @@
         .callback-cta-card .subtitle {
             max-width: 46ch;
             margin: 0 auto;
+            overflow-wrap: break-word;
         }
 
         .callback-cta-card .cta-grid {
             margin-bottom: 0;
         }
 
+        .callback-cta-card h2 {
+            max-width: 100%;
+            overflow-wrap: break-word;
+        }
+
+        .story-highlight-card h3,
+        .assistant-card-body h3,
+        .use-case-cluster h3,
+        .node-title {
+            font-size: clamp(17px, 1.8vw, 22px);
+        }
+
         @media (max-width: 1180px) {
-            .story-thread-layout,
-            .assistant-constellation-grid {
+            .story-intro-layout {
+                grid-template-columns: 1fr;
+                justify-items: center;
+                text-align: center;
+            }
+
+            .story-intro-text blockquote {
+                border-left: none;
+                padding-left: 0;
+                border-top: 3px solid var(--accent);
+                padding-top: 16px;
+            }
+
+            .story-highlight {
                 grid-template-columns: 1fr;
             }
 
-            .editorial-callout-block[data-span="wide"],
-            .editorial-callout-block[data-span="tall"] {
-                grid-column: span 12;
+            .assistant-card {
+                grid-template-columns: auto 1fr;
+                gap: 18px;
+            }
+
+            .assistant-card-badge {
+                grid-column: 1 / -1;
+                justify-self: start;
             }
 
             .safety-shield-grid {
@@ -3679,23 +3376,9 @@
         }
 
         @media (max-width: 900px) {
-            .specialist-card {
-                grid-template-columns: 1fr;
-                justify-items: start;
-                padding: 30px 26px;
-            }
-
             .use-case-groups,
             .safety-shield-grid {
                 grid-template-columns: 1fr;
-            }
-
-            .orbital-diagram {
-                min-height: 700px;
-            }
-
-            .orbital-node {
-                width: min(220px, 58vw);
             }
         }
 
@@ -3712,104 +3395,6 @@
                 order: -1;
             }
 
-            .story-thread-rail {
-                min-height: 0;
-                padding-left: 0;
-            }
-
-            .story-thread-svg {
-                display: none;
-            }
-
-            .story-thread-cards,
-            .story-thread-footer {
-                margin-left: 0;
-            }
-
-            .story-thread-card::before,
-            .story-thread-card::after {
-                display: none;
-            }
-
-            .orbital-diagram {
-                width: 100%;
-                min-height: 0;
-                padding-top: 210px;
-                margin-top: 22px;
-                display: grid;
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-                gap: 14px;
-                align-items: start;
-                place-items: stretch;
-            }
-
-            .orbital-rings {
-                inset: 12px 0 auto;
-                height: 220px;
-            }
-
-            .orbital-ring[data-ring="1"] {
-                width: 144px;
-                height: 144px;
-            }
-
-            .orbital-ring[data-ring="2"] {
-                width: 212px;
-                height: 212px;
-            }
-
-            .orbital-ring[data-ring="3"] {
-                width: 280px;
-                height: 280px;
-            }
-
-            .orbital-ring[data-ring="4"] {
-                width: 336px;
-                height: 336px;
-            }
-
-            .orbital-core {
-                position: absolute;
-                top: 58px;
-                left: 50%;
-                width: 108px;
-                height: 108px;
-                font-size: 30px;
-                transform: translateX(-50%) scale(0.88);
-            }
-
-            .slide.active[data-slide="4"] .orbital-core {
-                transform: translateX(-50%) scale(1);
-            }
-
-            .orbital-node {
-                position: relative;
-                width: 100%;
-                min-height: 0;
-                padding: 16px 16px 14px;
-                transform: none !important;
-            }
-
-            .slide.active[data-slide="4"] .orbital-node {
-                transform: none !important;
-            }
-
-            .orbital-node:hover,
-            .orbital-node:focus-visible {
-                transform: translateY(-4px) scale(1.02) !important;
-            }
-
-            .orbital-diagram>.orbital-node:nth-of-type(1),
-            .orbital-diagram>.orbital-node:nth-of-type(4) {
-                grid-column: 1 / -1;
-                max-width: 264px;
-                justify-self: center;
-            }
-
-            .specialist-carousel-controls {
-                flex-direction: column;
-            }
-
             .callback-montage {
                 min-height: 0;
                 padding: 18px 14px 22px;
@@ -3817,26 +3402,25 @@
         }
 
         @media (max-width: 640px) {
-            .assistant-constellation {
-                padding: 22px 18px;
+            .assistant-card {
+                grid-template-columns: auto 1fr;
+                gap: 14px;
+                padding: 20px 18px;
             }
 
-            .assistant-node-cluster {
-                min-height: 300px;
+            .assistant-card-orb {
+                width: 64px;
+                height: 64px;
             }
 
-            .assistant-orb {
-                width: 96px;
-                height: 96px;
+            .assistant-card-orb img {
+                width: 38px;
+                height: 38px;
             }
 
-            .assistant-orb img {
-                width: 54px;
-                height: 54px;
-            }
-
-            .specialist-carousel-track {
-                min-height: 420px;
+            .assistant-card-badge {
+                grid-column: 1 / -1;
+                justify-self: start;
             }
 
             .callback-cta-card {
@@ -3864,14 +3448,13 @@
             }
 
             .slide[data-slide="0"] .title-content>*,
-            .story-thread-photo,
-            .story-thread-card,
-            .editorial-callout-block,
-            .editorial-source,
-            .orbital-core,
-            .orbital-ring,
-            .orbital-node,
-            .assistant-panel,
+            .story-intro-photo,
+            .story-intro-text,
+            .story-highlight-card,
+            .story-tag-cloud,
+            .story-kicker,
+            .assistant-card,
+            .tool-tile,
             .use-case-cluster,
             .callback-cta-card,
             .safety-shield {
@@ -3880,21 +3463,9 @@
                 clip-path: inset(0 0 0 0 round 18px) !important;
             }
 
-            .story-thread-path,
-            .story-thread-branch {
-                stroke-dashoffset: 0 !important;
-            }
-
-            .story-thread-node,
-            .editorial-accent-rule {
-                opacity: 1 !important;
-                width: 100% !important;
-            }
-
-            .assistant-orb,
+            .assistant-card-orb,
             .safety-shield,
-            .montage-fragment,
-            .specialist-progress-bar {
+            .montage-fragment {
                 animation: none !important;
             }
         }
@@ -3917,16 +3488,16 @@
                     <div class="title-content hero-vortex-copy">
                         <div class="slide-number">Presentation</div>
                         <h1>THE AI <span class="gradient-text">BREAKDOWN</span></h1>
-                        <p class="subtitle" style="max-width: 28ch;">Real Tools for Real Life</p>
-                        <p style="color: var(--text-muted); font-size: clamp(14px, 1.6vw, 18px); line-height: 1.5; max-width: 36ch; margin-top: 8px;">A practical guide to what AI can actually do for you</p>
+                        <p class="subtitle" style="max-width: 28ch; font-size: clamp(22px, 2.8vw, 34px);">Real Tools for Real Life</p>
+                        <p style="color: var(--text-dim); font-size: clamp(16px, 1.8vw, 22px); line-height: 1.5; max-width: 36ch; margin-top: 10px;">A practical guide to what AI can actually do for you</p>
                         <div>
                             <div class="title-badge">
-                                Presented by Adam Gurski &bull; Updated March 28, 2026
+                                Presented by Adam Gurski &bull; Updated April 2, 2026
                             </div>
                         </div>
                         <p class="anim anim-5"
                             style="margin-top: 34px; font-size: 14px; color: var(--text-dim); font-family: 'JetBrains Mono', monospace;">
-                            Use ← → arrow keys or buttons below to navigate
+                            Use left/right arrow keys or buttons below to navigate
                         </p>
                     </div>
                     <div class="title-art-stack">
@@ -3946,71 +3517,54 @@
             <div class="slide-inner">
                 <div class="slide-number">01 / My Story</div>
                 <h2 style="margin-bottom: 8px;">Why I&rsquo;m Standing Up Here</h2>
-                <p class="subtitle" style="margin-bottom: 20px; max-width: 54ch;">I&rsquo;m not a developer or a tech executive. Three years ago I had never built a website. AI turned the blank page into a thread I could follow — and let me learn faster than I ever thought possible.</p>
 
-                <div class="story-thread-layout">
-                    <div class="story-thread-stage">
-                        <div class="story-thread-photo">
-                            <div class="story-photo-ring">
-                                <div class="photo-glow-wrap">
-                                    <img id="introKidPhoto"
-                                        src="assets/images/516605461_10235383877351500_957627053519839274_n.jpg"
-                                        alt="Young Adam Gurski"
-                                        onerror="this.onerror=null; this.parentElement.innerHTML='<div style=\'width:148px;height:148px;border-radius:50%;background:linear-gradient(135deg,#3b82f6,#53b3f8);display:flex;align-items:center;justify-content:center;font-size:48px;color:#fff;font-weight:700;position:relative;z-index:1;border:3px solid var(--bg-base)\'>AG</div>';">
-                                </div>
-                                <div class="photo-caption-tag">Same person &bull; New capabilities</div>
-                            </div>
-                            <div class="story-thread-kicker glass">
-                                <strong>The point of this deck</strong>
-                                AI did not replace the work. It made the next step legible enough that I could keep moving.
+                <div class="story-intro-layout story-thread-layout">
+                    <div class="story-intro-photo">
+                        <div class="story-photo-ring">
+                            <div class="photo-glow-wrap">
+                                <img id="introKidPhoto"
+                                    src="assets/images/516605461_10235383877351500_957627053519839274_n.jpg"
+                                    alt="Young Adam Gurski"
+                                    onerror="this.onerror=null; this.parentElement.innerHTML='<div style=\'width:148px;height:148px;border-radius:50%;background:linear-gradient(135deg,#3b82f6,#53b3f8);display:flex;align-items:center;justify-content:center;font-size:48px;color:#fff;font-weight:700;position:relative;z-index:1;border:3px solid var(--bg-base)\'>AG</div>';">
                             </div>
                         </div>
                     </div>
-
-                    <div class="story-thread-rail">
-                        <svg class="story-thread-svg" viewBox="0 0 220 760" aria-hidden="true">
-                            <path class="story-thread-path" d="M62 54 L62 676" />
-                            <path class="story-thread-branch" d="M62 148 L150 148" />
-                            <path class="story-thread-branch" d="M62 282 L174 282" />
-                            <path class="story-thread-branch" d="M62 430 L150 430" />
-                            <path class="story-thread-branch" d="M62 574 L182 574" />
-                            <circle class="story-thread-node" cx="62" cy="148" r="7"></circle>
-                            <circle class="story-thread-node" cx="62" cy="282" r="7"></circle>
-                            <circle class="story-thread-node" cx="62" cy="430" r="7"></circle>
-                            <circle class="story-thread-node" cx="62" cy="574" r="7"></circle>
-                        </svg>
-
-                        <div class="story-thread-cards">
-                            <div class="glass story-thread-card" style="--card-delay: 0.12s;">
-                                <div class="story-timestamp">2023</div>
-                                <h3>I made a video</h3>
-                                <p>Not because I suddenly became technical, but because AI finally gave me a way to draft,
-                                    revise, and ship without waiting for permission.</p>
-                            </div>
-                            <div class="glass story-thread-card" style="--card-delay: 0.24s;">
-                                <div class="story-timestamp">2024</div>
-                                <h3>I built a workflow</h3>
-                                <p>I could connect tools, automate repeat work, and stop treating every new idea like a
-                                    multi-month obstacle course.</p>
-                            </div>
-                            <div class="glass story-thread-card" style="--card-delay: 0.36s;">
-                                <div class="story-timestamp">2025</div>
-                                <h3>I started a business</h3>
-                                <p>AI helped with research, planning, writing, and iteration fast enough that momentum finally
-                                    beat hesitation.</p>
-                            </div>
-                            <div class="glass story-thread-card" style="--card-delay: 0.48s;">
-                                <div class="story-timestamp">2026</div>
-                                <h3>I designed logos</h3>
-                                <p>That still would have sounded impossible to the earlier version of me. But you can learn
-                                    this much this fast when the feedback loop stops punishing you for not knowing where to
-                                    start.</p>
-                            </div>
-                        </div>
-
-                        <div class="story-thread-footer">The throughline: curiosity plus AI beats waiting to feel ready.</div>
+                    <div class="story-intro-text">
+                        <p style="display:none;">Three years ago, I had never built a website.</p>
+                        <blockquote>Three years ago I had never built a website. AI didn&rsquo;t make me technical - it made the next step visible enough to take.</blockquote>
                     </div>
                 </div>
+
+                <div class="story-highlight">
+                    <div class="glass story-highlight-card" style="--card-delay: 0.1s; --card-accent: #10b981;">
+                        <h3>Grammy-winner visuals</h3>
+                        <p>Created a video used as a visual for Grammy Award winner <a href="https://www.instagram.com/fatboyslim/" target="_blank" rel="noopener noreferrer" style="color:var(--accent);text-decoration:none;">Fatboy Slim</a>.</p>
+                    </div>
+                    <div class="glass story-highlight-card" style="--card-delay: 0.2s; --card-accent: #8BD6FF;">
+                        <h3>Built real business websites</h3>
+                        <p>Designed and shipped several live sites for businesses — starting from zero web experience.</p>
+                    </div>
+                    <div class="glass story-highlight-card" style="--card-delay: 0.3s; --card-accent: #D7A65A;">
+                        <h3>Started my own company</h3>
+                        <p>Research, branding, planning, launch — AI made the iteration loop fast enough that momentum won.</p>
+                    </div>
+                    <div class="glass story-highlight-card" style="--card-delay: 0.4s; --card-accent: #a78bfa;">
+                        <h3>Designed apps and games</h3>
+                        <p>Built interactive applications and game prototypes that would have taken a full dev team before.</p>
+                    </div>
+                </div>
+
+                <div class="story-tag-cloud">
+                    <span class="story-tag">Video production</span>
+                    <span class="story-tag">Music creation</span>
+                    <span class="story-tag">Photo editing</span>
+                    <span class="story-tag">Logo design</span>
+                    <span class="story-tag">Web development</span>
+                    <span class="story-tag">Business strategy</span>
+                    <span class="story-tag">Workflow automation</span>
+                </div>
+
+                <div class="story-kicker">None of this required a degree, a team, or permission. Just curiosity.</div>
             </div>
         </div>
 
@@ -4018,8 +3572,8 @@
         <div class="slide" data-slide="2">
             <div class="slide-inner">
                 <div class="slide-number anim anim-1">02 / Science Proof</div>
-                <h2 class="anim anim-2" style="margin-bottom: 8px;">AI is already producing Nobel-caliber results</h2>
-                <p class="subtitle anim anim-3" style="margin-bottom: 20px; max-width: 42ch;">If AI can decode proteins, discover new materials, and accelerate weather prediction, it deserves a serious look in everyday work too.</p>
+                <h2 class="anim anim-2" style="margin-bottom: 4px;">AI is accelerating Nobel-scale discovery</h2>
+                <p class="subtitle anim anim-3" style="margin-bottom: 12px;">If AI can decode proteins, discover new materials, and accelerate weather prediction, it deserves a serious look in everyday work too.</p>
                 <div class="science-timeline anim anim-4">
                     <div class="timeline-axis"></div>
 
@@ -4032,8 +3586,8 @@
                             <div id="p5-box-1" class="p5-canvas-container"></div>
                         </div>
                         <div class="node-bottom">
-                            <div class="node-title">AlphaFold</div>
-                            <p>Hassabis and Jumper proved AI could crack a decades-old protein-structure problem at scientific scale — earning them the Nobel Prize.</p>
+                            <div class="node-title"><a href="https://alphafold.ebi.ac.uk/" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;">AlphaFold</a></div>
+                            <p>Hassabis and Jumper cracked a decades-old protein-structure problem — earning a <a href="https://www.nobelprize.org/prizes/chemistry/2024/summary/" target="_blank" rel="noopener noreferrer" style="color:var(--accent);text-decoration:none;">Nobel Prize</a> in Oct 2024.</p>
                             <div class="node-note">Protein prediction went from bottleneck to platform.</div>
                         </div>
                     </div>
@@ -4048,7 +3602,7 @@
                         </div>
                         <div class="node-bottom">
                             <div class="node-title">2.2 million</div>
-                            <p>GNoME proposed 2.2 million candidate crystals, including hundreds of thousands of stable new materials — a search space that would take humans generations.</p>
+                            <p><a href="https://deepmind.google/discover/blog/millions-of-new-materials-discovered-with-deep-learning/" target="_blank" rel="noopener noreferrer" style="color:var(--accent);text-decoration:none;">GNoME</a> proposed 2.2M candidate crystals, including hundreds of thousands of stable new materials. <span style="color:var(--text-muted);font-size:0.85em;">(Nature, Nov 2023)</span></p>
                             <div class="node-note">Scale that humans cannot brute-force alone.</div>
                         </div>
                     </div>
@@ -4063,190 +3617,101 @@
                         </div>
                         <div class="node-bottom">
                             <div class="node-title">Faster</div>
-                            <p>Drug design, astronomy, and weather modeling are all shrinking the gap between raw complexity and usable answers.</p>
-                            <div class="node-note">The pattern is speed plus scale — not just hype.</div>
+                            <p>Drug design, astronomy, and <a href="https://deepmind.google/discover/blog/graphcast-ai-model-for-faster-and-more-accurate-global-weather-forecasting/" target="_blank" rel="noopener noreferrer" style="color:var(--accent);text-decoration:none;">weather forecasting</a> are all shrinking the gap between raw complexity and usable answers.</p>
+                            <div class="node-note">The pattern is speed plus scale - not just hype.</div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-node" style="--node-color: #ec4899;">
+                        <div class="node-top">
+                            <div class="node-badge">MATHEMATICS 2026</div>
+                        </div>
+                        <div class="node-graphic">
+                            <div class="core-glow"></div>
+                            <div id="p5-box-4" class="p5-canvas-container"></div>
+                        </div>
+                        <div class="node-bottom">
+                            <div class="node-title">Proof Assistant</div>
+                            <p><a href="https://www.nytimes.com/2024/12/23/science/terence-tao-ai-mathematics.html" target="_blank" rel="noopener noreferrer" style="color:var(--accent);text-decoration:none;">Terence Tao</a> — the world&rsquo;s top mathematician — now uses AI as a proof assistant, calling it &ldquo;ready for primetime.&rdquo; <span style="color:var(--text-muted);font-size:0.85em;">(Jan 2025)</span></p>
+                            <div class="node-note">The frontier moved from search to reasoning.</div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- ===== SLIDE 4: EDUCATION PROOF ===== -->
+        <!-- ===== SLIDE 4: BIG THREE ===== -->
         <div class="slide" data-slide="3">
             <div class="slide-inner">
-                <div class="slide-number">03 / Education Proof</div>
-                <h2 style="margin-bottom: 8px;">What the research actually shows</h2>
-                <p class="subtitle" style="margin-bottom: 20px; max-width: 46ch;">The evidence does not say "AI is magic." It says outcomes improve when the tool, the method, and the human behind them are aligned.</p>
-                <div class="editorial-callout-shell editorial-callout-shell-education">
-                    <article class="glass editorial-callout-block" data-span="wide" style="--delay: 0.05s;">
-                        <div class="editorial-kicker">Meta-analysis signal</div>
-                        <div class="editorial-stat">0.86</div>
-                        <div class="editorial-accent-rule"></div>
-                        <h3>Recent education syntheses still point to meaningful upside.</h3>
-                        <p class="editorial-copy">Chatbot and generative-AI studies can climb above 1.0 in some settings, but the
-                            stronger read is that design and scaffolding change the result.</p>
-                        <div class="editorial-source">Source: recent education meta-analyses summarized for this workshop.</div>
-                    </article>
-                    <article class="glass editorial-callout-block" data-span="tall" style="--delay: 0.14s;">
-                        <div class="editorial-side-list">
-                            <div class="editorial-side-item">
-                                <div class="editorial-kicker">Harvard physics trial</div>
-                                <strong>4.5 vs 3.5</strong>
-                                <p>The Harvard physics trial showed a pedagogically tuned AI tutor outperforming the same students’
-                                    classroom condition on post-test mastery.</p>
-                            </div>
-                            <div class="editorial-side-item">
-                                <div class="editorial-kicker">Human-AI hybrid</div>
-                                <strong>Stanford Tutor CoPilot</strong>
-                                <p>Stanford Tutor CoPilot improved student mastery most for less-experienced tutors, suggesting AI can
-                                    raise the floor when humans stay in the loop.</p>
-                            </div>
-                        </div>
-                        <div class="editorial-source">Source: Harvard and Stanford tutoring studies.</div>
-                    </article>
-                    <article class="glass editorial-callout-block" data-span="full" style="--delay: 0.22s;">
-                        <div class="editorial-kicker">Operational takeaway</div>
-                        <h3>structured use helps. unstructured use can backfire.</h3>
-                        <div class="editorial-accent-rule"></div>
-                        <p class="editorial-copy" style="max-width: 62ch;">Prompting, tutoring, and workflow gains are strongest
-                            when the activity is clearly staged and the human still owns the judgment. Remove the productive
-                            struggle entirely, and later performance can sag.</p>
-                        <div class="editorial-source">Technique is part of the outcome.</div>
-                    </article>
-                </div>
-            </div>
-        </div>
-
-        <!-- ===== SLIDE 5: TOOL MAP ===== -->
-        <div class="slide" data-slide="4">
-            <div class="slide-inner">
-                <div class="slide-number">04 / Overview</div>
-                <h2 style="margin-bottom: 8px;">The AI tool landscape at a glance</h2>
-                <p class="subtitle" style="margin-bottom: 20px; max-width: 42ch;">Start broad when you need help thinking. Move narrower when the job demands research, grounding, or specialized reasoning.</p>
-                <div class="spectrum-shell">
-                    <div class="spectrum-header">
-                        <span class="badge badge-blue">Broad assistants</span>
-                        <span class="badge badge-purple">Specialist tools</span>
-                    </div>
-                    <div class="orbital-diagram">
-                        <div class="orbital-rings" aria-hidden="true">
-                            <div class="orbital-ring" data-ring="1" style="--delay: 0.1s;"></div>
-                            <div class="orbital-ring" data-ring="2" style="--delay: 0.18s;"></div>
-                            <div class="orbital-ring" data-ring="3" style="--delay: 0.26s;"></div>
-                            <div class="orbital-ring" data-ring="4" style="--delay: 0.34s;"></div>
-                        </div>
-                        <div class="orbital-core">AI</div>
-                        <button class="orbital-node orbital-node--green" style="--x: 128px; --y: -184px; --delay: 0.42s; --node-accent: rgba(16, 185, 129, 0.7);" type="button">
-                            <div class="orbital-step">Start here</div>
-                            <h3>General chat</h3>
-                            <p>Brainstorm, write, plan, summarize — ask "where do I even begin?" and get moving.</p>
-                        </button>
-                        <button class="orbital-node orbital-node--blue" style="--x: 202px; --y: -22px; --delay: 0.52s; --node-accent: rgba(139, 214, 255, 0.7);" type="button">
-                            <div class="orbital-step">Add leverage</div>
-                            <h3>Creative and coding</h3>
-                            <p>Generate visuals, iterate on code, and ship first drafts faster than blank-page work.</p>
-                        </button>
-                        <button class="orbital-node orbital-node--purple" style="--x: -236px; --y: 46px; --delay: 0.62s; --node-accent: rgba(167, 139, 250, 0.7);" type="button">
-                            <div class="orbital-step">Tighter focus</div>
-                            <h3>Research and source work</h3>
-                            <p>Tools built for citations, documents, and long context when accuracy is non-negotiable.</p>
-                        </button>
-                        <button class="orbital-node orbital-node--amber" style="--x: -116px; --y: 186px; --delay: 0.72s; --node-accent: rgba(245, 158, 11, 0.7);" type="button">
-                            <div class="orbital-step">Narrow specialist</div>
-                            <h3>Reasoning and private analysis</h3>
-                            <p>Specialist models for deep problem-solving or grounded work on internal data.</p>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- ===== SLIDE 6: BIG THREE ===== -->
-        <div class="slide" data-slide="5">
-            <div class="slide-inner">
-                <div class="slide-number">05 / Core Assistants</div>
+                <div class="slide-number">03 / Core Assistants</div>
                 <h2 style="margin-bottom: 8px;">Meet the Big Three</h2>
-                <p class="subtitle" style="margin-bottom: 20px; max-width: 40ch;">The three general-purpose assistants most people will reach for first — each with a different strength.</p>
+                <p class="subtitle" style="margin-bottom: 20px; max-width: 40ch;">The three general-purpose assistants most people will reach for first - each with a different strength.</p>
                 <div class="assistant-constellation">
                     <div class="assistant-constellation-bg" id="assistantConstellationLayer" aria-hidden="true"></div>
-                    <div class="assistant-constellation-grid">
-                        <div class="assistant-node-cluster">
-                            <button class="assistant-orb is-active" type="button" data-assistant="chatgpt" aria-label="Highlight ChatGPT">
+                    <div class="assistant-card-list">
+                        <div class="assistant-card is-active" data-assistant="chatgpt" role="button" tabindex="0" aria-label="Highlight ChatGPT" aria-pressed="true" style="--card-accent: #10B981;">
+                            <div class="assistant-card-orb">
                                 <img src="assets/logos/chatgpt.svg" alt="ChatGPT logo">
-                            </button>
-                            <button class="assistant-orb" type="button" data-assistant="claude" aria-label="Highlight Claude">
+                            </div>
+                            <div class="assistant-card-body">
+                                <h3><a href="https://chatgpt.com" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;">ChatGPT</a></h3>
+                                <div class="tool-label"><a href="https://openai.com" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;">OpenAI</a> &middot; GPT-5 family</div>
+                                <p>Writing, coding, data analysis, multimodal work, and general-purpose problem solving.</p>
+                                <p style="margin-top:4px;font-size:12px;color:var(--text-muted);font-family:'JetBrains Mono',monospace;">Free &bull; Plus $20/mo &bull; Pro $200/mo</p>
+                            </div>
+                            <span class="badge badge-green assistant-card-badge">The All-Rounder</span>
+                        </div>
+                        <div class="assistant-card" data-assistant="claude" role="button" tabindex="0" aria-label="Highlight Claude" aria-pressed="false" style="--card-accent: #8BD6FF;">
+                            <div class="assistant-card-orb">
                                 <img src="assets/logos/claude.svg" alt="Claude logo">
-                            </button>
-                            <button class="assistant-orb" type="button" data-assistant="gemini" aria-label="Highlight Gemini">
+                            </div>
+                            <div class="assistant-card-body">
+                                <h3><a href="https://claude.ai" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;">Claude</a></h3>
+                                <div class="tool-label"><a href="https://www.anthropic.com" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;">Anthropic</a> &middot; Claude Sonnet 4.6</div>
+                                <p>Long-form writing, careful reasoning, coding with <a href="https://claude.ai/download" target="_blank" rel="noopener noreferrer" style="color:var(--accent);text-decoration:none;">Claude Code</a>, and structured professional work.</p>
+                                <p style="margin-top:4px;font-size:12px;color:var(--text-muted);font-family:'JetBrains Mono',monospace;">Free &bull; Pro $20/mo &bull; higher tiers available</p>
+                            </div>
+                            <span class="badge badge-purple assistant-card-badge">The Writer / Coder</span>
+                        </div>
+                        <div class="assistant-card" data-assistant="gemini" role="button" tabindex="0" aria-label="Highlight Gemini" aria-pressed="false" style="--card-accent: #D7A65A;">
+                            <div class="assistant-card-orb">
                                 <img src="assets/logos/gemini.svg" alt="Gemini logo">
-                            </button>
-                        </div>
-                        <div class="assistant-panel-list">
-                            <article class="assistant-panel is-active" data-assistant-panel="chatgpt">
-                                <div class="assistant-panel-header">
-                                    <div>
-                                        <h3>ChatGPT</h3>
-                                        <div class="tool-label">OpenAI &middot; GPT-5 family</div>
-                                    </div>
-                                    <span class="badge badge-green">The All-Rounder</span>
-                                </div>
-                                <p>Strong for writing, coding, data analysis, multimodal work, and general-purpose problem solving.</p>
-                                <p style="margin-top:2px;font-size:13px;color:var(--text-dim);font-family:'JetBrains Mono',monospace;">Free plan available &bull; Plus $20/mo &bull; Pro $200/mo</p>
-                            </article>
-                            <article class="assistant-panel" data-assistant-panel="claude">
-                                <div class="assistant-panel-header">
-                                    <div>
-                                        <h3>Claude</h3>
-                                        <div class="tool-label">Anthropic &middot; Claude Sonnet 4.6</div>
-                                    </div>
-                                    <span class="badge badge-purple">The Writer / Coder</span>
-                                </div>
-                                <p>Excellent for long-form writing, careful reasoning, coding, and structured professional work.</p>
-                                <p style="margin-top:2px;font-size:13px;color:var(--text-dim);font-family:'JetBrains Mono',monospace;">Free plan available &bull; Pro $20/mo &bull; higher-tier plans available</p>
-                            </article>
-                            <article class="assistant-panel" data-assistant-panel="gemini">
-                                <div class="assistant-panel-header">
-                                    <div>
-                                        <h3>Gemini</h3>
-                                        <div class="tool-label">Google &middot; Gemini</div>
-                                    </div>
-                                    <span class="badge badge-blue">The Integrator</span>
-                                </div>
-                                <p>Strong for Google ecosystem workflows, long-context tasks, multimodal assistance, and Search-connected answers.</p>
-                                <p style="margin-top:2px;font-size:13px;color:var(--text-dim);font-family:'JetBrains Mono',monospace;">Free tier available &bull; Google AI plans available</p>
-                            </article>
+                            </div>
+                            <div class="assistant-card-body">
+                                <h3><a href="https://gemini.google.com" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;">Gemini</a></h3>
+                                <div class="tool-label"><a href="https://deepmind.google" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;">Google</a> &middot; Gemini</div>
+                                <p>Google ecosystem workflows, long-context tasks, multimodal assistance via <a href="https://aistudio.google.com" target="_blank" rel="noopener noreferrer" style="color:var(--accent);text-decoration:none;">AI Studio</a>, and Search-connected answers.</p>
+                                <p style="margin-top:4px;font-size:12px;color:var(--text-muted);font-family:'JetBrains Mono',monospace;">Free tier &bull; Google AI plans available</p>
+                            </div>
+                            <span class="badge badge-blue assistant-card-badge">The Integrator</span>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- ===== SLIDE 7: SPECIALISTS ===== -->
-        <div class="slide" data-slide="6">
+        <!-- ===== SLIDE 5: ADDITIONAL AI TOOLS ===== -->
+        <div class="slide" data-slide="4">
             <div class="slide-inner">
-                <div class="slide-number">06 / Specialists</div>
-                <h2 style="margin-bottom: 8px;">When the job gets narrower</h2>
-                <p class="subtitle" style="margin-bottom: 16px; max-width: 38ch;">Specialized tools for research, citation-grounded documents, and reasoning-heavy analysis.</p>
-                <div class="specialist-carousel">
-                    <div class="specialist-carousel-track" id="specialistCarouselTrack"></div>
-                    <div class="specialist-carousel-controls">
-                        <div class="specialist-carousel-nav">
-                            <button class="specialist-nav-btn" id="specialistPrevBtn" type="button" aria-label="Previous specialist">&#8249;</button>
-                            <button class="specialist-nav-btn" id="specialistNextBtn" type="button" aria-label="Next specialist">&#8250;</button>
-                        </div>
-                        <div class="specialist-carousel-dots" id="specialistCarouselDots"></div>
-                    </div>
+                <div class="slide-number">04 / Tools</div>
+                <h2 style="margin-bottom: 8px;">Additional AI Tools</h2>
+                <p class="subtitle" style="margin-bottom: 20px; max-width: 42ch;">The ecosystem is wide. These are worth knowing.</p>
+                <div class="tool-wall" id="toolWall"></div>
+                <div class="tool-info-card" id="toolInfoCard">
+                    <h4 id="toolInfoName"></h4>
+                    <p id="toolInfoDesc"></p>
+                    <a id="toolInfoLink" href="#" target="_blank" rel="noopener noreferrer">Visit &rarr;</a>
                 </div>
             </div>
         </div>
 
-        <!-- ===== SLIDE 8: APPLICATIONS ===== -->
-        <div class="slide" data-slide="7">
+        <!-- ===== SLIDE 6: APPLICATIONS ===== -->
+        <div class="slide" data-slide="5">
             <div class="slide-inner">
-                <div class="slide-number">07 / Applications</div>
-                <h2 style="margin-bottom: 8px;">Where this actually saves you time</h2>
-                <p class="subtitle" style="margin-bottom: 20px; max-width: 44ch;">You do not need to learn every tool. Pick the first place AI can take something off your plate and try it this week.</p>
-                <div class="use-case-groups anim anim-4">
+                <div class="slide-number">05 / Applications</div>
+                <h2 style="margin-bottom: 4px;">Where this actually saves you time</h2>
+                <p class="subtitle" style="margin-bottom: 14px;">Pick the first place AI can take something off your plate and try it this week.</p>
+                <div class="use-case-groups use-case-scene-grid anim anim-4">
                     <div class="glass use-case-cluster">
                         <div class="cluster-label">Local business</div>
                         <p class="cluster-intro">Move faster on customer-facing work you already understand.</p>
@@ -4307,20 +3772,14 @@
             </div>
         </div>
 
-        <!-- ===== SLIDE 9: PROMPT LAB ===== -->
-        <div class="slide" data-slide="8">
+        <!-- ===== SLIDE 7: PROMPT LAB ===== -->
+        <div class="slide" data-slide="6">
             <div class="slide-inner">
-                <div class="slide-number anim anim-1">08 / Prompt Lab</div>
+                <div class="slide-number anim anim-1">06 / Prompt Lab</div>
                 <h2 class="anim anim-2" style="margin-bottom: 8px;">Prompt Lab</h2>
-                <p class="subtitle anim anim-3" style="margin-bottom: 12px; max-width: 46ch;">Technique changes output. The RTCF framework keeps your prompts structured while the live specimen panel lets you test real examples on stage.</p>
-                <div class="prompt-mode-row anim anim-4">
-                    <div class="prompt-mode-pills">
-                        <span class="prompt-mode-pill">Teach mode</span>
-                        <span class="prompt-mode-pill">Operator mode</span>
-                    </div>
-                    <div class="prompt-focus-readout">Teach mode spotlight: <strong id="promptTeachFocus">Role</strong></div>
-                </div>
-                <div class="anim anim-4 prompt-formula-grid prompt-framework-strip">
+                <p class="subtitle anim anim-3" style="margin-bottom: 14px;">Technique changes output. The RTCF framework keeps your prompts structured — try the live examples below.</p>
+                <!-- Mode pills removed -->
+                <div class="anim anim-4 prompt-formula-grid prompt-framework-strip prompt-stack-formulas">
                     <div class="glass formula-block" data-prompt-part="role">
                         <div class="formula-icon">01</div>
                         <div>
@@ -4350,10 +3809,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="prompt-example prompt-stage-panel anim anim-5">
+                <div class="prompt-example prompt-stage-panel prompt-card-stack anim anim-5">
                     <div class="prompt-stage-toolbar">
                         <div class="prompt-heading">LIVE SPECIMEN</div>
-                        <div class="prompt-focus-readout">Operator mode: full packet stays live for the demo.</div>
                     </div>
                     <div class="prompt-meta-row">
                         <div class="prompt-chips">
@@ -4383,55 +3841,67 @@
                     <div class="prompt-run-guide" id="promptRunGuide">Quick run: open a fresh chat, add only listed
                         inputs, paste the copied packet, and run.</div>
                     <div class="prompt-asset-gallery" id="promptAssetGallery" style="display:none;"></div>
-                    <div class="prompt-copy-status" id="promptCopyStatus" aria-live="polite"></div>
+                    <div class="prompt-copy-status prompt-copy-check" id="promptCopyStatus" aria-live="polite"></div>
                 </div>
             </div>
         </div>
 
-        <!-- ===== SLIDE 10: SAFETY ===== -->
-        <div class="slide" data-slide="9">
+        <!-- ===== SLIDE 8: SAFETY ===== -->
+        <div class="slide" data-slide="7">
             <div class="slide-inner">
-                <div class="slide-number">09 / Safety</div>
+                <div class="slide-number">07 / Safety</div>
                 <h2 style="margin-bottom: 8px;">Move fast, stay honest</h2>
                 <p class="subtitle" style="margin-bottom: 20px; max-width: 42ch;">A strong AI workflow keeps momentum high
                     without pretending the tool is infallible.</p>
                 <div class="safety-shield-grid">
-                    <div class="glass safety-shield" style="--ripple-order: 2; --pulse-delay: 1;">
+                    <div class="glass safety-shield" style="--ripple-order: 1;">
                         <div class="safety-icon"><img src="assets/images/generated/safety-ethics-logos-v2/privacy_first_logo-02-01.png" alt="Privacy First icon" class="safety-icon-image"></div>
-                        <h3>Protect sensitive data</h3>
-                        <p>Never paste passwords, SSNs, or confidential records into consumer chat tools. Business and API tiers often carry different privacy guarantees.</p>
+                        <div>
+                            <h3>Protect sensitive data</h3>
+                            <p>Never paste passwords, SSNs, or confidential records into consumer chat tools. Business and API tiers often carry different privacy guarantees.</p>
+                        </div>
                     </div>
-                    <div class="glass safety-shield" style="--ripple-order: 1; --pulse-delay: 0;">
+                    <div class="glass safety-shield" style="--ripple-order: 2;">
                         <div class="safety-icon"><img src="assets/images/generated/safety-ethics-logos-v2/verify_everything_logo-02-01.png" alt="Verify Everything icon" class="safety-icon-image"></div>
-                        <h3>Verify important claims</h3>
-                        <p>Dates, statistics, citations, and any legal or medical guidance still need a human check before you act on them.</p>
+                        <div>
+                            <h3>Verify important claims</h3>
+                            <p>Dates, statistics, citations, and any legal or medical guidance still need a human check before you act on them.</p>
+                        </div>
                     </div>
-                    <div class="glass safety-shield" style="--ripple-order: 2; --pulse-delay: 2;">
+                    <div class="glass safety-shield" style="--ripple-order: 3;">
                         <div class="safety-icon"><img src="assets/images/generated/safety-ethics-logos-v2/disclose_ai_use_logo-02-01.png" alt="Disclose AI Use icon" class="safety-icon-image"></div>
-                        <h3>Disclose meaningful AI help</h3>
-                        <p>Be upfront when AI shaped work you are presenting professionally, academically, or publicly. Credibility compounds.</p>
+                        <div>
+                            <h3>Disclose meaningful AI help</h3>
+                            <p>Be upfront when AI shaped work you are presenting professionally, academically, or publicly. Credibility compounds.</p>
+                        </div>
                     </div>
-                    <div class="glass safety-shield" style="--ripple-order: 3; --pulse-delay: 3;">
+                    <div class="glass safety-shield" style="--ripple-order: 4;">
                         <div class="safety-icon"><img src="assets/images/generated/safety-ethics-logos-v2/think_critically_logo-02-01.png" alt="Think critically icon" class="safety-icon-image"></div>
-                        <h3>Your judgment is the feature</h3>
-                        <p>Use AI to accelerate thinking, not replace it. The best results come from human judgment amplified by AI leverage.</p>
+                        <div>
+                            <h3>Your judgment is the feature</h3>
+                            <p>Use AI to accelerate thinking, not replace it. The best results come from human judgment amplified by AI leverage.</p>
+                        </div>
                     </div>
-                    <div class="glass safety-shield" style="--ripple-order: 4; --pulse-delay: 4;">
+                    <div class="glass safety-shield" style="--ripple-order: 5;">
                         <div class="safety-icon"><img src="assets/images/generated/safety-ethics-logos-v2/ownership_ip_logo-02-01.png" alt="Ownership and IP icon" class="safety-icon-image"></div>
-                        <h3>Respect ownership and IP</h3>
-                        <p>Know what you are allowed to reuse, remix, or publish. Fast output does not equal clean rights.</p>
+                        <div>
+                            <h3>Respect ownership and IP</h3>
+                            <p>Know what you are allowed to reuse, remix, or publish. Fast output does not equal clean rights.</p>
+                        </div>
                     </div>
-                    <div class="glass safety-shield" style="--ripple-order: 5; --pulse-delay: 5;">
+                    <div class="glass safety-shield" style="--ripple-order: 6;">
                         <div class="safety-icon"><img src="assets/images/generated/safety-ethics-logos-v2/deepfakes_misuse_logo-02-01.png" alt="Deepfakes and misuse icon" class="safety-icon-image"></div>
-                        <h3>Don’t normalize misuse</h3>
-                        <p>Deception, impersonation, and careless misinformation scale just as fast as the good stuff. How you use it is a choice.</p>
+                        <div>
+                            <h3>Don't normalize misuse</h3>
+                            <p>Deception, impersonation, and careless misinformation scale just as fast as the good stuff. How you use it is a choice.</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- ===== SLIDE 11: TONIGHT ACTION ===== -->
-        <div class="slide" data-slide="10">
+        <!-- ===== SLIDE 9: TONIGHT ACTION ===== -->
+        <div class="slide" data-slide="8">
             <div class="slide-inner">
                 <div class="callback-montage">
                     <div class="montage-fragment" data-fragment="title">THE AI<br>BREAKDOWN</div>
@@ -4442,7 +3912,7 @@
                     <div class="montage-fragment" data-fragment="prompt"></div>
                     <div class="montage-fragment" data-fragment="rule"></div>
                     <div class="glass callback-cta-card">
-                        <div class="slide-number">10 / Tonight</div>
+                        <div class="slide-number">08 / Tonight</div>
                         <h2 style="margin-bottom: 8px;">Try one thing tonight</h2>
                         <p class="subtitle">You don't need a grand plan. Pick one useful first win and let momentum show you what's possible next.</p>
                         <div class="cta-grid">
@@ -4463,7 +3933,7 @@
                             <a href="https://chatgpt.com" target="_blank" class="glass link-card tonight-card">
                                 <div class="link-icon"><img src="assets/logos/chatgpt.svg" alt="ChatGPT logo" class="brand-logo link-logo"></div>
                                 <div style="text-align:left;">
-                                    <div class="link-label">Solve one real problem</div>
+                                    <div class="link-label">Start one practical conversation</div>
                                     <div class="link-url">ChatGPT &middot; bring a task you already care about and work through it</div>
                                 </div>
                             </a>
@@ -4471,8 +3941,8 @@
                         <div class="glass contact-panel secondary-contact-panel">
                             <h3>Questions? Let's connect.</h3>
                             <div class="contact-bar">
-                                <div class="contact-item"><span>📧</span> <a class="contact-link" href="mailto:Adam88gur@gmail.com">Adam88gur@gmail.com</a></div>
-                                <div class="contact-item"><span>📸</span> <a class="contact-link" href="https://www.instagram.com/gingerbot5000/" target="_blank" rel="noopener noreferrer">@Gingerbot5000</a></div>
+                                <div class="contact-item"><span>Email</span> <a class="contact-link" href="mailto:Adam88gur@gmail.com">Adam88gur@gmail.com</a></div>
+                                <div class="contact-item"><span>Instagram</span> <a class="contact-link" href="https://www.instagram.com/gingerbot5000/" target="_blank" rel="noopener noreferrer">@Gingerbot5000</a></div>
                             </div>
                             <p class="contact-note">Tonight's goal: one useful first win. Everything else follows from that.</p>
                         </div>
@@ -4485,15 +3955,15 @@
     <!-- ===== NAVIGATION BAR ===== -->
     <div class="nav-bar">
         <div class="nav-group nav-left">
-            <a class="nav-btn nav-back-btn" href="/">â†© Back</a>
-            <button class="nav-btn" id="prevBtn" disabled>â† Prev</button>
+            <a class="nav-btn nav-back-btn" href="/">Back</a>
+            <button class="nav-btn" id="prevBtn" disabled>Prev</button>
         </div>
         <div class="nav-group nav-center">
             <div class="dots" id="dots"></div>
-            <span class="nav-indicator" id="navIndicator">1 / 11</span>
+            <span class="nav-indicator" id="navIndicator">1 / 9</span>
         </div>
         <div class="nav-group nav-right">
-            <button class="nav-btn" id="nextBtn">Next â†’</button>
+            <button class="nav-btn" id="nextBtn">Next</button>
         </div>
     </div>
     <script src="assets/data/ai101-demo-prompt-catalog.js"></script>
@@ -4540,11 +4010,16 @@
         const promptTeachFocus = document.getElementById('promptTeachFocus');
         const promptFormulaBlocks = document.querySelectorAll('.formula-block[data-prompt-part]');
         const promptLegendItems = document.querySelectorAll('.prompt-legend [data-prompt-part]');
+        const toolInfoCard = document.getElementById('toolInfoCard');
+        const toolInfoName = document.getElementById('toolInfoName');
+        const toolInfoDesc = document.getElementById('toolInfoDesc');
+        const toolInfoLink = document.getElementById('toolInfoLink');
 
         const promptFocusOrder = ['role', 'task', 'context', 'format'];
         const promptLibrary = Array.isArray(window.ai101DemoPromptCatalog)
             ? window.ai101DemoPromptCatalog.slice()
             : [];
+        let toolInfoHideTimer = 0;
 
         const promptTypeLabels = {
             text_only: 'Text Only',
@@ -4554,51 +4029,22 @@
             animation_start_end: 'Animation (Start + End Frame)'
         };
 
-        const specialistItems = [
-            {
-                key: 'perplexity',
-                name: 'Perplexity',
-                label: 'The Research Assistant',
-                description: 'Direct answers with citations and live web search when you want signal faster than tab overload.',
-                href: 'https://perplexity.ai',
-                logo: 'assets/logos/perplexity.svg',
-                wash: 'linear-gradient(135deg, rgba(6, 182, 212, 0.26) 0%, rgba(9, 15, 25, 0.94) 70%)'
-            },
-            {
-                key: 'notebooklm',
-                name: 'NotebookLM',
-                label: 'The Private Analyst',
-                description: 'Ask grounded questions against your own sources, notes, and files without losing the source trail.',
-                href: 'https://notebooklm.google.com',
-                logo: 'assets/logos/notebooklm.svg',
-                wash: 'linear-gradient(135deg, rgba(215, 166, 90, 0.28) 0%, rgba(9, 15, 25, 0.94) 70%)'
-            },
-            {
-                key: 'deepseek',
-                name: 'DeepSeek',
-                label: 'The Reasoning Engine',
-                description: 'Reasoning-first help for coding, math, and technical problem-solving when you need a narrower analytic pass.',
-                href: 'https://chat.deepseek.com',
-                logo: 'assets/logos/deepseek.svg',
-                wash: 'linear-gradient(135deg, rgba(83, 179, 248, 0.26) 0%, rgba(9, 15, 25, 0.94) 70%)'
-            },
-            {
-                key: 'grok',
-                name: 'Grok',
-                label: 'The Real-Time Companion',
-                description: 'Useful for live trends, current events, and public-web signal when freshness matters more than polished prose.',
-                href: 'https://grok.x.ai',
-                logo: 'assets/logos/grok.svg',
-                wash: 'linear-gradient(135deg, rgba(239, 68, 68, 0.24) 0%, rgba(9, 15, 25, 0.94) 70%)'
-            }
+        const toolWallData = [
+            { name: 'Suno', cat: 'Music', letter: 'S', logo: '', color: '#f472b6', desc: 'Generate full songs from a text prompt - vocals, instruments, and production included.', url: 'https://suno.com' },
+            { name: 'ElevenLabs', cat: 'Audio', letter: 'XI', logo: '', color: '#a78bfa', desc: 'Realistic AI voice generation, cloning, and text-to-speech for narration, demos, and creative projects.', url: 'https://elevenlabs.io' },
+            { name: 'Midjourney', cat: 'Image', letter: 'M', logo: 'assets/logos/midjourney.svg', color: '#f59e0b', desc: 'Leading AI image generator for high-quality creative visuals, concept art, and design exploration.', url: 'https://www.midjourney.com' },
+            { name: 'Krea', cat: 'Video', letter: 'K', logo: '', color: '#34d399', desc: 'Real-time AI image and video generation with creative controls and iteration-friendly workflows.', url: 'https://krea.ai' },
+            { name: 'Canva', cat: 'Design', letter: 'C', logo: 'assets/logos/canva.svg', color: '#38bdf8', desc: 'AI-powered design platform for presentations, social media, print, and video — no design skills needed.', url: 'https://www.canva.com' },
+            { name: 'Figma', cat: 'Design', letter: 'F', logo: 'assets/logos/figma.svg', color: '#c084fc', desc: 'Collaborative design tool with AI features for prototyping, UI design, and developer handoff.', url: 'https://www.figma.com' },
+            { name: 'NotebookLM', cat: 'Research', letter: 'NB', logo: 'assets/logos/notebooklm.svg', color: '#60a5fa', desc: 'Upload your own documents and get an AI research assistant grounded in your actual sources.', url: 'https://notebooklm.google.com' },
+            { name: 'Perplexity', cat: 'Research', letter: 'P', logo: 'assets/logos/perplexity.svg', color: '#2dd4bf', desc: 'Direct answers with citations and live web search - sourced, not guessed.', url: 'https://www.perplexity.ai' },
+            { name: 'Claude Code', cat: 'Code', letter: 'CC', logo: 'assets/logos/claude.svg', color: '#8BD6FF', desc: 'Anthropic\'s CLI for agentic coding - plans, edits, and ships code from your terminal.', url: 'https://claude.ai/download' },
+            { name: 'Codex', cat: 'Code', letter: 'CX', logo: 'assets/logos/openai.svg', color: '#10B981', desc: 'OpenAI\'s cloud coding agent - give it a task and it works autonomously in a sandbox.', url: 'https://openai.com/codex/' },
+            { name: 'Replit', cat: 'Code', letter: 'R', logo: 'assets/logos/replit.svg', color: '#f59e0b', desc: 'Browser-based IDE with AI code generation — build and deploy full apps without local setup.', url: 'https://replit.com' },
+            { name: 'Stable Diffusion', cat: 'Open Source', letter: 'SD', logo: '', color: '#818cf8', desc: 'Open-source image generation you can run locally or in the cloud for custom visual workflows.', url: 'https://stability.ai' },
+            { name: 'DeepSeek', cat: 'Open Source', letter: 'DS', logo: 'assets/logos/deepseek.svg', color: '#fb923c', desc: 'High-performance open-source reasoning model family from DeepSeek.', url: 'https://www.deepseek.com/' },
+            { name: 'Grok', cat: 'Tool', letter: 'G', logo: 'assets/logos/grok.svg', color: '#ffffff', desc: 'xAI\'s real-time conversational AI, integrated natively into X.', url: 'https://x.com/i/grok' }
         ];
-
-        const specialistState = {
-            index: 0,
-            autoplay: null,
-            resume: null,
-            active: false
-        };
 
         function registerSlideController(index, controller) {
             slideControllers.set(index, controller);
@@ -4635,12 +4081,12 @@
         function updateNavButtons() {
             const compact = compactNavQuery.matches;
             const isLastSlide = current === totalSlides - 1;
-            if (navBackBtn) navBackBtn.textContent = compact ? '↩' : '↩ Back';
+            if (navBackBtn) navBackBtn.textContent = 'Back';
             if (prevBtn) {
-                prevBtn.textContent = compact ? '←' : '← Prev';
+                prevBtn.textContent = 'Prev';
                 prevBtn.disabled = current === 0;
             }
-            if (nextBtn) nextBtn.textContent = isLastSlide ? (compact ? 'Done' : 'Finish') : (compact ? '→' : 'Next →');
+            if (nextBtn) nextBtn.textContent = isLastSlide ? (compact ? 'Done' : 'Finish') : 'Next';
         }
 
         function updateDeckUI() {
@@ -4672,6 +4118,85 @@
             if (normalized.includes('deepseek')) return 'assets/logos/deepseek.svg';
             if (normalized.includes('perplexity')) return 'assets/logos/perplexity.svg';
             return 'assets/logos/openai.svg';
+        }
+
+        function cancelToolInfoHide() {
+            if (!toolInfoHideTimer) return;
+            window.clearTimeout(toolInfoHideTimer);
+            toolInfoHideTimer = 0;
+        }
+
+        function hideToolInfo(immediate = false) {
+            cancelToolInfoHide();
+            if (!toolInfoCard) return;
+            const hide = () => {
+                toolInfoCard.classList.remove('visible');
+                toolInfoCard.style.left = '';
+                toolInfoCard.style.top = '';
+            };
+            if (immediate) hide();
+            else toolInfoHideTimer = window.setTimeout(hide, 80);
+        }
+
+        function scheduleToolInfoHide(delay = 120) {
+            cancelToolInfoHide();
+            toolInfoHideTimer = window.setTimeout(() => hideToolInfo(true), delay);
+        }
+
+        function showToolInfo(event, tool) {
+            if (!toolInfoCard || !toolInfoName || !toolInfoDesc || !toolInfoLink) return;
+            cancelToolInfoHide();
+            toolInfoName.textContent = tool.name;
+            toolInfoDesc.textContent = tool.desc;
+            toolInfoLink.href = tool.url;
+            toolInfoLink.textContent = 'Visit ' + tool.name + ' ->';
+
+            const rect = event.currentTarget.getBoundingClientRect();
+            const cardWidth = 280;
+            const cardHeight = 140;
+            let left = rect.right + 12;
+            let top = rect.top;
+
+            if (left + cardWidth > window.innerWidth - 12) {
+                left = rect.left - cardWidth - 12;
+            }
+            if (left < 12) {
+                left = Math.max(12, window.innerWidth - cardWidth - 12);
+            }
+            if (top + cardHeight > window.innerHeight - 12) {
+                top = window.innerHeight - cardHeight - 12;
+            }
+            if (top < 12) top = 12;
+
+            toolInfoCard.style.left = left + 'px';
+            toolInfoCard.style.top = top + 'px';
+            toolInfoCard.classList.add('visible');
+        }
+
+        function renderToolWall() {
+            const wall = document.getElementById('toolWall');
+            if (!wall) return;
+            wall.innerHTML = '';
+            toolWallData.forEach((tool) => {
+                const tile = document.createElement('div');
+                tile.className = 'tool-tile';
+                const iconContent = tool.logo
+                    ? '<img src="' + escapeHtml(tool.logo) + '" style="width: 55%; height: 55%; object-fit: contain;" alt="logo" onerror="this.style.display=\'none\'; this.nextElementSibling.style.display=\'block\';"><span style="display:none;">' + escapeHtml(tool.letter) + '</span>'
+                    : escapeHtml(tool.letter);
+
+                tile.innerHTML =
+                    '<div class="tool-tile-icon" style="color: ' + escapeHtml(tool.color) + '; border-color: ' + escapeHtml(tool.color) + '33; background: ' + escapeHtml(tool.color) + '12; display: flex; align-items: center; justify-content: center;">' + iconContent + '</div>' +
+                    '<div class="tool-tile-name">' + escapeHtml(tool.name) + '</div>' +
+                    '<div class="tool-tile-category">' + escapeHtml(tool.cat) + '</div>';
+                tile.addEventListener('mouseenter', (event) => showToolInfo(event, tool));
+                tile.addEventListener('mouseleave', () => scheduleToolInfoHide());
+                wall.appendChild(tile);
+            });
+            if (toolInfoCard && !toolInfoCard.dataset.bound) {
+                toolInfoCard.addEventListener('mouseenter', cancelToolInfoHide);
+                toolInfoCard.addEventListener('mouseleave', () => scheduleToolInfoHide(60));
+                toolInfoCard.dataset.bound = 'true';
+            }
         }
 
         function buildPromptPacket(item) {
@@ -4948,6 +4473,11 @@
 
         function setAssistantAttractor(key) {
             assistantAttractorKey = key;
+            document.querySelectorAll('.assistant-card').forEach((card) => {
+                const isActive = card.getAttribute('data-assistant') === key;
+                card.classList.toggle('is-active', isActive);
+                card.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+            });
             document.querySelectorAll('.assistant-orb').forEach((orb) => {
                 orb.classList.toggle('is-active', orb.getAttribute('data-assistant') === key);
             });
@@ -4957,6 +4487,18 @@
         }
 
         function bindAssistantConstellation() {
+            document.querySelectorAll('.assistant-card').forEach((card) => {
+                const key = card.getAttribute('data-assistant');
+                if (!key) return;
+                card.addEventListener('mouseenter', () => setAssistantAttractor(key));
+                card.addEventListener('focus', () => setAssistantAttractor(key));
+                card.addEventListener('click', () => setAssistantAttractor(key));
+                card.addEventListener('keydown', (event) => {
+                    if (event.key !== 'Enter' && event.key !== ' ') return;
+                    event.preventDefault();
+                    setAssistantAttractor(key);
+                });
+            });
             document.querySelectorAll('.assistant-orb').forEach((orb) => {
                 const key = orb.getAttribute('data-assistant');
                 orb.addEventListener('mouseenter', () => setAssistantAttractor(key));
@@ -4999,7 +4541,7 @@
                     }
                     applyTargets();
                 }
-                p.setup = () => { const canvas = p.createCanvas(container.offsetWidth || window.innerWidth, container.offsetHeight || window.innerHeight); canvas.style('display', 'block'); p.noStroke(); seedParticles(); p.noLoop(); };
+                p.setup = () => { const canvas = p.createCanvas(container.offsetWidth || window.innerWidth, container.offsetHeight || window.innerHeight); canvas.style('display', 'block'); p.noStroke(); seedParticles(); if (!active) p.noLoop(); };
                 p.windowResized = () => { p.resizeCanvas(container.offsetWidth || window.innerWidth, container.offsetHeight || window.innerHeight); seedParticles(); };
                 p.draw = () => {
                     if (!active) return;
@@ -5051,7 +4593,9 @@
                 p.draw = () => {
                     if (!active) return;
                     p.clear();
-                    const attractor = getAttractorCenter(container, `.assistant-orb[data-assistant="${assistantAttractorKey}"]`);
+                    const cardAttractorSelector = `.assistant-card[data-assistant="${assistantAttractorKey}"] .assistant-card-orb`;
+                    const orbAttractorSelector = `.assistant-orb[data-assistant="${assistantAttractorKey}"]`;
+                    const attractor = getAttractorCenter(container, document.querySelector(cardAttractorSelector) ? cardAttractorSelector : orbAttractorSelector);
                     particles.forEach((particle) => {
                         particle.vx += p.random(-0.015, 0.015);
                         particle.vy += p.random(-0.015, 0.015);
@@ -5080,78 +4624,14 @@
             }, container);
         }
 
-        function renderSpecialistCarousel() {
-            const track = document.getElementById('specialistCarouselTrack');
-            const dots = document.getElementById('specialistCarouselDots');
-            if (!track || !dots) return;
-            track.innerHTML = specialistItems.map((item, index) => {
-                const stateClass = index === specialistState.index ? 'is-active' : index < specialistState.index ? 'is-before' : '';
-                return `
-                    <article class="glass specialist-card ${stateClass}" style="background:${item.wash};">
-                        <div class="specialist-card-logo"><img src="${item.logo}" alt="${escapeHtml(item.name)} logo"></div>
-                        <div class="specialist-card-copy">
-                            <div class="tool-label">${escapeHtml(item.label)}</div>
-                            <h3>${escapeHtml(item.name)}</h3>
-                            <p>${escapeHtml(item.description)}</p>
-                            <a class="specialist-card-link" href="${item.href}" target="_blank" rel="noopener noreferrer">Visit ${escapeHtml(item.name)} →</a>
-                        </div>
-                    </article>`;
-            }).join('');
-            dots.innerHTML = specialistItems.map((item, index) => {
-                const isCurrent = index === specialistState.index;
-                const classes = [
-                    'specialist-dot',
-                    isCurrent ? 'is-current' : 'is-static',
-                    isCurrent && specialistState.active && !prefersReducedMotion ? 'is-active' : ''
-                ].filter(Boolean).join(' ');
-                return `<button class="${classes}" type="button" data-specialist-dot="${index}" aria-label="Show ${escapeHtml(item.name)}"><span class="specialist-progress-bar"></span></button>`;
-            }).join('');
-            dots.querySelectorAll('[data-specialist-dot]').forEach((button) => {
-                button.addEventListener('click', () => {
-                    specialistState.index = Number(button.getAttribute('data-specialist-dot')) || 0;
-                    renderSpecialistCarousel();
-                    temporarilyPauseSpecialistAutoplay();
-                });
-            });
-        }
-
-        function stopSpecialistAutoplay() {
-            specialistState.active = false;
-            window.clearInterval(specialistState.autoplay);
-            window.clearTimeout(specialistState.resume);
-            specialistState.autoplay = null;
-            specialistState.resume = null;
-            renderSpecialistCarousel();
-        }
-
-        function startSpecialistAutoplay() {
-            window.clearInterval(specialistState.autoplay);
-            window.clearTimeout(specialistState.resume);
-            specialistState.resume = null;
-            specialistState.active = !prefersReducedMotion;
-            renderSpecialistCarousel();
-            if (!specialistState.active) return;
-            specialistState.autoplay = window.setInterval(() => {
-                specialistState.index = (specialistState.index + 1) % specialistItems.length;
-                renderSpecialistCarousel();
-            }, 4000);
-        }
-
-        function temporarilyPauseSpecialistAutoplay() {
-            window.clearInterval(specialistState.autoplay);
-            specialistState.autoplay = null;
-            specialistState.active = false;
-            renderSpecialistCarousel();
-            if (current !== 6 || prefersReducedMotion) return;
-            window.clearTimeout(specialistState.resume);
-            specialistState.resume = window.setTimeout(() => startSpecialistAutoplay(), 6000);
-        }
+        /* Specialist carousel JS removed (slide deleted) */
 
         function goTo(index) {
             if (index < 0 || index >= totalSlides || index === current) return;
             const outgoing = slides[current];
             const incoming = slides[index];
             const direction = index > current ? 1 : -1;
+            hideToolInfo(true);
             slides.forEach((slide) => {
                 slide.classList.remove('active', 'exit-left', 'exit-right', 'enter-from-left', 'enter-from-right', 'hero-sequence-active');
             });
@@ -5180,17 +4660,12 @@
             pause() { heroVortexSketch?.setActive?.(false); }
         });
 
-        registerSlideController(5, {
+        registerSlideController(3, {
             enter() {
                 createAssistantConstellationSketch();
                 assistantConstellationSketch?.setActive?.(!prefersReducedMotion);
             },
             pause() { assistantConstellationSketch?.setActive?.(false); }
-        });
-
-        registerSlideController(6, {
-            enter() { startSpecialistAutoplay(); },
-            pause() { stopSpecialistAutoplay(); }
         });
         function initializeDots() {
             if (!dotsContainer) return;
@@ -5207,30 +4682,12 @@
         bindMediaQueryChange(reducedMotionQuery, () => {
             prefersReducedMotion = reducedMotionQuery.matches;
             renderPrompt(promptIndex);
-            if (current === 5) assistantConstellationSketch?.setActive?.(!prefersReducedMotion);
-            if (current === 6) prefersReducedMotion ? stopSpecialistAutoplay() : startSpecialistAutoplay();
+            if (current === 3) assistantConstellationSketch?.setActive?.(!prefersReducedMotion);
             if (current === 0) heroVortexSketch?.setActive?.(!prefersReducedMotion);
         });
 
         if (prevBtn) prevBtn.addEventListener('click', () => goTo(current - 1));
         if (nextBtn) nextBtn.addEventListener('click', () => goTo(current + 1));
-
-        const specialistPrevBtn = document.getElementById('specialistPrevBtn');
-        const specialistNextBtn = document.getElementById('specialistNextBtn');
-        if (specialistPrevBtn) {
-            specialistPrevBtn.addEventListener('click', () => {
-                specialistState.index = (specialistState.index - 1 + specialistItems.length) % specialistItems.length;
-                renderSpecialistCarousel();
-                temporarilyPauseSpecialistAutoplay();
-            });
-        }
-        if (specialistNextBtn) {
-            specialistNextBtn.addEventListener('click', () => {
-                specialistState.index = (specialistState.index + 1) % specialistItems.length;
-                renderSpecialistCarousel();
-                temporarilyPauseSpecialistAutoplay();
-            });
-        }
 
         document.addEventListener('keydown', (event) => {
             if (event.key === 'ArrowRight' || event.key === ' ') { event.preventDefault(); goTo(current + 1); }
@@ -5272,7 +4729,7 @@
 
         initializeDots();
         bindAssistantConstellation();
-        renderSpecialistCarousel();
+        renderToolWall();
         renderPrompt(promptIndex);
         if (promptPrevBtn) promptPrevBtn.addEventListener('click', () => stepPrompt(-1));
         if (promptNextBtn) promptNextBtn.addEventListener('click', () => stepPrompt(1));
@@ -5280,6 +4737,10 @@
         updateDeckUI();
         setAssistantAttractor('chatgpt');
         setSlideActivity(0, true, 1);
+        requestAnimationFrame(() => {
+            slides[0].classList.remove('active');
+            requestAnimationFrame(() => slides[0].classList.add('active'));
+        });
 
         window.addEventListener('load', () => {
             syncNavHeight();
@@ -5350,6 +4811,30 @@
                     t += 0.02;
                 }
             }, 'p5-box-3');
+
+            // Box 4: Math / Sigma symbol
+            new p5((p) => {
+                let t = 0;
+                p.setup = () => { p.createCanvas(100, 100); p.noFill(); }
+                p.draw = () => {
+                    p.clear(); p.translate(50, 50);
+                    p.push();
+                    p.rotate(p.sin(t) * 0.15);
+                    p.stroke('rgba(236, 72, 153, 0.8)'); p.strokeWeight(2);
+                    p.beginShape();
+                    p.vertex(18, -22); p.vertex(-14, -22); p.vertex(4, 0); p.vertex(-14, 22); p.vertex(18, 22);
+                    p.endShape();
+                    p.pop();
+                    p.noStroke();
+                    for (let i = 0; i < 5; i++) {
+                        let angle = t * 1.5 + i * p.TWO_PI / 5;
+                        let r = 28 + p.sin(angle * 2) * 4;
+                        p.fill(236, 72, 153, 80 + p.sin(angle) * 40);
+                        p.circle(p.cos(angle) * r, p.sin(angle) * r, 3);
+                    }
+                    t += 0.02;
+                }
+            }, 'p5-box-4');
         };
         document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => { if (window.p5) initP5Creatures(); }, 100);
